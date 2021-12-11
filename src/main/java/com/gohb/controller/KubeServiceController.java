@@ -34,7 +34,7 @@ public class KubeServiceController {
                                               @RequestParam("type") String type, @RequestParam("port") Integer port,
                                               @RequestParam("nodePort") Integer nodePort, @RequestParam("targetPort") IntOrString targetPort,
                                               @RequestParam("protocol") String protocol) {
-        if (!kubeServiceManage.isExistService(serviceName, namespace)) {
+        if (kubeServiceManage.isExistService(serviceName, namespace)) {
             return ResultUtils.getFailedResult(STATUS_CODE.isExist,
                     String.format("ServiceName : {} has already existed in namespace : {}",
                             serviceName, namespace));
