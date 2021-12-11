@@ -21,7 +21,7 @@ public class KubeNodeServiceImpl implements KubeNodeService {
     public List<V1Node> listNode() {
         List<V1Node> v1NodeListItems = null;
         try {
-            V1NodeList v1NodeList = api.listNode(null, null, null, null, null, null, null, null, null);
+            V1NodeList v1NodeList = api.listNode(null, null, null, null, null, null, null, null, null, null);
             v1NodeListItems = v1NodeList.getItems();
         } catch (ApiException e) {
             e.printStackTrace();

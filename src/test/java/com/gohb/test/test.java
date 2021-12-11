@@ -40,7 +40,7 @@ public class test {
 
         // the CoreV1Api loads default api-client from global configuration.
         // invokes the CoreV1Api client
-        V1PodList list = api.listPodForAllNamespaces(null, null, null, null, null, null, null, null, null);
+        V1PodList list = api.listPodForAllNamespaces(null, null, null, null, null, null, null, null, null, null);
         for (V1Pod item : list.getItems()) {
             System.out.println(item.getMetadata().getName());
         }

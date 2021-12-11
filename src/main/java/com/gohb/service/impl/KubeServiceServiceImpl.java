@@ -68,7 +68,7 @@ public class KubeServiceServiceImpl implements KubeServiceService {
     public List<V1Service> listService(String namespace) {
         List<V1Service> v1ServiceListItems = null;
         try {
-            V1ServiceList v1ServiceList = api.listNamespacedService(namespace, null, null, null, null, null, null, null, null, null);
+            V1ServiceList v1ServiceList = api.listNamespacedService(namespace, null, null, null, null, null, null, null, null, null, null);
             v1ServiceListItems = v1ServiceList.getItems();
         } catch (ApiException e) {
             e.printStackTrace();

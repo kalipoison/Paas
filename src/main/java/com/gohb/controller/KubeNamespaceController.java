@@ -1,5 +1,9 @@
 package com.gohb.controller;
 
+import com.gohb.bo.KubeNamespaceBO;
+import com.gohb.constant.STATUS_CODE;
+import com.gohb.dto.Result;
+import com.gohb.dto.ResultUtils;
 import com.gohb.manage.KubeNamespaceManage;
 import io.kubernetes.client.openapi.models.V1Namespace;
 import io.kubernetes.client.openapi.models.V1Status;
@@ -16,40 +20,42 @@ public class KubeNamespaceController {
     private KubeNamespaceManage kubeNamespaceManage;
 
     @PostMapping("")
-    public V1Namespace createNamespace(@RequestParam("namespace") String namespace) {
-        // 已存在namespace，不允许创建
+    public Result<V1Namespace> createNamespace(@RequestParam("namespace") String namespace) {
         if (kubeNamespaceManage.isExistNamespace(namespace)) {
-            return null;
+            return ResultUtils.getFailedResult(STATUS_CODE.isExist, "namespace is exist");
         }
         V1Namespace v1Namespace = kubeNamespaceManage.createNamespace(namespace);
-        return v1Namespace;
+        return ResultUtils.getSuccessResult(v1Namespace);
     }
 
     @DeleteMapping("")
-    public V1Status deleteNamespace(@RequestParam("namespace") String namespace) {
+    public Result<V1Status> deleteNamespace(@RequestParam("namespace") String namespace) {
         if (!kubeNamespaceManage.isExistNamespace(namespace)) {
-            return null;
+            return ResultUtils.getFailedResult(STATUS_CODE.isExist, "namespace is not exist");
         }
         V1Status v1Status = kubeNamespaceManage.deleteNamespace(namespace);
-        return v1Status;
+        return ResultUtils.getSuccessResult(v1Status);
     }
 
     @GetMapping("")
-    public List<V1Namespace> listNamespace() {
-        List<V1Namespace> v1NamespaceList = kubeNamespaceManage.listNamespace();
-        return v1NamespaceList;
+    public Result<List<KubeNamespaceBO>> listNamespace() {
+        List<KubeNamespaceBO> kubeNamespaceBOS = kubeNamespaceManage.listNamespace();
+        return ResultUtils.getSuccessResult(kubeNamespaceBOS);
     }
 
     @GetMapping("exist")
-    public Boolean isExistNamespace(String namespace) {
+    public Result<Boolean> isExistNamespace(String namespace) {
         Boolean exist = kubeNamespaceManage.isExistNamespace(namespace);
-        return exist;
+        return ResultUtils.getSuccessResult(exist);
     }
 
     @GetMapping("detail")
-    public V1Namespace namespaceDetail(String namespace) {
-        V1Namespace v1Namespace = kubeNamespaceManage.namespaceDetail(namespace);
-        return v1Namespace;
+    public Result<KubeNamespaceBO> namespaceDetail(String namespace) {
+        if (!kubeNamespaceManage.isExistNamespace(namespace)) {
+            return ResultUtils.getFailedResult(STATUS_CODE.isExist, "namespace is not exist");
+        }
+        KubeNamespaceBO kubeNamespaceBO = kubeNamespaceManage.namespaceDetail(namespace);
+        return ResultUtils.getSuccessResult(kubeNamespaceBO);
     }
 
 }

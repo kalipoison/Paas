@@ -7,12 +7,14 @@ import io.kubernetes.client.openapi.models.V1Namespace;
 import io.kubernetes.client.openapi.models.V1NamespaceList;
 import io.kubernetes.client.openapi.models.V1ObjectMeta;
 import io.kubernetes.client.openapi.models.V1Status;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Slf4j
 public class KubeNameSpaceServiceImpl implements KubeNamespaceService {
 
     @Autowired
@@ -26,7 +28,11 @@ public class KubeNameSpaceServiceImpl implements KubeNamespaceService {
         try {
             v1Namespace = api.createNamespace(body, null, null, null);
         } catch (ApiException e) {
-            e.printStackTrace();
+            if (e.getCode() == 409) {
+                log.info("pod 已存在");
+            } else {
+                log.info(e.getCode() + ":" + e.getMessage());
+            }
         }
         return v1Namespace;
     }
@@ -46,7 +52,7 @@ public class KubeNameSpaceServiceImpl implements KubeNamespaceService {
     public List<V1Namespace> listNamespace() {
         List<V1Namespace> v1NamespaceListItems = null;
         try {
-            V1NamespaceList v1NamespaceList = api.listNamespace(null, null, null, null, null, null, null, null, null);
+            V1NamespaceList v1NamespaceList = api.listNamespace(null, null, null, null, null, null, null, null, null, null);
             v1NamespaceListItems = v1NamespaceList.getItems();
         } catch (ApiException e) {
             e.printStackTrace();
@@ -60,7 +66,7 @@ public class KubeNameSpaceServiceImpl implements KubeNamespaceService {
         try {
             v1Namespace = api.readNamespace(namespace, null, null, null);
         } catch (ApiException e) {
-            e.printStackTrace();
+            v1Namespace = null;
         }
         return v1Namespace;
     }

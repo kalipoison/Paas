@@ -15,6 +15,7 @@ public class ResultUtils {
     public static  <T> Result<T> getSuccessResult(T t) {
         Result<T> result = new Result<>();
         result.setData(t);
+        result.setStatusCode(200);
         result.setSuccess(true);
         return result;
     }
