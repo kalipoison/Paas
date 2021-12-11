@@ -1,7 +1,7 @@
 package com.gohb.manage.impl;
 
 import com.gohb.bo.KubeServiceBO;
-import com.gohb.convert.KubeConvert;
+import com.gohb.convert.KubeToBoUtils;
 import com.gohb.manage.KubeServiceManage;
 import com.gohb.service.KubeServiceService;
 import io.kubernetes.client.custom.IntOrString;
@@ -22,7 +22,7 @@ public class KubeServiceManageImpl implements KubeServiceManage {
     @Override
     public KubeServiceBO createService(String serviceName, String namespace, String type, Integer port, Integer nodePort, IntOrString targetPort, String protocol) {
         V1Service v1Service = kubeServiceService.createService(serviceName, namespace, type, port, nodePort, targetPort, protocol);
-        KubeServiceBO kubeServiceBO = KubeConvert.v1ServiceToKubeServiceBO(v1Service);
+        KubeServiceBO kubeServiceBO = KubeToBoUtils.v1ServiceToKubeServiceBO(v1Service);
         return kubeServiceBO;
     }
 
@@ -37,7 +37,7 @@ public class KubeServiceManageImpl implements KubeServiceManage {
         List<V1Service> v1ServiceList = kubeServiceService.listService(namespace);
         List<KubeServiceBO> kubeServiceBOS = new ArrayList<>();
         for (V1Service v1Service : v1ServiceList) {
-            kubeServiceBOS.add(KubeConvert.v1ServiceToKubeServiceBO(v1Service));
+            kubeServiceBOS.add(KubeToBoUtils.v1ServiceToKubeServiceBO(v1Service));
         }
         return kubeServiceBOS;
     }
@@ -45,7 +45,7 @@ public class KubeServiceManageImpl implements KubeServiceManage {
     @Override
     public KubeServiceBO serviceDetail(String serviceName, String namespace) {
         V1Service v1Service = kubeServiceService.serviceDetail(serviceName, namespace);
-        KubeServiceBO kubeServiceBO = KubeConvert.v1ServiceToKubeServiceBO(v1Service);
+        KubeServiceBO kubeServiceBO = KubeToBoUtils.v1ServiceToKubeServiceBO(v1Service);
         return kubeServiceBO;
     }
 

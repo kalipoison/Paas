@@ -2,7 +2,7 @@ package com.gohb.manage.impl;
 
 
 import com.gohb.bo.KubeNamespaceBO;
-import com.gohb.convert.KubeConvert;
+import com.gohb.convert.KubeToBoUtils;
 import com.gohb.manage.KubeNamespaceManage;
 import com.gohb.service.KubeNamespaceService;
 import io.kubernetes.client.openapi.models.V1Namespace;
@@ -33,14 +33,14 @@ public class KubeNamespaceManageImpl implements KubeNamespaceManage {
         List<V1Namespace> v1NamespaceList = kubeNamespaceService.listNamespace();
         List<KubeNamespaceBO> kubeNamespaceBOS = new ArrayList<>();
         for (V1Namespace v1Namespace : v1NamespaceList) {
-            kubeNamespaceBOS.add(KubeConvert.V1NamespaceToKubeNamespaceBO(v1Namespace));
+            kubeNamespaceBOS.add(KubeToBoUtils.V1NamespaceToKubeNamespaceBO(v1Namespace));
         }
         return kubeNamespaceBOS;
     }
 
     public KubeNamespaceBO namespaceDetail(String namespace) {
         V1Namespace v1Namespace = kubeNamespaceService.namespaceDetail(namespace);
-        KubeNamespaceBO kubeNamespaceBO = KubeConvert.V1NamespaceToKubeNamespaceBO(v1Namespace);
+        KubeNamespaceBO kubeNamespaceBO = KubeToBoUtils.V1NamespaceToKubeNamespaceBO(v1Namespace);
         return kubeNamespaceBO;
     }
 

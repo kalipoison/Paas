@@ -1,7 +1,7 @@
 package com.gohb.manage.impl;
 
 import com.gohb.bo.KubeDeploymentBO;
-import com.gohb.convert.KubeConvert;
+import com.gohb.convert.KubeToBoUtils;
 import com.gohb.manage.KubeDeploymentManage;
 import com.gohb.service.KubeDeploymentService;
 import io.kubernetes.client.openapi.models.V1Deployment;
@@ -23,7 +23,7 @@ public class KubeDeploymentManageImpl implements KubeDeploymentManage {
         List<V1Deployment> v1Deployments = kubeDeploymentService.listDeployment(namespace);
         List<KubeDeploymentBO> kubeDeploymentBOS = new ArrayList<>();
         for (V1Deployment v1Deployment : v1Deployments) {
-            kubeDeploymentBOS.add(KubeConvert.v1DeploymentToKubeDeploymentBO(v1Deployment));
+            kubeDeploymentBOS.add(KubeToBoUtils.v1DeploymentToKubeDeploymentBO(v1Deployment));
         }
         return kubeDeploymentBOS;
     }
@@ -31,7 +31,7 @@ public class KubeDeploymentManageImpl implements KubeDeploymentManage {
     @Override
     public KubeDeploymentBO detailDeployment(String deploymentName, String namespace) {
         V1Deployment v1Deployment = kubeDeploymentService.detailDeployment(deploymentName, namespace);
-        KubeDeploymentBO kubeDeploymentBO = KubeConvert.v1DeploymentToKubeDeploymentBO(v1Deployment);
+        KubeDeploymentBO kubeDeploymentBO = KubeToBoUtils.v1DeploymentToKubeDeploymentBO(v1Deployment);
         return kubeDeploymentBO;
     }
 
@@ -44,14 +44,14 @@ public class KubeDeploymentManageImpl implements KubeDeploymentManage {
     @Override
     public KubeDeploymentBO updateDeployment(String deploymentName, String namepsace, Integer replicas, String metadataLabelsApp, String image, String portName, Integer containerPort) {
         V1Deployment v1Deployment = kubeDeploymentService.updateDeployment(deploymentName, namepsace, replicas, metadataLabelsApp, image, portName, containerPort);
-        KubeDeploymentBO kubeDeploymentBO = KubeConvert.v1DeploymentToKubeDeploymentBO(v1Deployment);
+        KubeDeploymentBO kubeDeploymentBO = KubeToBoUtils.v1DeploymentToKubeDeploymentBO(v1Deployment);
         return kubeDeploymentBO;
     }
 
     @Override
     public KubeDeploymentBO createDeployment(String deploymentName, String namepsace, Integer replicas, String metadataLabelsApp, String image, String portName, Integer containerPort) {
         V1Deployment v1Deployment = kubeDeploymentService.createDeployment(deploymentName, namepsace, replicas, metadataLabelsApp, image, portName, containerPort);
-        KubeDeploymentBO kubeDeploymentBO = KubeConvert.v1DeploymentToKubeDeploymentBO(v1Deployment);
+        KubeDeploymentBO kubeDeploymentBO = KubeToBoUtils.v1DeploymentToKubeDeploymentBO(v1Deployment);
         return kubeDeploymentBO;
     }
 }
