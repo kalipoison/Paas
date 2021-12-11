@@ -6,24 +6,17 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
-import java.util.List;
+import java.util.Map;
 
 /**
- * k8s service bo
+ * k8s deployment bo
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @Accessors(chain = true)
-public class KubeServiceBO {
-
-    String apiVersion;
-
-    String kind;
-
-    Date createTime;
+public class KubeDeploymentBO {
 
     String namespace;
 
@@ -31,12 +24,13 @@ public class KubeServiceBO {
 
     String selfLink;
 
-    String type;
+    Integer replicas;
 
-    String clusterIP;
+    Map<String,String> labels;
 
-    List<String> externalIPs;
+    String restartPolicy;
 
-    List<KubeServicePortBO> ports;
+    Integer unavilableReplicas;
 
+    Integer avilableReplicas;
 }

@@ -2,6 +2,7 @@ package com.gohb.config;
 
 
 import io.kubernetes.client.openapi.ApiClient;
+import io.kubernetes.client.openapi.apis.AppsV1Api;
 import io.kubernetes.client.openapi.apis.CoreV1Api;
 import io.kubernetes.client.util.ClientBuilder;
 import io.kubernetes.client.util.KubeConfig;
@@ -27,13 +28,18 @@ public class KubeClientConfig {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        io.kubernetes.client.openapi.Configuration.setDefaultApiClient(client);
         return client;
     }
 
     @Bean
     public CoreV1Api coreV1Api(ApiClient client) {
-        io.kubernetes.client.openapi.Configuration.setDefaultApiClient(client);
-        return new CoreV1Api();
+        return new CoreV1Api(client);
+    }
+
+    @Bean
+    public AppsV1Api appsV1Api(ApiClient client) {
+        return new AppsV1Api(client);
     }
 
 }

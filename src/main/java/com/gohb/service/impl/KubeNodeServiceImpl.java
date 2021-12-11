@@ -14,14 +14,14 @@ import java.util.List;
 public class KubeNodeServiceImpl implements KubeNodeService {
 
     @Autowired
-    private CoreV1Api api;
+    private CoreV1Api coreV1Api;
 
 
     @Override
     public List<V1Node> listNode() {
         List<V1Node> v1NodeListItems = null;
         try {
-            V1NodeList v1NodeList = api.listNode(null, null, null, null, null, null, null, null, null, null);
+            V1NodeList v1NodeList = coreV1Api.listNode(null, null, null, null, null, null, null, null, null, null);
             v1NodeListItems = v1NodeList.getItems();
         } catch (ApiException e) {
             e.printStackTrace();
@@ -33,7 +33,7 @@ public class KubeNodeServiceImpl implements KubeNodeService {
     public V1Node nodeDetail(String nodeName) {
         V1Node v1Node = null;
         try {
-            v1Node = api.readNode(nodeName, null, null, null);
+            v1Node = coreV1Api.readNode(nodeName, null, null, null);
         } catch (ApiException e) {
             e.printStackTrace();
         }

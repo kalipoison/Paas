@@ -1,8 +1,10 @@
 package com.gohb.convert;
 
+import com.gohb.bo.KubeDeploymentBO;
 import com.gohb.bo.KubeNamespaceBO;
 import com.gohb.bo.KubeServiceBO;
 import com.gohb.bo.KubeServicePortBO;
+import io.kubernetes.client.openapi.models.V1Deployment;
 import io.kubernetes.client.openapi.models.V1Namespace;
 import io.kubernetes.client.openapi.models.V1Service;
 import io.kubernetes.client.openapi.models.V1ServicePort;
@@ -12,6 +14,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * k8s 返回值过多，提取有用的
+ */
 public class KubeConvert {
 
     public static KubeNamespaceBO V1NamespaceToKubeNamespaceBO(V1Namespace v1Namespace) {
@@ -68,6 +73,27 @@ public class KubeConvert {
         } catch (Exception e) {
             return kubeServiceBO;
         }
+    }
+
+    public static KubeDeploymentBO v1DeploymentToKubeDeploymentBO(V1Deployment v1Deployment){
+        KubeDeploymentBO kubeDeploymentBO = null;
+        System.out.println(v1Deployment.getMetadata().getName());
+        String name = v1Deployment.getMetadata().getName();
+        kubeDeploymentBO.setName(name);
+        kubeDeploymentBO.setNamespace(v1Deployment.getMetadata().getNamespace());
+        kubeDeploymentBO.setLabels(v1Deployment.getMetadata().getLabels());
+        kubeDeploymentBO.setSelfLink(v1Deployment.getMetadata().getSelfLink());
+        kubeDeploymentBO.setRestartPolicy(v1Deployment.getSpec().getTemplate().getSpec().getRestartPolicy());
+        kubeDeploymentBO.setReplicas(v1Deployment.getStatus().getReplicas());
+        kubeDeploymentBO.setUnavilableReplicas(v1Deployment.getStatus().getUnavailableReplicas() != null ?
+                v1Deployment.getStatus().getAvailableReplicas() : 0);
+        kubeDeploymentBO.setAvilableReplicas(v1Deployment.getStatus().getAvailableReplicas() != null ?
+                v1Deployment.getStatus().getAvailableReplicas() : 0);
+        return kubeDeploymentBO;
+//        try {
+//        } catch (Exception e) {
+//            return kubeDeploymentBO;
+//        }
     }
 
 }

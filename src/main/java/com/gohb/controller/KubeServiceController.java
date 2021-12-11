@@ -6,8 +6,6 @@ import com.gohb.dto.Result;
 import com.gohb.dto.ResultUtils;
 import com.gohb.manage.KubeServiceManage;
 import io.kubernetes.client.custom.IntOrString;
-import io.kubernetes.client.openapi.models.V1Namespace;
-import io.kubernetes.client.openapi.models.V1Service;
 import io.kubernetes.client.openapi.models.V1Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,7 +42,8 @@ public class KubeServiceController {
     }
 
     @DeleteMapping("")
-    public Result<V1Status> deleteService(@RequestParam("serviceName")String serviceName, @RequestParam("namespace") String namespace) {
+    public Result<V1Status> deleteService(@RequestParam("serviceName")String serviceName,
+                                          @RequestParam("namespace") String namespace) {
         if (!kubeServiceManage.isExistService(serviceName, namespace)) {
             return ResultUtils.getFailedResult(STATUS_CODE.isNotExist,
                     String.format("ServiceName : {} is not existed in namespace : {}",
@@ -55,7 +54,7 @@ public class KubeServiceController {
     }
 
     @GetMapping("")
-    public Result<List<KubeServiceBO>> listService(String namespace) {
+    public Result<List<KubeServiceBO>> listService(@RequestParam("namespace") String namespace) {
         if (namespace == null || namespace.equals("")) {
             namespace = defaultNamespace;
         }
@@ -64,13 +63,15 @@ public class KubeServiceController {
     }
 
     @GetMapping("exist")
-    public Result<Boolean> isExistService(@RequestParam("serviceName")String serviceName,@RequestParam("namespace") String namespace) {
+    public Result<Boolean> isExistService(@RequestParam("serviceName")String serviceName,
+                                          @RequestParam("namespace") String namespace) {
         Boolean exist = kubeServiceManage.isExistService(serviceName, namespace);
         return ResultUtils.getSuccessResult(exist);
     }
 
     @GetMapping("detail")
-    public Result<KubeServiceBO> serviceDetail(String serviceName,String namespace) {
+    public Result<KubeServiceBO> serviceDetail(@RequestParam("serviceName")String serviceName,
+                                               @RequestParam("namespace") String namespace) {
         KubeServiceBO kubeServiceBO = kubeServiceManage.serviceDetail(serviceName, namespace);
         return ResultUtils.getSuccessResult(kubeServiceBO);
     }

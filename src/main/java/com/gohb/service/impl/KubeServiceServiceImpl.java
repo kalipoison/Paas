@@ -15,7 +15,7 @@ import java.util.List;
 public class KubeServiceServiceImpl implements KubeServiceService {
 
     @Autowired
-    private CoreV1Api api;
+    private CoreV1Api coreV1Api;
 
     @Override
     public V1Service createService(String serviceName, String namespace, String type, Integer port, Integer nodePort, IntOrString targetPort, String protocol) {
@@ -46,7 +46,7 @@ public class KubeServiceServiceImpl implements KubeServiceService {
         svc.setSpec(serviceSpec);
         V1Service v1Service = null;
         try {
-            v1Service = api.createNamespacedService(namespace, svc, null, null, null);
+            v1Service = coreV1Api.createNamespacedService(namespace, svc, null, null, null);
         } catch (ApiException e) {
             e.printStackTrace();
         }
@@ -57,7 +57,7 @@ public class KubeServiceServiceImpl implements KubeServiceService {
     public V1Status deleteService(String serviceName, String namespace) {
         V1Status v1Status = null;
         try {
-            v1Status = api.deleteNamespacedService(serviceName, namespace, null, null, null, null, null, new V1DeleteOptions());
+            v1Status = coreV1Api.deleteNamespacedService(serviceName, namespace, null, null, null, null, null, new V1DeleteOptions());
         } catch (ApiException e) {
             e.printStackTrace();
         }
@@ -68,7 +68,7 @@ public class KubeServiceServiceImpl implements KubeServiceService {
     public List<V1Service> listService(String namespace) {
         List<V1Service> v1ServiceListItems = null;
         try {
-            V1ServiceList v1ServiceList = api.listNamespacedService(namespace, null, null, null, null, null, null, null, null, null, null);
+            V1ServiceList v1ServiceList = coreV1Api.listNamespacedService(namespace, null, null, null, null, null, null, null, null, null, null);
             v1ServiceListItems = v1ServiceList.getItems();
         } catch (ApiException e) {
             e.printStackTrace();
@@ -80,7 +80,7 @@ public class KubeServiceServiceImpl implements KubeServiceService {
     public V1Service serviceDetail(String serviceName, String namespace) {
         V1Service v1Service = null;
         try {
-            v1Service = api.readNamespacedService(serviceName, namespace, null, null, null);
+            v1Service = coreV1Api.readNamespacedService(serviceName, namespace, null, null, null);
         } catch (ApiException e) {
             e.printStackTrace();
         }

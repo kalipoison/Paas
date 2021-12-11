@@ -44,13 +44,13 @@ public class KubeNamespaceController {
     }
 
     @GetMapping("exist")
-    public Result<Boolean> isExistNamespace(String namespace) {
+    public Result<Boolean> isExistNamespace(@RequestParam("namespace") String namespace) {
         Boolean exist = kubeNamespaceManage.isExistNamespace(namespace);
         return ResultUtils.getSuccessResult(exist);
     }
 
     @GetMapping("detail")
-    public Result<KubeNamespaceBO> namespaceDetail(String namespace) {
+    public Result<KubeNamespaceBO> namespaceDetail(@RequestParam("namespace") String namespace) {
         if (!kubeNamespaceManage.isExistNamespace(namespace)) {
             return ResultUtils.getFailedResult(STATUS_CODE.isExist, "namespace is not exist");
         }

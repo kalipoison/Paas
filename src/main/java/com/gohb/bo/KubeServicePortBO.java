@@ -6,12 +6,15 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+
+/**
+ * k8s servicePort bo
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @Accessors(chain = true)
-
 public class KubeServicePortBO {
     private String appProtocol;
     private String name;
