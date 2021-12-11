@@ -7,25 +7,33 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
+import java.util.List;
 
-/**
- * k8s namespace bo
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @Accessors(chain = true)
-public class KubeNamespaceBO {
+public class KubeServiceBO {
 
     String apiVersion;
 
     String kind;
 
+    Date createTime;
+
+    String namespace;
+
     String name;
 
-    String status;
+    String selfLink;
 
-    Date createTime;
+    String type;
+
+    String clusterIP;
+
+    List<String> externalIPs;
+
+    List<KubeServicePortBO> ports;
 
 }

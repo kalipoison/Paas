@@ -6,26 +6,19 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
-
-/**
- * k8s namespace bo
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @Accessors(chain = true)
-public class KubeNamespaceBO {
 
-    String apiVersion;
-
-    String kind;
-
-    String name;
-
-    String status;
-
-    Date createTime;
-
+public class KubeServicePortBO {
+    private String appProtocol;
+    private String name;
+    private String nodePort;
+    private String port;
+    private String protocol;
+    private String targetPort;
 }
+
+
