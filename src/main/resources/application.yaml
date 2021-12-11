@@ -1,6 +1,32 @@
 server:
   port: 8080
 
+spring:
+  datasource:
+    druid:
+      url: jdbc:mysql://localhost:3306/paas_db?useSSL=false&serverTimezone=GMT%2B8
+      username: root
+      password: 12345
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      max-active: 30
+      min-idle: 3
+      initial-size: 3
+      validation-query: select 1
+      max-wait: 5000
+      stat-view-servlet:
+        enabled: true
+        login-username: admin
+        login-password: admin
+        allow:
+        deny:
+        url-pattern:
+          - /druid/*
+
 kubernetes:
   namespace:
     default: default
+
+jwt:
+  secret: secret
+  expiration: 7200000
+  token: Authorization

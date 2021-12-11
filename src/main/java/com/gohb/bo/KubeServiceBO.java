@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Accessors(chain = true)
-public class KubeServiceBO {
+public class KubeServiceBO implements Serializable {
 
     String apiVersion;
 

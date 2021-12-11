@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -16,7 +17,7 @@ import java.util.Map;
 @NoArgsConstructor
 @ToString
 @Accessors(chain = true)
-public class KubeDeploymentBO {
+public class KubeDeploymentBO implements Serializable {
 
     String namespace;
 

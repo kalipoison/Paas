@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 
 /**
  * k8s servicePort bo
@@ -15,7 +17,7 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @ToString
 @Accessors(chain = true)
-public class KubeServicePortBO {
+public class KubeServicePortBO implements Serializable {
     private String appProtocol;
     private String name;
     private String nodePort;

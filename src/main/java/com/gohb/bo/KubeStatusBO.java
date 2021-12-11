@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * k8s status bo
  */
@@ -14,7 +16,7 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @ToString
 @Accessors(chain = true)
-public class KubeStatusBO {
+public class KubeStatusBO implements Serializable {
 
     String kind;
 

@@ -3,8 +3,8 @@ package com.gohb.aspect;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.gohb.anno.Log;
-import com.gohb.entity.SysLog;
-import com.gohb.entity.SysUser;
+import com.gohb.bo.SysLogBO;
+import com.gohb.bo.SysUserBO;
 import com.gohb.service.SysLogService;
 import com.gohb.service.SysUserService;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -63,9 +63,9 @@ public class LogAspect {
         // 拿到当前用户名称
         String userId = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         // 根据用户id查询用户的名称
-        SysUser sysUser = sysUserService.getOne(new LambdaQueryWrapper<SysUser>()
-                .select(SysUser::getUsername)
-                .eq(SysUser::getUserId, Long.valueOf(userId))
+        SysUserBO sysUser = sysUserService.getOne(new LambdaQueryWrapper<SysUserBO>()
+                .select(SysUserBO::getUsername)
+                .eq(SysUserBO::getUserId, Long.valueOf(userId))
         );
         String username = sysUser.getUsername();
         // 拿到ip
@@ -73,7 +73,7 @@ public class LogAspect {
         HttpServletRequest request = requestAttributes.getRequest();
         String ip = request.getRemoteHost();
         // 组装对象 插入数据库
-        SysLog sysLog = SysLog.builder().username(username)
+        SysLogBO sysLog = SysLogBO.builder().username(username)
                 .ip(ip)
                 .method(methodName)
                 .params(joinPoint.getArgs() == null ? "" : JSON.toJSONString(joinPoint.getArgs()))

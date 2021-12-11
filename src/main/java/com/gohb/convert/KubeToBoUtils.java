@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * k8s 返回值过多，提取有用的
  */
-public class KubeConvert {
+public class KubeToBoUtils {
 
     public static KubeNamespaceBO V1NamespaceToKubeNamespaceBO(V1Namespace v1Namespace) {
         KubeNamespaceBO kubeNamespaceBO = new KubeNamespaceBO();
@@ -66,7 +66,7 @@ public class KubeConvert {
             List<V1ServicePort> v1ServicePorts = v1Service.getSpec().getPorts();
             List<KubeServicePortBO> kubeServicePortBOS = new ArrayList<>();
             for (V1ServicePort v1ServicePort : v1ServicePorts) {
-                kubeServicePortBOS.add(KubeConvert.v1ServicePortToKubeServicePortBO(v1ServicePort));
+                kubeServicePortBOS.add(KubeToBoUtils.v1ServicePortToKubeServicePortBO(v1ServicePort));
             }
             kubeServiceBO.setPorts(kubeServicePortBOS);
             return kubeServiceBO;
