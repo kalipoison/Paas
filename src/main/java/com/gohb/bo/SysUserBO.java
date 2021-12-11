@@ -56,13 +56,13 @@ public class SysUserBO implements Serializable {
      * 状态  0：禁用   1：正常
      */
     @TableField(value = "status")
-    private Byte status;
+    private Integer status;
 
     /**
      * 用户类型  0：管理员用户   1：普通用户  2：团队用户
      */
     @TableField(value = "type")
-    private Byte type;
+    private Integer type;
 
     /**
      * 创建者ID
