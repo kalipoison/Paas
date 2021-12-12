@@ -9,7 +9,6 @@ import com.gohb.dto.SysUserDTO;
 import com.gohb.manage.SysUserManage;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,7 +58,6 @@ public class UserController {
      */
     @PutMapping
     @ApiOperation("修改用户")
-    @PreAuthorize("hasAuthority('sys:user:update')")
     @Log(operation = "修改一个用户")
     public Result update(@RequestBody @Validated SysUserBO sysUserBO) {
         Boolean update = sysUserManage.updateSysUser(sysUserBO);
