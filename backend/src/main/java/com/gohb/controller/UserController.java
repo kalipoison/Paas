@@ -7,9 +7,7 @@ import com.gohb.dto.Result;
 import com.gohb.dto.ResultUtils;
 import com.gohb.dto.SysUserDTO;
 import com.gohb.manage.SysUserManage;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,7 +26,7 @@ public class UserController {
      * @return
      */
     @PostMapping
-    @Log(operation = "新增一个用户")
+    @Log(operation = "新增用户")
     public Result saveSysUser(@RequestBody SysUserBO sysUserBO) {
         Boolean save = sysUserManage.saveSysUser(sysUserBO);
         if (!save) {
@@ -38,7 +36,7 @@ public class UserController {
     }
 
     /**
-     * 删除一个用户
+     * 删除用户
      * @param id
      * @return
      */
@@ -46,30 +44,28 @@ public class UserController {
     public Result delete(Integer id) {
         Boolean delete = sysUserManage.deleteSysUser(id);
         if (!delete) {
-            return ResultUtils.getFailedResult(STATUS_CODE.deleteFail, String.format("删除用户: {} 失败", id));
+            return ResultUtils.getFailedResult(STATUS_CODE.deleteFail, "删除用户失败");
         }
-        return ResultUtils.getSuccessResult(String.format("删除用户: {} 成功", id));
+        return ResultUtils.getSuccessResult("删除用户成功");
     }
 
     /**
-     * 修改用户
+     * 更新用户信息
      * @param sysUserBO
      * @return
      */
     @PutMapping
-    @ApiOperation("修改用户")
-    @Log(operation = "修改一个用户")
-    public Result update(@RequestBody @Validated SysUserBO sysUserBO) {
+    @Log(operation = "更新用户信息")
+    public Result update(@RequestBody SysUserBO sysUserBO) {
         Boolean update = sysUserManage.updateSysUser(sysUserBO);
         if (!update) {
-            return ResultUtils.getFailedResult(STATUS_CODE.updateFail, String.format("更新用户: {} 失败", sysUserBO.getUsername()));
+            return ResultUtils.getFailedResult(STATUS_CODE.updateFail, "更新用户信息失败");
         }
-        return ResultUtils.getSuccessResult(String.format("更新用户: {} 成功", sysUserBO.getUsername()));
+        return ResultUtils.getSuccessResult("更新用户信息成功");
     }
 
     /**
      * 获取用户信息
-     *
      * @return
      */
     @GetMapping("detail")
@@ -79,9 +75,14 @@ public class UserController {
         return ResultUtils.getSuccessResult(sysUser);
     }
 
+    /**
+     * 查询所有用户信息
+     * @param sysUser
+     * @return
+     */
     @GetMapping("")
     @Log(operation = "查询所有用户信息")
-    public Result<List<SysUserDTO>> listSysUser(@RequestBody SysUserBO sysUser){
+    public Result<List<SysUserDTO>> listSysUser(SysUserBO sysUser){
         List<SysUserDTO> sysUserDTOS = sysUserManage.listSysUser(sysUser);
         return ResultUtils.getSuccessResult(sysUserDTOS);
     }
