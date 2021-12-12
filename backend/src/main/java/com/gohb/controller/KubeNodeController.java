@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/node")
+@RequestMapping("/api/auth/node")
 public class KubeNodeController {
 
     @Autowired

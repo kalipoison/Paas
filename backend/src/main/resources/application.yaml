@@ -26,11 +26,6 @@ kubernetes:
   namespace:
     default: default
 
-#jwt:
-#  secret: secret
-#  expiration: 7200000
-#  token: Authorization
-
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

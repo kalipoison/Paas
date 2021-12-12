@@ -17,7 +17,7 @@ import java.util.List;
  * v1Service json转换会失败，需要进行封装
  */
 @RestController
-@RequestMapping("/service")
+@RequestMapping("/api/auth/service")
 public class KubeServiceController {
 
     @Value("${kubernetes.namespace.default}")

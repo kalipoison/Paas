@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/deployment")
+@RequestMapping("/api/auth/deployment")
 public class KubeDeploymentController {
 
     @Autowired

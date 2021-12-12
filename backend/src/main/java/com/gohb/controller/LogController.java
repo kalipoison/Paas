@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/logs")
+@RequestMapping("/api/auth/log")
 public class LogController {
 
     @Autowired
