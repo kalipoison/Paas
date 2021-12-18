@@ -1,6 +1,6 @@
 package com.gohb.controller;
 
-import com.gohb.constant.STATUS_CODE;
+import com.gohb.constant.StatusCodeConstant;
 import com.gohb.dto.Result;
 import com.gohb.dto.ResultUtils;
 import com.gohb.manage.KubeNodeManage;
@@ -32,7 +32,7 @@ public class KubeNodeController {
     public Result<V1Node> nodeDetail(@RequestParam("nodeName") String nodeName) {
         V1Node v1Node = kubeNodeManage.nodeDetail(nodeName);
         if (ObjectUtils.isEmpty(v1Node)) {
-            return ResultUtils.getFailedResult(STATUS_CODE.isNotExist, String.format(""));
+            return ResultUtils.getFailedResult(StatusCodeConstant.isNotExist, String.format(""));
         }
 
         return ResultUtils.getSuccessResult(v1Node);

@@ -2,12 +2,13 @@ package com.gohb.controller;
 
 import com.gohb.anno.Log;
 import com.gohb.bo.SysUserBO;
-import com.gohb.constant.STATUS_CODE;
+import com.gohb.constant.StatusCodeConstant;
 import com.gohb.dto.Result;
 import com.gohb.dto.ResultUtils;
 import com.gohb.dto.SysUserDTO;
 import com.gohb.manage.SysUserManage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,15 +23,19 @@ public class UserController {
 
     /**
      * 新增用户
+     * http://localhost:8082/api/auth/user?username=admin1&password=admin&mobile=13888888888&email=admin@qq.com&status=1&type=0&userId=1
      * @param sysUserBO
      * @return
      */
     @PostMapping
     @Log(operation = "新增用户")
-    public Result saveSysUser(@RequestBody SysUserBO sysUserBO) {
+    public Result saveSysUser(SysUserBO sysUserBO) {
+        // 拿到当前用户的id
+//        String userId = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+//        sysUserBO.setCreateUserId(Long.valueOf(userId));
         Boolean save = sysUserManage.saveSysUser(sysUserBO);
         if (!save) {
-            return ResultUtils.getFailedResult(STATUS_CODE.createFail, "新增用户失败");
+            return ResultUtils.getFailedResult(StatusCodeConstant.createFail, "新增用户失败");
         }
         return ResultUtils.getSuccessResult("新增用户成功");
     }
@@ -44,7 +49,7 @@ public class UserController {
     public Result delete(Integer id) {
         Boolean delete = sysUserManage.deleteSysUser(id);
         if (!delete) {
-            return ResultUtils.getFailedResult(STATUS_CODE.deleteFail, "删除用户失败");
+            return ResultUtils.getFailedResult(StatusCodeConstant.deleteFail, "删除用户失败");
         }
         return ResultUtils.getSuccessResult("删除用户成功");
     }
@@ -59,7 +64,7 @@ public class UserController {
     public Result update(@RequestBody SysUserBO sysUserBO) {
         Boolean update = sysUserManage.updateSysUser(sysUserBO);
         if (!update) {
-            return ResultUtils.getFailedResult(STATUS_CODE.updateFail, "更新用户信息失败");
+            return ResultUtils.getFailedResult(StatusCodeConstant.updateFail, "更新用户信息失败");
         }
         return ResultUtils.getSuccessResult("更新用户信息成功");
     }

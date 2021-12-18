@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gohb.bo.SysUserBO;
 import com.gohb.service.SysUserService;
 import com.gohb.mapper.SysUserMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,6 +15,14 @@ import org.springframework.stereotype.Service;
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserBO>
     implements SysUserService{
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Override
+    public boolean save(SysUserBO sysUserBO) {
+        sysUserBO.setPassword(passwordEncoder.encode(sysUserBO.getPassword()));
+        return super.save(sysUserBO);
+    }
 }
 
 

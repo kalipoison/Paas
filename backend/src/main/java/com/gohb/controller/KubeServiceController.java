@@ -1,7 +1,7 @@
 package com.gohb.controller;
 
 import com.gohb.bo.KubeServiceBO;
-import com.gohb.constant.STATUS_CODE;
+import com.gohb.constant.StatusCodeConstant;
 import com.gohb.dto.Result;
 import com.gohb.dto.ResultUtils;
 import com.gohb.manage.KubeServiceManage;
@@ -33,7 +33,7 @@ public class KubeServiceController {
                                               @RequestParam("nodePort") Integer nodePort, @RequestParam("targetPort") IntOrString targetPort,
                                               @RequestParam("protocol") String protocol) {
         if (kubeServiceManage.isExistService(serviceName, namespace)) {
-            return ResultUtils.getFailedResult(STATUS_CODE.isExist,
+            return ResultUtils.getFailedResult(StatusCodeConstant.isExist,
                     String.format("ServiceName : {} has already existed in namespace : {}",
                             serviceName, namespace));
         }
@@ -45,7 +45,7 @@ public class KubeServiceController {
     public Result<V1Status> deleteService(@RequestParam("serviceName")String serviceName,
                                           @RequestParam("namespace") String namespace) {
         if (!kubeServiceManage.isExistService(serviceName, namespace)) {
-            return ResultUtils.getFailedResult(STATUS_CODE.isNotExist,
+            return ResultUtils.getFailedResult(StatusCodeConstant.isNotExist,
                     String.format("ServiceName : {} is not existed in namespace : {}",
                             serviceName, namespace));
         }

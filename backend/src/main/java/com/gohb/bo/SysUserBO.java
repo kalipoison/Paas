@@ -26,7 +26,7 @@ import org.springframework.util.StringUtils;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SysUserBO implements Serializable {
+public class SysUserBO implements Serializable, UserDetails {
     /**
      *
      */
@@ -84,4 +84,45 @@ public class SysUserBO implements Serializable {
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
+    @TableField(exist = false)
+    private List<String> auths;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        ArrayList<SimpleGrantedAuthority> simpleGrantedAuthorities = new ArrayList<>();
+        if (CollectionUtils.isEmpty(auths)) {
+            return Collections.emptyList();
+        }
+        auths.forEach(auth -> {
+            if (!StringUtils.isEmpty(auth)) {
+                // 分割
+                String[] split = auth.split(",");
+                for (String s : split) {
+                    // 循环封装
+                    simpleGrantedAuthorities.add(new SimpleGrantedAuthority(s));
+                }
+            }
+        });
+        return simpleGrantedAuthorities;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return this.status == 1;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return this.status == 1;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return this.status == 1;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.status == 1;
+    }
 }

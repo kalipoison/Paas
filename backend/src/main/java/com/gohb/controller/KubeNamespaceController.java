@@ -1,7 +1,7 @@
 package com.gohb.controller;
 
 import com.gohb.bo.KubeNamespaceBO;
-import com.gohb.constant.STATUS_CODE;
+import com.gohb.constant.StatusCodeConstant;
 import com.gohb.dto.Result;
 import com.gohb.dto.ResultUtils;
 import com.gohb.manage.KubeNamespaceManage;
@@ -22,7 +22,7 @@ public class KubeNamespaceController {
     @PostMapping("")
     public Result<V1Namespace> createNamespace(@RequestParam("namespace") String namespace) {
         if (kubeNamespaceManage.isExistNamespace(namespace)) {
-            return ResultUtils.getFailedResult(STATUS_CODE.isExist, "namespace is exist");
+            return ResultUtils.getFailedResult(StatusCodeConstant.isExist, "namespace is exist");
         }
         V1Namespace v1Namespace = kubeNamespaceManage.createNamespace(namespace);
         return ResultUtils.getSuccessResult(v1Namespace);
@@ -31,7 +31,7 @@ public class KubeNamespaceController {
     @DeleteMapping("")
     public Result<V1Status> deleteNamespace(@RequestParam("namespace") String namespace) {
         if (!kubeNamespaceManage.isExistNamespace(namespace)) {
-            return ResultUtils.getFailedResult(STATUS_CODE.isExist, "namespace is not exist");
+            return ResultUtils.getFailedResult(StatusCodeConstant.isExist, "namespace is not exist");
         }
         V1Status v1Status = kubeNamespaceManage.deleteNamespace(namespace);
         return ResultUtils.getSuccessResult(v1Status);
@@ -52,7 +52,7 @@ public class KubeNamespaceController {
     @GetMapping("detail")
     public Result<KubeNamespaceBO> namespaceDetail(@RequestParam("namespace") String namespace) {
         if (!kubeNamespaceManage.isExistNamespace(namespace)) {
-            return ResultUtils.getFailedResult(STATUS_CODE.isExist, "namespace is not exist");
+            return ResultUtils.getFailedResult(StatusCodeConstant.isExist, "namespace is not exist");
         }
         KubeNamespaceBO kubeNamespaceBO = kubeNamespaceManage.namespaceDetail(namespace);
         return ResultUtils.getSuccessResult(kubeNamespaceBO);

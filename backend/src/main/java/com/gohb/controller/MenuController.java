@@ -2,7 +2,7 @@ package com.gohb.controller;
 
 import com.gohb.anno.Log;
 import com.gohb.bo.SysMenuBO;
-import com.gohb.constant.STATUS_CODE;
+import com.gohb.constant.StatusCodeConstant;
 import com.gohb.dto.Result;
 import com.gohb.dto.ResultUtils;
 import com.gohb.dto.SysMenuDTO;
@@ -29,7 +29,7 @@ public class MenuController {
     public Result saveSysMenu(@RequestBody SysMenuBO sysMenuBO) {
         Boolean save = sysMenuManage.saveMenu(sysMenuBO);
         if (!save) {
-            return ResultUtils.getFailedResult(STATUS_CODE.createFail, "新增菜单失败");
+            return ResultUtils.getFailedResult(StatusCodeConstant.createFail, "新增菜单失败");
         }
         return ResultUtils.getSuccessResult("新增菜单成功");
     }
@@ -43,7 +43,7 @@ public class MenuController {
     public Result deleteSysMenuById(Integer id) {
         Boolean delete = sysMenuManage.deleteMenu(id);
         if (!delete) {
-            return ResultUtils.getFailedResult(STATUS_CODE.deleteFail, "删除菜单失败");
+            return ResultUtils.getFailedResult(StatusCodeConstant.deleteFail, "删除菜单失败");
         }
         return ResultUtils.getSuccessResult("删除菜单成功");
     }
@@ -58,7 +58,7 @@ public class MenuController {
     public Result updateSysMenu(@RequestBody SysMenuBO sysMenuBO) {
         Boolean update = sysMenuManage.updateMenu(sysMenuBO);
         if (!update) {
-            return ResultUtils.getFailedResult(STATUS_CODE.updateFail, "更新菜单信息失败");
+            return ResultUtils.getFailedResult(StatusCodeConstant.updateFail, "更新菜单信息失败");
         }
         return ResultUtils.getSuccessResult("更新菜单信息成功");
     }

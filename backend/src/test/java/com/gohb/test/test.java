@@ -9,7 +9,6 @@ import io.kubernetes.client.openapi.models.V1PodList;
 import io.kubernetes.client.util.ClientBuilder;
 import io.kubernetes.client.util.Config;
 import io.kubernetes.client.util.KubeConfig;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -23,7 +22,6 @@ public class test {
 //    @Autowired
 //    private CoreV1Api api;
 
-    @Test
     public void testPod() throws ApiException, IOException {
         // file path to your KubeConfig
         String kubeConfigPath = "config";

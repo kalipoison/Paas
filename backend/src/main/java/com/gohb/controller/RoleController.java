@@ -2,7 +2,7 @@ package com.gohb.controller;
 
 import com.gohb.anno.Log;
 import com.gohb.bo.SysRoleBO;
-import com.gohb.constant.STATUS_CODE;
+import com.gohb.constant.StatusCodeConstant;
 import com.gohb.dto.Result;
 import com.gohb.dto.ResultUtils;
 import com.gohb.dto.SysRoleDTO;
@@ -29,7 +29,7 @@ public class RoleController {
     public Result saveSysRole(@RequestBody SysRoleBO sysRoleBO) {
         Boolean save = sysRoleManage.saveRole(sysRoleBO);
         if (!save) {
-            return ResultUtils.getFailedResult(STATUS_CODE.createFail, "新增角色失败");
+            return ResultUtils.getFailedResult(StatusCodeConstant.createFail, "新增角色失败");
         }
         return ResultUtils.getSuccessResult("新增角色成功");
     }
@@ -43,7 +43,7 @@ public class RoleController {
     public Result deleteRoleById(Integer id) {
         Boolean delete = sysRoleManage.deleteRole(id);
         if (!delete) {
-            return ResultUtils.getFailedResult(STATUS_CODE.deleteFail, "删除角色失败");
+            return ResultUtils.getFailedResult(StatusCodeConstant.deleteFail, "删除角色失败");
         }
         return ResultUtils.getSuccessResult("删除角色成功");
     }
@@ -58,7 +58,7 @@ public class RoleController {
     public Result updateSysRole(@RequestBody SysRoleBO sysRoleBO) {
         Boolean update = sysRoleManage.updateRole(sysRoleBO);
         if (!update) {
-            return ResultUtils.getFailedResult(STATUS_CODE.updateFail, "更新角色信息失败");
+            return ResultUtils.getFailedResult(StatusCodeConstant.updateFail, "更新角色信息失败");
         }
         return ResultUtils.getSuccessResult("更新用户信息成功");
     }
