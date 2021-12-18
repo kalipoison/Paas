@@ -1,5 +1,7 @@
 package com.gohb.controller;
 
+import com.gohb.dto.Result;
+import com.gohb.dto.ResultUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,14 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LoginController {
 
-    @GetMapping("/api/noauth/login")
-    public String login(String username, String password) {
-        return "login";
+    @PostMapping("/api/noauth/login")
+    public Result login(String username, String password) {
+        return ResultUtils.getSuccessResult("login");
     }
 
     @RequestMapping("/api/noauth/index")
-    public String index() {
-        return "index";
+    public Result index() {
+        return ResultUtils.getSuccessResult("index");
     }
 
     @RequestMapping("/api/auth/index")

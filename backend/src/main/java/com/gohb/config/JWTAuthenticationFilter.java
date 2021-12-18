@@ -27,7 +27,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager)
     {
         this.authenticationManager = authenticationManager;
-        super.setFilterProcessesUrl("/auth/login");
+        super.setFilterProcessesUrl("/api/auth/login");
     }
 
     /**
@@ -50,17 +50,15 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request,HttpServletResponse response,FilterChain chain,Authentication authResult) throws IOException {
         SysUserBO sysUserBO= (SysUserBO) authResult.getPrincipal();
         // 创建Token
-        String token = JWTUtils.generateToken(sysUserBO.getUsername(), sysUserBO.getPassword());
+        // 带有"Bearer "前缀的token字符串
+        String token = SecurityConstant.TOKEN_PREFIX + JWTUtils.generateToken(sysUserBO.getUsername(), sysUserBO.getPassword());
         // 设置编码 防止乱码问题
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
-        // 在请求头里返回创建成功的token
-        // 设置请求头为带有"Bearer "前缀的token字符串
-        response.setHeader("token", SecurityConstant.TOKEN_PREFIX + token);
         // 处理编码方式 防止中文乱码
         response.setContentType("text/json;charset=utf-8");
         // 将反馈塞到HttpServletResponse中返回给前台
-        Result result = ResultUtils.getSuccessResult("登录成功");
+        Result result = ResultUtils.getSuccessResult(token);
         response.getWriter().write(JSON.toJSONString(result));
     }
 

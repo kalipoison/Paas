@@ -39,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 // 访问/data需要ADMIN角色
-                .antMatchers("/api/auth/user").permitAll()
+                .antMatchers("/api/auth/login").permitAll()
                 // 其余资源任何人都可访问
                 .anyRequest().authenticated()
                 .and()
