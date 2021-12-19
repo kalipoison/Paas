@@ -3,13 +3,20 @@ package com.gohb.controller;
 import com.gohb.anno.Log;
 import com.gohb.bo.SysMenuBO;
 import com.gohb.constant.StatusCodeConstant;
+import com.gohb.dto.MenuAndAuthDTO;
 import com.gohb.dto.Result;
 import com.gohb.dto.ResultUtils;
 import com.gohb.dto.SysMenuDTO;
 import com.gohb.manage.SysMenuManage;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -18,6 +25,21 @@ public class MenuController {
 
     @Autowired
     private SysMenuManage sysMenuManage;
+
+
+    /**
+     * 加载菜单和权限接口
+     * @return
+     */
+    @GetMapping("nav")
+    @ApiOperation(value = "加载用户菜单和权限的接口")
+    @Log(operation = "加载用户菜单和权限的接口")
+    public Result<MenuAndAuthDTO> loadMenuAndAuths(String username){
+        List<SysMenuDTO> menus = sysMenuManage.loadUserMenu(username);
+        MenuAndAuthDTO menuAndAuthDTO = new MenuAndAuthDTO(menus, null);
+        return ResultUtils.getSuccessResult(menuAndAuthDTO);
+    }
+
 
     /**
      * 新增菜单

@@ -1,11 +1,13 @@
 package com.gohb.dto;
 
+import com.gohb.bo.SysMenuBO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 菜单管理
@@ -54,5 +56,10 @@ public class SysMenuDTO implements Serializable {
      * 排序
      */
     private Integer orderNum;
+
+    /**
+     * 子节点
+     */
+    private List<SysMenuBO> list;
 
 }

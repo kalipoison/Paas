@@ -35,4 +35,11 @@ public interface SysMenuManage {
      */
     List<SysMenuDTO> listMenu(SysMenuBO sysMenuBO);
 
+    /**
+     * 用户菜单列表
+     * @param username
+     * @return
+     */
+    List<SysMenuDTO> loadUserMenu(String username);
+
 }

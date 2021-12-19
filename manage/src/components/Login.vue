@@ -134,14 +134,14 @@ export default {
         password: ""
       },
       loginRules: {
-        userName: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
-          { min: 3, max: 8, message: "请输入长度在3-8位之间的用户名", trigger: "blur"}
-        ],
-        passWord: [
-            { required: true, message: "请输入密码", trigger: "blur" },
-            { min: 3, max: 12, message: "请输入长度在5-12位之间的密码", trigger: "blur"}
-        ]
+        // userName: [
+        //   { required: true, message: "请输入用户名", trigger: "blur" },
+        //   { min: 3, max: 8, message: "请输入长度在3-8位之间的用户名", trigger: "blur"}
+        // ],
+        // passWord: [
+        //     { required: true, message: "请输入密码", trigger: "blur" },
+        //     { min: 3, max: 12, message: "请输入长度在5-12位之间的密码", trigger: "blur"}
+        // ]
       }
     };
   },
@@ -152,11 +152,10 @@ export default {
             // console.info('valid', valid)
             
             // if (!valid) return;
-            console.info('submitForm', this.loginForm);
-            const { data: res } = await this.$http.post("/auth/login", this.loginForm);
+            const { data: res } = await this.$http.post("/login", this.loginForm);
             if (res.success && res.statusCode === 200) {
                 window.sessionStorage.setItem('token', res.data);
-                console.info('message', this.$message)
+                window.sessionStorage.setItem('username', this.loginForm.username);
                 this.$message.success("登录成功");
                 this.$router.push('/home');
             }

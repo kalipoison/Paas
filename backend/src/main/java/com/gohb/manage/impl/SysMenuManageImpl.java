@@ -2,10 +2,12 @@ package com.gohb.manage.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.gohb.bo.SysMenuBO;
+import com.gohb.bo.SysUserBO;
 import com.gohb.convert.BoToDtoUtils;
 import com.gohb.dto.SysMenuDTO;
 import com.gohb.manage.SysMenuManage;
 import com.gohb.service.SysMenuService;
+import com.gohb.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
@@ -19,6 +21,9 @@ public class SysMenuManageImpl implements SysMenuManage {
 
     @Autowired
     private SysMenuService sysMenuService;
+
+    @Autowired
+    private SysUserService sysUserService;
 
     @Override
     public Boolean saveMenu(SysMenuBO sysMenuBO) {
@@ -45,6 +50,18 @@ public class SysMenuManageImpl implements SysMenuManage {
         List<SysMenuDTO> sysMenuDTOS = new ArrayList<>();
         for (SysMenuBO menuBO : sysMenuBOS) {
             sysMenuDTOS.add(BoToDtoUtils.sysMenuBOTOSysMenuDTO(menuBO));
+        }
+        return sysMenuDTOS;
+    }
+
+    @Override
+    public List<SysMenuDTO> loadUserMenu(String username) {
+        SysUserBO sysUserBO = sysUserService.getOne(new LambdaQueryWrapper<SysUserBO>()
+                .eq(SysUserBO::getUsername, username));
+        List<SysMenuBO> sysMenuBOS = sysMenuService.loadUserMenu(sysUserBO.getUserId());
+        List<SysMenuDTO> sysMenuDTOS = new ArrayList<>();
+        for (SysMenuBO sysMenuBO : sysMenuBOS) {
+            sysMenuDTOS.add(BoToDtoUtils.sysMenuBOTOSysMenuDTO(sysMenuBO));
         }
         return sysMenuDTOS;
     }
