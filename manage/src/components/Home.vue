@@ -79,7 +79,6 @@ export default {
         }
       })
       this.menuList = res.data.menuList;
-      console.info("menuthis.menuLists", this.menuList);
     },
     logout () {
       // 清空token

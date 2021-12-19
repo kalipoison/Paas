@@ -1,5 +1,7 @@
 package com.gohb.manage;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gohb.bo.SysUserBO;
 import com.gohb.dto.SysUserDTO;
 
@@ -30,10 +32,11 @@ public interface SysUserManage {
 
     /**
      * 查询所有用户信息, 或模糊查询
+     * @param page
      * @param sysUserBO
      * @return
      */
-    List<SysUserDTO> listSysUser(SysUserBO sysUserBO);
+    IPage<SysUserDTO> listSysUser(Page<SysUserBO> page, SysUserBO sysUserBO);
 
     /**
      * 根据user id查询 用户信息

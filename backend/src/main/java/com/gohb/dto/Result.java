@@ -46,6 +46,6 @@ public class Result<T> implements Serializable {
     /**
      * 分页操作时，数据量
      */
-    private Integer count;
+    private Long count;
 
 }

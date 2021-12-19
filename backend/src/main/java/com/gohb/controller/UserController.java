@@ -1,5 +1,7 @@
 package com.gohb.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gohb.anno.Log;
 import com.gohb.bo.SysUserBO;
 import com.gohb.constant.StatusCodeConstant;
@@ -61,7 +63,7 @@ public class UserController {
      */
     @PutMapping
     @Log(operation = "更新用户信息")
-    public Result update(@RequestBody SysUserBO sysUserBO) {
+    public Result update(SysUserBO sysUserBO) {
         Boolean update = sysUserManage.updateSysUser(sysUserBO);
         if (!update) {
             return ResultUtils.getFailedResult(StatusCodeConstant.updateFail, "更新用户信息失败");
@@ -87,9 +89,9 @@ public class UserController {
      */
     @GetMapping("")
     @Log(operation = "查询所有用户信息")
-    public Result<List<SysUserDTO>> listSysUser(SysUserBO sysUser){
-        List<SysUserDTO> sysUserDTOS = sysUserManage.listSysUser(sysUser);
-        return ResultUtils.getSuccessResult(sysUserDTOS);
+    public Result<List<SysUserDTO>> listSysUser(Page<SysUserBO> page, SysUserBO sysUser){
+        IPage<SysUserDTO> sysUserDTOPage = sysUserManage.listSysUser(page, sysUser);
+        return ResultUtils.getSuccessResult(sysUserDTOPage.getRecords()).setCount(sysUserDTOPage.getTotal());
     }
 
 }

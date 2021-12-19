@@ -61,4 +61,9 @@ public class SysUserDTO implements Serializable {
      */
     private Date createTime;
 
+    /**
+     * 角色信息
+     */
+    private String roleName;
+
 }

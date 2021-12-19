@@ -1,5 +1,7 @@
 package com.gohb.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gohb.bo.SysLogBO;
 import com.gohb.dto.Result;
 import com.gohb.dto.ResultUtils;
@@ -21,9 +23,9 @@ public class LogController {
     private SysLogManage sysLogManage;
 
     @GetMapping("")
-    public Result<List<SysLogDTO>> listLog(SysLogBO sysLogBO) {
-        List<SysLogDTO> sysLogDTOS = sysLogManage.listSysLog(sysLogBO);
-        return ResultUtils.getSuccessResult(sysLogDTOS);
+    public Result<List<SysLogDTO>> listLog(Page<SysLogBO> page, SysLogBO sysLogBO) {
+        IPage<SysLogDTO> sysLogDTOPage = sysLogManage.listSysLog(page,sysLogBO);
+        return ResultUtils.getSuccessResult(sysLogDTOPage.getRecords()).setCount(sysLogDTOPage.getTotal());
     }
 
 }

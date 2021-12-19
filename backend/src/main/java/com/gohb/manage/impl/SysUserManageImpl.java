@@ -2,11 +2,16 @@ package com.gohb.manage.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.gohb.bo.SysRoleBO;
 import com.gohb.bo.SysUserBO;
+import com.gohb.bo.SysUserRoleBO;
 import com.gohb.convert.BoToDtoUtils;
 import com.gohb.dto.SysMenuDTO;
 import com.gohb.dto.SysUserDTO;
 import com.gohb.manage.SysUserManage;
+import com.gohb.service.SysRoleService;
+import com.gohb.service.SysUserRoleService;
 import com.gohb.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -14,12 +19,19 @@ import org.springframework.util.StringUtils;
 import javax.annotation.ManagedBean;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @ManagedBean
 public class SysUserManageImpl implements SysUserManage {
 
     @Autowired
     private SysUserService sysUserService;
+
+    @Autowired
+    private SysRoleService sysRoleService;
+
+    @Autowired
+    private SysUserRoleService sysUserRoleService;
 
 
     @Override
@@ -41,14 +53,34 @@ public class SysUserManageImpl implements SysUserManage {
     }
 
     @Override
-    public List<SysUserDTO> listSysUser(SysUserBO sysUserBO) {
-        List<SysUserBO> sysUserBOS = sysUserService.list(new LambdaQueryWrapper<SysUserBO>()
+    public IPage<SysUserDTO> listSysUser(Page<SysUserBO> page, SysUserBO sysUserBO) {
+        // 分页查询出所有用户
+        Page<SysUserBO> sysUserBOPage = sysUserService.page(page,new LambdaQueryWrapper<SysUserBO>()
                 .like(StringUtils.hasText(sysUserBO.getUsername()), SysUserBO::getUsername, sysUserBO.getUsername()));
+        List<SysUserBO> sysUserBOS = sysUserBOPage.getRecords();
+        List<Long> sysUserIds = sysUserBOS.stream().map(SysUserBO::getUserId).collect(Collectors.toList());
+        // 查询所有userRole
+        List<SysUserRoleBO> sysUserRoleBOS = sysUserRoleService.listByIds(sysUserIds);
+        List<Long> sysUserRoleIds = sysUserRoleBOS.stream().map(SysUserRoleBO::getRoleId).collect(Collectors.toList());
+        // 查询所有role
+        List<SysRoleBO> sysRoleBOS = sysRoleService.listByIds(sysUserRoleIds);
+        // 组装数据
         List<SysUserDTO> sysUserDTOS = new ArrayList<>();
-        for (SysUserBO userBO : sysUserBOS) {
-            sysUserDTOS.add(BoToDtoUtils.sysUserBOTOSysUserDTO(userBO));
-        }
-        return sysUserDTOS;
+        sysUserBOS.forEach(userBO -> {
+            SysUserDTO sysUserDTO = BoToDtoUtils.sysUserBOTOSysUserDTO(userBO);
+            List<SysUserRoleBO> userRoleBOS = sysUserRoleBOS.stream().filter(sysUserRoleBO -> sysUserRoleBO.getUserId().equals(userBO.getUserId())).collect(Collectors.toList());
+            StringBuilder roleName = new StringBuilder();
+            userRoleBOS.forEach(userRoleBO -> {
+                List<SysRoleBO> roleBOS = sysRoleBOS.stream().filter(roleBO -> roleBO.getRoleId().equals(userRoleBO.getRoleId())).collect(Collectors.toList());
+                roleBOS.forEach(roleBO -> roleName.append(roleBO.getRoleName()+";"));
+            });
+            sysUserDTO.setRoleName(roleName.toString());
+            sysUserDTOS.add(sysUserDTO);
+        });
+        IPage<SysUserDTO> sysUserDTOPage = new Page<>();
+        sysUserDTOPage.setTotal(sysUserBOPage.getTotal());
+        sysUserDTOPage.setRecords(sysUserDTOS);
+        return sysUserDTOPage;
     }
 
     @Override

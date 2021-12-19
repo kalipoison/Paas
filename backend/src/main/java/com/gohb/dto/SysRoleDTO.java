@@ -39,4 +39,9 @@ public class SysRoleDTO implements Serializable {
      * 创建时间
      */
     private Date createTime;
+
+    /**
+     * 创建角色名
+     */
+    private String createUserName;
 }

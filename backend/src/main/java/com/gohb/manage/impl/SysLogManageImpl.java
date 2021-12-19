@@ -1,6 +1,8 @@
 package com.gohb.manage.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gohb.bo.SysLogBO;
 import com.gohb.convert.BoToDtoUtils;
 import com.gohb.dto.SysLogDTO;
@@ -21,14 +23,18 @@ public class SysLogManageImpl implements SysLogManage {
 
 
     @Override
-    public List<SysLogDTO> listSysLog(SysLogBO sysLogBO) {
-        List<SysLogBO> sysLogBOS = sysLogService.list(new LambdaQueryWrapper<SysLogBO>()
+    public IPage<SysLogDTO> listSysLog(Page<SysLogBO> page, SysLogBO sysLogBO) {
+        Page<SysLogBO> sysLogBOPage = sysLogService.page(page,new LambdaQueryWrapper<SysLogBO>()
                 .eq(StringUtils.hasText(sysLogBO.getOperation()), SysLogBO::getOperation, sysLogBO.getOperation())
                 .like(StringUtils.hasText(sysLogBO.getUsername()), SysLogBO::getUsername, sysLogBO.getUsername()));
+        List<SysLogBO> sysLogBOS = sysLogBOPage.getRecords();
         List<SysLogDTO> sysLogDTOS = new ArrayList<>();
         for (SysLogBO logBO : sysLogBOS) {
             sysLogDTOS.add(BoToDtoUtils.sysLogBOTOSysLogDTO(logBO));
         }
-        return sysLogDTOS;
+        IPage<SysLogDTO> sysLogDTOPage = new Page<SysLogDTO>();
+        sysLogDTOPage.setRecords(sysLogDTOS);
+        sysLogDTOPage.setTotal(sysLogBOPage.getTotal());
+        return sysLogDTOPage;
     }
 }
