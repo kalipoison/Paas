@@ -29,7 +29,7 @@ axios.interceptors.request.use((config) => {
   // 为请求头对象，添加token验证的Authorization字段
   const token = window.sessionStorage.getItem('token');
   config.headers.Authorization = token || {};
-  if (config.method === 'post') {
+  if (config.method === 'post' || config.method === 'put') {
     config.data = qs.stringify(config.data);
   }
 

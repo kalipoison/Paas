@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gohb.anno.Log;
 import com.gohb.bo.SysUserBO;
+import com.gohb.bo.SysUserRoleBO;
 import com.gohb.constant.StatusCodeConstant;
 import com.gohb.dto.Result;
 import com.gohb.dto.ResultUtils;
@@ -44,12 +45,12 @@ public class UserController {
 
     /**
      * 删除用户
-     * @param id
+     * @param userId
      * @return
      */
     @DeleteMapping()
-    public Result delete(Integer id) {
-        Boolean delete = sysUserManage.deleteSysUser(id);
+    public Result delete(@RequestParam("id") Integer userId) {
+        Boolean delete = sysUserManage.deleteSysUser(userId);
         if (!delete) {
             return ResultUtils.getFailedResult(StatusCodeConstant.deleteFail, "删除用户失败");
         }
@@ -77,7 +78,7 @@ public class UserController {
      */
     @GetMapping("detail")
     @Log(operation = "查询用户详细信息")
-    public Result<SysUserDTO> getSysUserDetail(Integer userId) {
+    public Result<SysUserDTO> getSysUserDetail(@RequestParam("id") Integer userId) {
         SysUserDTO sysUser = sysUserManage.getSysUserById(userId);
         return ResultUtils.getSuccessResult(sysUser);
     }
@@ -92,6 +93,15 @@ public class UserController {
     public Result<List<SysUserDTO>> listSysUser(Page<SysUserBO> page, SysUserBO sysUser){
         IPage<SysUserDTO> sysUserDTOPage = sysUserManage.listSysUser(page, sysUser);
         return ResultUtils.getSuccessResult(sysUserDTOPage.getRecords()).setCount(sysUserDTOPage.getTotal());
+    }
+
+    @PostMapping("userRoles")
+    public Result saveUserRole(SysUserRoleBO sysUserRoleBO) {
+        Boolean save = sysUserManage.saveUserRole(sysUserRoleBO);
+        if (!save) {
+            return ResultUtils.getFailedResult(200,"更新用户的角色信息成功");
+        }
+        return ResultUtils.getSuccessResult("更新用户的角色信息成功");
     }
 
 }

@@ -3,6 +3,7 @@ package com.gohb.manage;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gohb.bo.SysUserBO;
+import com.gohb.bo.SysUserRoleBO;
 import com.gohb.dto.SysUserDTO;
 
 import java.util.List;
@@ -45,4 +46,8 @@ public interface SysUserManage {
      */
     SysUserDTO getSysUserById(Integer id);
 
+    /**
+     * 创建用户角色关系
+     */
+    Boolean saveUserRole(SysUserRoleBO sysUserRoleBO);
 }

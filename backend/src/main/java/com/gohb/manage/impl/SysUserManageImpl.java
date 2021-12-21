@@ -14,10 +14,13 @@ import com.gohb.service.SysRoleService;
 import com.gohb.service.SysUserRoleService;
 import com.gohb.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.ManagedBean;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,9 +36,14 @@ public class SysUserManageImpl implements SysUserManage {
     @Autowired
     private SysUserRoleService sysUserRoleService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     @Override
     public Boolean saveSysUser(SysUserBO sysUserBO) {
+        sysUserBO.setStatus(1); // 新建用户为正常状态
+        sysUserBO.setCreateTime(new Date());
         boolean save = sysUserService.save(sysUserBO);
         return save;
     }
@@ -48,6 +56,13 @@ public class SysUserManageImpl implements SysUserManage {
 
     @Override
     public Boolean updateSysUser(SysUserBO sysUserBO) {
+        // 为空，认为不修改密码
+        // 否则BCRY加密
+        if (sysUserBO.getPassword().equals("")) {
+            sysUserBO.setPassword(null);
+        } else {
+            sysUserBO.setPassword(passwordEncoder.encode(sysUserBO.getPassword()));
+        }
         boolean update = sysUserService.updateById(sysUserBO);
         return update;
     }
@@ -89,4 +104,11 @@ public class SysUserManageImpl implements SysUserManage {
         SysUserDTO sysUserDTO = BoToDtoUtils.sysUserBOTOSysUserDTO(sysUserBO);
         return sysUserDTO;
     }
+
+    @Override
+    public Boolean saveUserRole(SysUserRoleBO sysUserRoleBO) {
+        boolean save = sysUserRoleService.save(sysUserRoleBO);
+        return save;
+    }
+
 }

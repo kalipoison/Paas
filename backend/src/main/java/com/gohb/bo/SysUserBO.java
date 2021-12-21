@@ -64,12 +64,6 @@ public class SysUserBO implements Serializable, UserDetails {
     private Integer status;
 
     /**
-     * 用户类型  0：管理员用户   1：普通用户  2：团队用户
-     */
-    @TableField(value = "type")
-    private Integer type;
-
-    /**
      * 创建者ID
      */
     @TableField(value = "create_user_id")

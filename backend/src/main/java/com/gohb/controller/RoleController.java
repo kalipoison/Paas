@@ -70,7 +70,7 @@ public class RoleController {
      */
     @GetMapping("detail")
     @Log(operation = "查询角色详细信息")
-    public Result<SysRoleDTO> getSysUserDetail(Integer id) {
+    public Result<SysRoleDTO> getSysRoleDetail(Integer id) {
         SysRoleDTO sysRoleDTO = sysRoleManage.getRoleById(id);
         return ResultUtils.getSuccessResult(sysRoleDTO);
     }
@@ -82,7 +82,7 @@ public class RoleController {
      */
     @GetMapping("")
     @Log(operation = "查询所有角色信息")
-    public Result<List<SysRoleDTO>> listSysUser(SysRoleBO sysRoleBO){
+    public Result<List<SysRoleDTO>> listSysRole(SysRoleBO sysRoleBO){
         List<SysRoleDTO> sysRoleDTOS = sysRoleManage.listRole(sysRoleBO);
         return ResultUtils.getSuccessResult(sysRoleDTOS);
     }
