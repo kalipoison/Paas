@@ -1,9 +1,9 @@
 package com.gohb.controller;
 
-import com.gohb.bo.KubeDeploymentBO;
+import com.gohb.bo.kube.KubeDeploymentBO;
 import com.gohb.dto.Result;
 import com.gohb.dto.ResultUtils;
-import com.gohb.manage.KubeDeploymentManage;
+import com.gohb.manage.kube.KubeDeploymentManage;
 import io.kubernetes.client.openapi.models.V1Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

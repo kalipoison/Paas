@@ -1,9 +1,9 @@
 package com.gohb.convert;
 
-import com.gohb.bo.KubeDeploymentBO;
-import com.gohb.bo.KubeNamespaceBO;
-import com.gohb.bo.KubeServiceBO;
-import com.gohb.bo.KubeServicePortBO;
+import com.gohb.bo.kube.KubeDeploymentBO;
+import com.gohb.bo.kube.KubeNamespaceBO;
+import com.gohb.bo.kube.KubeServiceBO;
+import com.gohb.bo.kube.KubeServicePortBO;
 import io.kubernetes.client.openapi.models.V1Deployment;
 import io.kubernetes.client.openapi.models.V1Namespace;
 import io.kubernetes.client.openapi.models.V1Service;

@@ -1,10 +1,10 @@
 package com.gohb.controller;
 
-import com.gohb.bo.KubeServiceBO;
+import com.gohb.bo.kube.KubeServiceBO;
 import com.gohb.constant.StatusCodeConstant;
 import com.gohb.dto.Result;
 import com.gohb.dto.ResultUtils;
-import com.gohb.manage.KubeServiceManage;
+import com.gohb.manage.kube.KubeServiceManage;
 import io.kubernetes.client.custom.IntOrString;
 import io.kubernetes.client.openapi.models.V1Status;
 import org.springframework.beans.factory.annotation.Autowired;

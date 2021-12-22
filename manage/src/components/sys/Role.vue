@@ -25,7 +25,7 @@
         <el-table-column label="操作" width="300px">
           <template slot-scope="scope">
             <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog(scope.row.roleId)">编辑</el-button>
-            <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeRoleById(scope.row.rowId)">删除</el-button>
+            <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeRoleById(scope.row.roleId)">删除</el-button>
             <el-button
               type="warning"
               icon="el-icon-setting"
@@ -89,7 +89,7 @@
           <el-input v-model="editRoleForm.roleName"></el-input>
         </el-form-item>
         <el-form-item label="角色描述" prop="roleRemark">
-          <el-input v-model="editRoleForm.roleRemark"></el-input>
+          <el-input v-model="editRoleForm.remark"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -221,7 +221,6 @@ export default {
       this.$refs.addRoleFormRef.validate(async valid => {
         if (!valid) return
         const { data: res } = await this.$http.post('auth/role', this.addRoleForm)
-        console.info('add role res', res);
         if (!res.success) {
           return this.$message.error(res.message)
         }
@@ -244,18 +243,23 @@ export default {
       if (confirmResult !== 'confirm') {
         return this.$message.info('已取消删除')
       }
-      const { data: res } = await this.$http.delete('roles/' + id)
-      if (res.meta.status !== 200) return this.$message.error('删除角色失败！')
+      const { data: res } = await this.$http.delete('/auth/role/', {
+        params : {
+          id : id
+        }
+      })
+      if (!res.success) return this.$message.error('删除角色失败！')
       this.$message.success('删除用户成功！')
       this.getRolesList()
     },
     // 编辑角色
     async showEditDialog (id) {
       const { data: res } = await this.$http.get('/auth/role/detail', {
-        id : id
+        params : {
+          id : id,
+        }
       })
-      console.info('edit role', id);
-      // if (res.meta.status !== 200) return this.$message.error('查询角色信息失败！')
+      if (!res.success) return this.$message.error('查询角色信息失败！')
       this.editRoleForm = res.data
       this.editRoleDialogVisible = true
     },
@@ -265,13 +269,14 @@ export default {
         // 表单预校验失败
         if (!valid) return
         const { data: res } = await this.$http.put(
-          'roles/' + this.editRoleForm.roleId,
+          '/auth/role',
           {
             roleName: this.editRoleForm.roleName,
-            roleDesc: this.editRoleForm.roleDesc
+            remark: this.editRoleForm.remark,
+            roleId: this.editRoleForm.roleId
           }
         )
-        if (res.meta.status !== 200) {
+        if (!res.success) {
           this.$message.error('更新角色信息失败！')
         }
         // 隐藏编辑角色对话框

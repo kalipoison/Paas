@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gohb.mapper.SysMenuMapper">
 
-    <resultMap id="BaseResultMap" type="com.gohb.bo.SysMenuBO">
+    <resultMap id="BaseResultMap" type="com.gohb.bo.sys.SysMenuBO">
             <id property="menuId" column="menu_id" jdbcType="BIGINT"/>
             <result property="parentId" column="parent_id" jdbcType="BIGINT"/>
             <result property="name" column="name" jdbcType="VARCHAR"/>

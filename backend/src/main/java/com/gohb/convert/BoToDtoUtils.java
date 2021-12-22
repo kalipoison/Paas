@@ -1,6 +1,6 @@
 package com.gohb.convert;
 
-import com.gohb.bo.*;
+import com.gohb.bo.sys.*;
 import com.gohb.dto.*;
 import org.springframework.beans.BeanUtils;
 

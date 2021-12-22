@@ -3,7 +3,7 @@ package com.gohb.controller;
 import com.gohb.constant.StatusCodeConstant;
 import com.gohb.dto.Result;
 import com.gohb.dto.ResultUtils;
-import com.gohb.manage.KubeNodeManage;
+import com.gohb.manage.kube.KubeNodeManage;
 import io.kubernetes.client.openapi.models.V1Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;

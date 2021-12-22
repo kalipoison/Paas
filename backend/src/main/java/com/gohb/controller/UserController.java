@@ -2,16 +2,15 @@ package com.gohb.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.gohb.anno.Log;
-import com.gohb.bo.SysUserBO;
-import com.gohb.bo.SysUserRoleBO;
+import com.gohb.aop.anno.Log;
+import com.gohb.bo.sys.SysUserBO;
+import com.gohb.bo.sys.SysUserRoleBO;
 import com.gohb.constant.StatusCodeConstant;
 import com.gohb.dto.Result;
 import com.gohb.dto.ResultUtils;
 import com.gohb.dto.SysUserDTO;
-import com.gohb.manage.SysUserManage;
+import com.gohb.manage.sys.SysUserManage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -95,6 +94,12 @@ public class UserController {
         return ResultUtils.getSuccessResult(sysUserDTOPage.getRecords()).setCount(sysUserDTOPage.getTotal());
     }
 
+
+    /**
+     * 保存用户角色对应关系
+     * @param sysUserRoleBO
+     * @return
+     */
     @PostMapping("userRoles")
     public Result saveUserRole(SysUserRoleBO sysUserRoleBO) {
         Boolean save = sysUserManage.saveUserRole(sysUserRoleBO);

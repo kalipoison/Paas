@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gohb.mapper.SysLogMapper">
 
-    <resultMap id="BaseResultMap" type="com.gohb.bo.SysLogBO">
+    <resultMap id="BaseResultMap" type="com.gohb.bo.sys.SysLogBO">
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="username" column="username" jdbcType="VARCHAR"/>
             <result property="operation" column="operation" jdbcType="VARCHAR"/>

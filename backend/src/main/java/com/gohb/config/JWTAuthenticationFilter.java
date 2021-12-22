@@ -1,7 +1,7 @@
 package com.gohb.config;
 
 import com.alibaba.fastjson.JSON;
-import com.gohb.bo.SysUserBO;
+import com.gohb.bo.sys.SysUserBO;
 import com.gohb.constant.SecurityConstant;
 import com.gohb.constant.StatusCodeConstant;
 import com.gohb.dto.Result;

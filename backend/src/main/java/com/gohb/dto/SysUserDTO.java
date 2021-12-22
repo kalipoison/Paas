@@ -1,12 +1,12 @@
 package com.gohb.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 用户
@@ -59,6 +59,6 @@ public class SysUserDTO implements Serializable {
     /**
      * 角色信息
      */
-    private String roleName;
+    private List<SysRoleDTO> roleList;
 
 }

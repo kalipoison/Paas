@@ -1,10 +1,10 @@
 package com.gohb.controller;
 
-import com.gohb.bo.KubeNamespaceBO;
+import com.gohb.bo.kube.KubeNamespaceBO;
 import com.gohb.constant.StatusCodeConstant;
 import com.gohb.dto.Result;
 import com.gohb.dto.ResultUtils;
-import com.gohb.manage.KubeNamespaceManage;
+import com.gohb.manage.kube.KubeNamespaceManage;
 import io.kubernetes.client.openapi.models.V1Namespace;
 import io.kubernetes.client.openapi.models.V1Status;
 import org.springframework.beans.factory.annotation.Autowired;

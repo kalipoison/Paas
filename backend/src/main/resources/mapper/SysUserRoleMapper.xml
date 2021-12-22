@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gohb.mapper.SysUserRoleMapper">
 
-    <resultMap id="BaseResultMap" type="com.gohb.bo.SysUserRoleBO">
+    <resultMap id="BaseResultMap" type="com.gohb.bo.sys.SysUserRoleBO">
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="userId" column="user_id" jdbcType="BIGINT"/>
             <result property="roleId" column="role_id" jdbcType="BIGINT"/>

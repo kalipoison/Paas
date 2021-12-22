@@ -2,14 +2,13 @@ package com.gohb.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.gohb.bo.SysLogBO;
+import com.gohb.bo.sys.SysLogBO;
 import com.gohb.dto.Result;
 import com.gohb.dto.ResultUtils;
 import com.gohb.dto.SysLogDTO;
-import com.gohb.manage.SysLogManage;
+import com.gohb.manage.sys.SysLogManage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

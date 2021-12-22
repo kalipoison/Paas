@@ -1,6 +1,6 @@
 package com.gohb.mapper;
 
-import com.gohb.bo.SysRoleBO;
+import com.gohb.bo.sys.SysRoleBO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

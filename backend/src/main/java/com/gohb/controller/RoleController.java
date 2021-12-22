@@ -1,12 +1,12 @@
 package com.gohb.controller;
 
-import com.gohb.anno.Log;
-import com.gohb.bo.SysRoleBO;
+import com.gohb.aop.anno.Log;
+import com.gohb.bo.sys.SysRoleBO;
 import com.gohb.constant.StatusCodeConstant;
 import com.gohb.dto.Result;
 import com.gohb.dto.ResultUtils;
 import com.gohb.dto.SysRoleDTO;
-import com.gohb.manage.SysRoleManage;
+import com.gohb.manage.sys.SysRoleManage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +26,7 @@ public class RoleController {
      */
     @PostMapping
     @Log(operation = "新增一个角色")
-    public Result saveSysRole(@RequestBody SysRoleBO sysRoleBO) {
+    public Result saveSysRole(SysRoleBO sysRoleBO) {
         Boolean save = sysRoleManage.saveRole(sysRoleBO);
         if (!save) {
             return ResultUtils.getFailedResult(StatusCodeConstant.createFail, "新增角色失败");
@@ -55,7 +55,7 @@ public class RoleController {
      */
     @PutMapping
     @Log(operation = "修改角色信息")
-    public Result updateSysRole(@RequestBody SysRoleBO sysRoleBO) {
+    public Result updateSysRole(SysRoleBO sysRoleBO) {
         Boolean update = sysRoleManage.updateRole(sysRoleBO);
         if (!update) {
             return ResultUtils.getFailedResult(StatusCodeConstant.updateFail, "更新角色信息失败");
@@ -65,13 +65,13 @@ public class RoleController {
 
     /**
      * 获取角色详细信息
-     * @param id
+     * @param roleId
      * @return
      */
     @GetMapping("detail")
     @Log(operation = "查询角色详细信息")
-    public Result<SysRoleDTO> getSysRoleDetail(Integer id) {
-        SysRoleDTO sysRoleDTO = sysRoleManage.getRoleById(id);
+    public Result<SysRoleDTO> getSysRoleDetail(@RequestParam("id") Integer roleId) {
+        SysRoleDTO sysRoleDTO = sysRoleManage.getRoleById(roleId);
         return ResultUtils.getSuccessResult(sysRoleDTO);
     }
 
