@@ -60,7 +60,6 @@ export default {
             });
             this.logList = res.data;
             this.totle = res.count;
-            console.info('this.logList', this.logList);
         },
         handleSizeChange (newSize) {
         this.queryInfo.pagesize = newSize

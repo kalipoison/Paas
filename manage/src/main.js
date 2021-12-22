@@ -25,7 +25,7 @@ axios.defaults.withCredentials = false;
 axios.defaults.baseURL = 'http://127.0.0.1:8082/api/'
 // 请求在到达服务器之前，先会调用use中的这个回调函数来添加请求头信息
 axios.interceptors.request.use((config) => {
-  console.info("config", config);
+  // console.info("config", config);
   // 为请求头对象，添加token验证的Authorization字段
   const token = window.sessionStorage.getItem('token');
   config.headers.Authorization = token || {};

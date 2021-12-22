@@ -16,60 +16,16 @@
       </el-row>
       <!-- 角色列表 -->
       <el-table :data="rolesList" border stripe>
-        <!-- 展开列 -->
-        <el-table-column type="expand">
-          <template slot-scope="scope">
-            <el-row
-              :class="['bdbottom', i1 === 0 ? 'bdtop' : '', 'vcenter']"
-              v-for="(item1, i1) in scope.row.children"
-              :key="item1.id"
-            >
-              <!-- 一级权限 -->
-              <el-col :span="5">
-                <el-tag closable @close="removeRightById(scope.row, item1.id)">{{ item1.authName}}</el-tag>
-                <i class="el-icon-caret-right"></i>
-              </el-col>
-              <!-- 二级和三级 -->
-              <el-col :span="19">
-                <!-- 通过for循环 渲染二级权限 -->
-                <el-row
-                  :class="[i2 === 0 ? '' : 'bdtop', 'vcenter']"
-                  v-for="(item2, i2) in item1.children"
-                  :key="item2.id"
-                >
-                  <el-col :span="6 ">
-                    <el-tag
-                      type="success"
-                      closable
-                      @close="removeRightById(scope.row, item2.id)"
-                    >{{ item2.authName }}</el-tag>
-                    <i class="el-icon-caret-right"></i>
-                  </el-col>
-                  <el-col :span="18">
-                    <el-tag
-                      type="warning"
-                      v-for="(item3) in item2.children"
-                      :key="item3.id"
-                      closable
-                      @close="removeRightById(scope.row, item3.id)"
-                    >{{ item3.authName}}</el-tag>
-                  </el-col>
-                </el-row>
-              </el-col>
-            </el-row>
-          </template>
-        </el-table-column>
         <!-- 索引列 -->
         <el-table-column type="index" label="#"></el-table-column>
         <el-table-column label="角色名称" prop="roleName"></el-table-column>
         <el-table-column label="角色描述" prop="remark"></el-table-column>
-        <el-table-column label="创建者" prop="createUserName"></el-table-column>
         <el-table-column label="创建时间" prop="createTime"></el-table-column>
 
         <el-table-column label="操作" width="300px">
           <template slot-scope="scope">
-            <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog(scope.row.id)">编辑</el-button>
-            <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeRoleById(scope.row.id)">删除</el-button>
+            <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog(scope.row.roleId)">编辑</el-button>
+            <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeRoleById(scope.row.rowId)">删除</el-button>
             <el-button
               type="warning"
               icon="el-icon-setting"
@@ -112,8 +68,8 @@
         <el-form-item label="角色名称" prop="roleName">
           <el-input v-model="addRoleForm.roleName"></el-input>
         </el-form-item>
-        <el-form-item label="角色描述" prop="roleDesc">
-          <el-input v-model="addRoleForm.roleDesc"></el-input>
+        <el-form-item label="角色描述" prop="roleRemark">
+          <el-input v-model="addRoleForm.remark"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -132,8 +88,8 @@
         <el-form-item label="角色名称" prop="roleName">
           <el-input v-model="editRoleForm.roleName"></el-input>
         </el-form-item>
-        <el-form-item label="角色描述" prop="roleDesc">
-          <el-input v-model="editRoleForm.roleDesc"></el-input>
+        <el-form-item label="角色描述" prop="roleRemark">
+          <el-input v-model="editRoleForm.roleRemark"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -264,9 +220,10 @@ export default {
     addRoles () {
       this.$refs.addRoleFormRef.validate(async valid => {
         if (!valid) return
-        const { data: res } = await this.$http.post('roles', this.addRoleForm)
-        if (res.meta.status !== 201) {
-          this.$message.error('添加角色失败！')
+        const { data: res } = await this.$http.post('auth/role', this.addRoleForm)
+        console.info('add role res', res);
+        if (!res.success) {
+          return this.$message.error(res.message)
         }
         this.$message.success('添加角色成功！')
         this.AddRoleDialogVisible = false
@@ -294,8 +251,11 @@ export default {
     },
     // 编辑角色
     async showEditDialog (id) {
-      const { data: res } = await this.$http.get('roles/' + id)
-      if (res.meta.status !== 200) return this.$message.error('查询角色信息失败！')
+      const { data: res } = await this.$http.get('/auth/role/detail', {
+        id : id
+      })
+      console.info('edit role', id);
+      // if (res.meta.status !== 200) return this.$message.error('查询角色信息失败！')
       this.editRoleForm = res.data
       this.editRoleDialogVisible = true
     },
