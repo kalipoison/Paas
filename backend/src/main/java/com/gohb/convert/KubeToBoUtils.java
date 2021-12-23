@@ -27,7 +27,7 @@ public class KubeToBoUtils {
             kubeNamespaceBO.setName(v1Namespace.getMetadata().getName());
             kubeNamespaceBO.setStatus(v1Namespace.getStatus().getPhase());
             DateTime creationTimestamp = v1Namespace.getMetadata().getCreationTimestamp();
-            kubeNamespaceBO.setCreateTime(new Date(creationTimestamp.getMillis()));
+            kubeNamespaceBO.setCreateTime(KubeDateTimeUtils.kubeDateTimeToString(creationTimestamp));
             return kubeNamespaceBO;
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,7 +76,7 @@ public class KubeToBoUtils {
     }
 
     public static KubeDeploymentBO v1DeploymentToKubeDeploymentBO(V1Deployment v1Deployment){
-        KubeDeploymentBO kubeDeploymentBO = null;
+        KubeDeploymentBO kubeDeploymentBO = new KubeDeploymentBO();
         System.out.println(v1Deployment.getMetadata().getName());
         String name = v1Deployment.getMetadata().getName();
         kubeDeploymentBO.setName(name);
@@ -86,7 +86,7 @@ public class KubeToBoUtils {
         kubeDeploymentBO.setRestartPolicy(v1Deployment.getSpec().getTemplate().getSpec().getRestartPolicy());
         kubeDeploymentBO.setReplicas(v1Deployment.getStatus().getReplicas());
         kubeDeploymentBO.setUnavilableReplicas(v1Deployment.getStatus().getUnavailableReplicas() != null ?
-                v1Deployment.getStatus().getAvailableReplicas() : 0);
+                v1Deployment.getStatus().getUnavailableReplicas() : 0);
         kubeDeploymentBO.setAvilableReplicas(v1Deployment.getStatus().getAvailableReplicas() != null ?
                 v1Deployment.getStatus().getAvailableReplicas() : 0);
         return kubeDeploymentBO;

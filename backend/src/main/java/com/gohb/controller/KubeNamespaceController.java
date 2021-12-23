@@ -4,6 +4,7 @@ import com.gohb.bo.kube.KubeNamespaceBO;
 import com.gohb.constant.StatusCodeConstant;
 import com.gohb.dto.Result;
 import com.gohb.dto.ResultUtils;
+import com.gohb.dto.kube.KubeNamespaceDTO;
 import com.gohb.manage.kube.KubeNamespaceManage;
 import io.kubernetes.client.openapi.models.V1Namespace;
 import io.kubernetes.client.openapi.models.V1Status;
@@ -38,9 +39,9 @@ public class KubeNamespaceController {
     }
 
     @GetMapping("")
-    public Result<List<KubeNamespaceBO>> listNamespace() {
-        List<KubeNamespaceBO> kubeNamespaceBOS = kubeNamespaceManage.listNamespace();
-        return ResultUtils.getSuccessResult(kubeNamespaceBOS);
+    public Result<List<KubeNamespaceDTO>> listNamespace() {
+        List<KubeNamespaceDTO> kubeNamespaceDTOS = kubeNamespaceManage.listNamespace();
+        return ResultUtils.getSuccessResult(kubeNamespaceDTOS);
     }
 
     @GetMapping("exist")

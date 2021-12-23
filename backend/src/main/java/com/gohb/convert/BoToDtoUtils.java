@@ -1,7 +1,9 @@
 package com.gohb.convert;
 
+import com.gohb.bo.kube.KubeNamespaceBO;
 import com.gohb.bo.sys.*;
-import com.gohb.dto.*;
+import com.gohb.dto.kube.KubeNamespaceDTO;
+import com.gohb.dto.sys.*;
 import org.springframework.beans.BeanUtils;
 
 /**
@@ -91,6 +93,15 @@ public class BoToDtoUtils {
         SysUserRoleDTO sysUserRoleDTO = new SysUserRoleDTO();
         BeanUtils.copyProperties(sysUserRoleBO, sysUserRoleDTO);
         return sysUserRoleDTO;
+    }
+
+    public static KubeNamespaceDTO kubeNamespaceBOTOkubeNamespaceDTO(KubeNamespaceBO kubeNamespaceBO) {
+        if (kubeNamespaceBO == null) {
+            return null;
+        }
+        KubeNamespaceDTO kubeNamespaceDTO = new KubeNamespaceDTO();
+        BeanUtils.copyProperties(kubeNamespaceBO, kubeNamespaceDTO);
+        return kubeNamespaceDTO;
     }
 
 }

@@ -3,7 +3,7 @@ package com.gohb.manage.sys.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.gohb.bo.sys.SysRoleBO;
 import com.gohb.convert.BoToDtoUtils;
-import com.gohb.dto.SysRoleDTO;
+import com.gohb.dto.sys.SysRoleDTO;
 import com.gohb.exception.SysException;
 import com.gohb.manage.sys.SysRoleManage;
 import com.gohb.service.sys.SysRoleService;

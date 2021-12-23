@@ -15,103 +15,51 @@
         </el-col>
       </el-row>
       <!-- 菜单列表 -->
-      <el-table :data="rolesList" border stripe>
-        <!-- 展开列 -->
-        <el-table-column type="expand">
-          <template slot-scope="scope">
-            <el-row
-              :class="['bdbottom', i1 === 0 ? 'bdtop' : '', 'vcenter']"
-              v-for="(item1, i1) in scope.row.children"
-              :key="item1.id"
-            >
-              <!-- 一级权限 -->
-              <el-col :span="5">
-                <el-tag closable @close="removeRightById(scope.row, item1.id)">{{ item1.authName}}</el-tag>
-                <i class="el-icon-caret-right"></i>
-              </el-col>
-              <!-- 二级和三级 -->
-              <el-col :span="19">
-                <!-- 通过for循环 渲染二级权限 -->
-                <el-row
-                  :class="[i2 === 0 ? '' : 'bdtop', 'vcenter']"
-                  v-for="(item2, i2) in item1.children"
-                  :key="item2.id"
-                >
-                  <el-col :span="6 ">
-                    <el-tag
-                      type="success"
-                      closable
-                      @close="removeRightById(scope.row, item2.id)"
-                    >{{ item2.authName }}</el-tag>
-                    <i class="el-icon-caret-right"></i>
-                  </el-col>
-                  <el-col :span="18">
-                    <el-tag
-                      type="warning"
-                      v-for="(item3) in item2.children"
-                      :key="item3.id"
-                      closable
-                      @close="removeRightById(scope.row, item3.id)"
-                    >{{ item3.authName}}</el-tag>
-                  </el-col>
-                </el-row>
-              </el-col>
-            </el-row>
-          </template>
-        </el-table-column>
+      <!-- <el-table 
+        :data="rolesList" 
+        border 
+        stripe 
+        default-expand-all 
+        :tree-props="{children: 'list', hasChildren: 'list'}"> -->
+      <el-table
+        :data="rolesList"
+        style="width: 100%;margin-bottom: 20px;"
+        row-key="menuId"
+        border
+        :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
         <!-- 索引列 -->
         <el-table-column type="index" label="#"></el-table-column>
         <el-table-column label="菜单名称" prop="name"></el-table-column>
+        <el-table-column label="url" prop="url"></el-table-column>
         <el-table-column label="权限" prop="perms"></el-table-column>
         <el-table-column label="类型" prop="type"></el-table-column>
         <el-table-column label="操作" width="300px">
           <template slot-scope="scope">
             <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog(scope.row.id)">编辑</el-button>
             <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeRoleById(scope.row.id)">删除</el-button>
-            <el-button
-              type="warning"
-              icon="el-icon-setting"
-              size="mini"
-              @click="showSetRightDialog(scope.row)"
-            >分配权限</el-button>
           </template>
         </el-table-column>
       </el-table>
     </el-card>
-    <!-- 分配权限 -->
-    <el-dialog
-      title="分配权限"
-      :visible.sync="setRightDialogVisible"
-      width="50%"
-      @close="setRightDialogClosed"
-    >
-      <el-tree
-        :data="rightsList"
-        :props="treeProps"
-        ref="treeRef"
-        show-checkbox
-        node-key="id"
-        default-expand-all
-        :default-checked-keys="defKeys"
-      ></el-tree>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="setRightDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="allotRights">确 定</el-button>
-      </span>
-    </el-dialog>
     <!-- 添加菜单对话框 -->
     <el-dialog title="添加菜单" :visible.sync="AddRoleDialogVisible" width="40%" @close="addRoleDialogClosed">
       <el-form
-        :model="addRoleForm"
-        ref="addRoleFormRef"
-        :rules="addRoleFormRules"
+        :model="addMenuForm"
+        ref="addMenuFormRef"
+        :rules="addMenuFormRules"
         label-width="100px"
       >
-        <el-form-item label="菜单名称" prop="roleName">
-          <el-input v-model="addRoleForm.roleName"></el-input>
+        <el-form-item label="菜单名称" prop="menuName">
+          <el-input v-model="addMenuForm.menuName"></el-input>
         </el-form-item>
         <el-form-item label="菜单描述" prop="roleDesc">
-          <el-input v-model="addRoleForm.roleDesc"></el-input>
+          <el-input v-model="addMenuForm.roleDesc"></el-input>
+        </el-form-item>
+        <el-form-item label="url" prop="roleDesc">
+          <el-input v-model="addMenuForm.roleDesc"></el-input>
+        </el-form-item>
+        <el-form-item label="类型" prop="roleDesc">
+          <el-input v-model="addMenuForm.roleDesc"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -148,23 +96,17 @@ export default {
     return {
       // 所有菜单列表
       rolesList: [],
-      // 分配权限框
-      setRightDialogVisible: false,
-      // 权限列表
-      rightsList: [],
       //  树形控件的属性绑定对象
       treeProps: {
         label: 'authName',
         children: 'children'
       },
-      //   默认选中节点ID值
-      defKeys: [],
       //   添加用户对话框
       AddRoleDialogVisible: false,
       // 添加菜单表单
-      addRoleForm: {},
+      addMenuForm: {},
       //   添加菜单表单验证
-      addRoleFormRules: {
+      addMenuFormRules: {
         roleName: [
           { required: true, message: '请输入菜单名称', trigger: 'blur' }
         ],
@@ -188,15 +130,19 @@ export default {
     }
   },
   created () {
-    this.getRolesList()
+    this.getMenuList()
   },
   methods: {
-    async getRolesList () {
+    async getMenuList () {
       const { data: res } = await this.$http.get('/auth/menu')
       console.info("menu res", res);
       if (!res.success) {
         return this.$message.error('获取菜单列表失败！')
       }
+        res.data.forEach(element => {
+          element.children = element.list
+          return element;
+        });
       this.rolesList = res.data
     },
     // 根据ID删除对应的权限
@@ -225,34 +171,6 @@ export default {
       role.children = res.data
       //   不建议使用
       // this.getRolesList()
-    },
-    // 分配权限
-    async showSetRightDialog (role) {
-      this.roleId = role.id
-      // 获取菜单的所有权限
-      const { data: res } = await this.$http.get('rights/tree')
-      if (res.meta.status !== 200) {
-        return this.$message.error('获取权限数据失败！')
-      }
-      //   获取权限树
-      this.rightsList = res.data
-      //   console.log(res)
-      //   递归获取三级节点的id
-      this.getLeafkeys(role, this.defKeys)
-
-      this.setRightDialogVisible = true
-    },
-    // 通过递归 获取菜单下三级权限的 id, 并保存到defKeys数组
-    getLeafkeys (node, arr) {
-      // 没有children属性，则是三级节点
-      if (!node.children) {
-        return arr.push(node.id)
-      }
-      node.children.forEach(item => this.getLeafkeys(item, arr))
-    },
-    // 权限对话框关闭事件
-    setRightDialogClosed () {
-      this.defKeys = []
     },
     // 添加角色对话框的关闭
     addRoleDialogClosed () {
@@ -318,21 +236,6 @@ export default {
         this.getRolesList()
       })
     },
-    // 分配权限
-    async allotRights (roleId) {
-      // 获得当前选中和半选中的Id
-      const keys = [
-        ...this.$refs.treeRef.getCheckedKeys(),
-        ...this.$refs.treeRef.getHalfCheckedKeys()
-      ]
-      // join() 方法用于把数组中的所有元素放入一个字符串
-      const idStr = keys.join(',')
-      const { data: res } = await this.$http.post(`roles/${this.roleId}/rights`, { rids: idStr })
-      if (res.meta.status !== 200) { return this.$message.error('分配权限失败！') }
-      this.$message.success('分配权限成功!')
-      this.getRolesList()
-      this.setRightDialogVisible = false
-    }
   }
 }
 </script>

@@ -1,4 +1,4 @@
-package com.gohb.dto;
+package com.gohb.dto.sys;
 
 import com.gohb.bo.sys.SysMenuBO;
 import lombok.AllArgsConstructor;

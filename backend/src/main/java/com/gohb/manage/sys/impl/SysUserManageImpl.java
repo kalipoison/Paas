@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gohb.bo.sys.SysUserBO;
 import com.gohb.bo.sys.SysUserRoleBO;
 import com.gohb.convert.BoToDtoUtils;
-import com.gohb.dto.SysUserDTO;
+import com.gohb.dto.sys.SysUserDTO;
 import com.gohb.manage.sys.SysUserManage;
 import com.gohb.service.sys.SysRoleService;
 import com.gohb.service.sys.SysUserRoleService;

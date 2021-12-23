@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gohb.bo.sys.SysLogBO;
 import com.gohb.dto.Result;
 import com.gohb.dto.ResultUtils;
-import com.gohb.dto.SysLogDTO;
+import com.gohb.dto.sys.SysLogDTO;
 import com.gohb.manage.sys.SysLogManage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

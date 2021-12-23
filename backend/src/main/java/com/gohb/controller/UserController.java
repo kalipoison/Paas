@@ -8,7 +8,7 @@ import com.gohb.bo.sys.SysUserRoleBO;
 import com.gohb.constant.StatusCodeConstant;
 import com.gohb.dto.Result;
 import com.gohb.dto.ResultUtils;
-import com.gohb.dto.SysUserDTO;
+import com.gohb.dto.sys.SysUserDTO;
 import com.gohb.manage.sys.SysUserManage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

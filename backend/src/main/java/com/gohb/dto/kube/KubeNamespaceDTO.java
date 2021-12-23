@@ -1,4 +1,4 @@
-package com.gohb.bo.kube;
+package com.gohb.dto.kube;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,11 +17,7 @@ import java.util.Date;
 @NoArgsConstructor
 @ToString
 @Accessors(chain = true)
-public class KubeNamespaceBO implements Serializable {
-
-    String apiVersion;
-
-    String kind;
+public class KubeNamespaceDTO implements Serializable {
 
     String name;
 

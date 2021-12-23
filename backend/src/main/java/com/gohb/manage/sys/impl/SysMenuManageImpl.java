@@ -4,12 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.gohb.bo.sys.SysMenuBO;
 import com.gohb.bo.sys.SysUserBO;
 import com.gohb.convert.BoToDtoUtils;
-import com.gohb.dto.SysMenuDTO;
+import com.gohb.dto.sys.SysMenuDTO;
 import com.gohb.manage.sys.SysMenuManage;
 import com.gohb.service.sys.SysMenuService;
 import com.gohb.service.sys.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.ObjectUtils;
 
 import javax.annotation.ManagedBean;
 import java.util.ArrayList;
@@ -44,8 +43,7 @@ public class SysMenuManageImpl implements SysMenuManage {
 
     @Override
     public List<SysMenuDTO> listMenu(SysMenuBO sysMenuBO) {
-        List<SysMenuBO> sysMenuBOS = sysMenuService.list(new LambdaQueryWrapper<SysMenuBO>()
-                .eq((sysMenuBO != null && !ObjectUtils.isEmpty(sysMenuBO.getType())), SysMenuBO::getType, sysMenuBO.getType()));
+        List<SysMenuBO> sysMenuBOS = sysMenuService.list();
         List<SysMenuDTO> sysMenuDTOS = new ArrayList<>();
         for (SysMenuBO menuBO : sysMenuBOS) {
             sysMenuDTOS.add(BoToDtoUtils.sysMenuBOTOSysMenuDTO(menuBO));

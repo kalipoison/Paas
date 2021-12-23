@@ -3,6 +3,7 @@ package com.gohb.controller;
 import com.gohb.constant.StatusCodeConstant;
 import com.gohb.dto.Result;
 import com.gohb.dto.ResultUtils;
+import com.gohb.dto.kube.KubeNodeDTO;
 import com.gohb.manage.kube.KubeNodeManage;
 import io.kubernetes.client.openapi.models.V1Node;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,9 @@ public class KubeNodeController {
 
 
     @GetMapping()
-    public Result<List<V1Node>> listNode() {
-        List<V1Node> v1Nodes = kubeNodeManage.listNode();
-        return ResultUtils.getSuccessResult(v1Nodes);
+    public Result<List<KubeNodeDTO>> listNode() {
+        List<KubeNodeDTO> kubeNodeDTOS = kubeNodeManage.listNode();
+        return ResultUtils.getSuccessResult(kubeNodeDTOS);
     }
 
     @GetMapping("detail")

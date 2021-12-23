@@ -1,5 +1,6 @@
-package com.gohb.dto;
+package com.gohb.dto.sys;
 
+import com.gohb.dto.sys.SysMenuDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

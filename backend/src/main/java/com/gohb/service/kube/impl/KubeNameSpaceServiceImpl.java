@@ -1,5 +1,7 @@
 package com.gohb.service.kube.impl;
 
+import com.gohb.bo.kube.KubeNamespaceBO;
+import com.gohb.convert.KubeToBoUtils;
 import com.gohb.service.kube.KubeNamespaceService;
 import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.apis.CoreV1Api;
@@ -11,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -49,15 +52,19 @@ public class KubeNameSpaceServiceImpl implements KubeNamespaceService {
     }
 
     @Override
-    public List<V1Namespace> listNamespace() {
+    public List<KubeNamespaceBO> listNamespace() {
         List<V1Namespace> v1NamespaceListItems = null;
+        List<KubeNamespaceBO> kubeNamespaceBOS = new ArrayList<>();
         try {
             V1NamespaceList v1NamespaceList = coreV1Api.listNamespace(null, null, null, null, null, null, null, null, null, null);
             v1NamespaceListItems = v1NamespaceList.getItems();
+            for (V1Namespace v1Namespace : v1NamespaceListItems) {
+                kubeNamespaceBOS.add(KubeToBoUtils.V1NamespaceToKubeNamespaceBO(v1Namespace));
+            }
         } catch (ApiException e) {
             e.printStackTrace();
         }
-        return v1NamespaceListItems;
+        return kubeNamespaceBOS;
     }
 
     @Override

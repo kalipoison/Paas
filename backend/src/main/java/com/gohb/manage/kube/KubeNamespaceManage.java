@@ -1,6 +1,7 @@
 package com.gohb.manage.kube;
 
 import com.gohb.bo.kube.KubeNamespaceBO;
+import com.gohb.dto.kube.KubeNamespaceDTO;
 import io.kubernetes.client.openapi.models.V1Namespace;
 import io.kubernetes.client.openapi.models.V1Status;
 
@@ -12,7 +13,7 @@ public interface KubeNamespaceManage {
 
     V1Status deleteNamespace(String namespace);
 
-    List<KubeNamespaceBO> listNamespace();
+    List<KubeNamespaceDTO> listNamespace();
 
     KubeNamespaceBO namespaceDetail(String namespace);
 

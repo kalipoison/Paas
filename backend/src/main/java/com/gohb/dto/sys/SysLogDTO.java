@@ -1,4 +1,4 @@
-package com.gohb.dto;
+package com.gohb.dto.sys;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

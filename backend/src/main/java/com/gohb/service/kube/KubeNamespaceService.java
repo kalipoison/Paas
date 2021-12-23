@@ -1,5 +1,6 @@
 package com.gohb.service.kube;
 
+import com.gohb.bo.kube.KubeNamespaceBO;
 import io.kubernetes.client.openapi.models.V1Namespace;
 import io.kubernetes.client.openapi.models.V1Status;
 
@@ -24,7 +25,7 @@ public interface KubeNamespaceService {
     /**
      * 列出所有namespace
      */
-    List<V1Namespace> listNamespace();
+    List<KubeNamespaceBO> listNamespace();
 
     /**
      * namespace详情

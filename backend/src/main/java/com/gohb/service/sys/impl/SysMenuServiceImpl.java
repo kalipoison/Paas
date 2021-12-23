@@ -28,6 +28,12 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenuBO>
         return loadMenuTree(sysMenuBOS, 0L);
     }
 
+    @Override
+    public List<SysMenuBO> list() {
+        List<SysMenuBO> sysMenuBOS = sysMenuMapper.selectList(null);
+        return loadMenuTree(sysMenuBOS, 0L);
+    }
+
     /**
      * 组装树菜单
      * 使菜单具有层级结构

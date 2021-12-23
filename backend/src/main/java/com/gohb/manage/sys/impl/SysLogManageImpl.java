@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gohb.bo.sys.SysLogBO;
 import com.gohb.convert.BoToDtoUtils;
-import com.gohb.dto.SysLogDTO;
+import com.gohb.dto.sys.SysLogDTO;
 import com.gohb.manage.sys.SysLogManage;
 import com.gohb.service.sys.SysLogService;
 import org.springframework.beans.factory.annotation.Autowired;

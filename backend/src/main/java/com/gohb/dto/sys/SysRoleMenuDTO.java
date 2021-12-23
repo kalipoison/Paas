@@ -1,4 +1,4 @@
-package com.gohb.dto;
+package com.gohb.dto.sys;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,12 +8,12 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * 用户与角色对应关系
+ * 角色与菜单对应关系
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SysUserRoleDTO implements Serializable {
+public class SysRoleMenuDTO implements Serializable {
 
     /**
      *
@@ -21,13 +21,13 @@ public class SysUserRoleDTO implements Serializable {
     private Long id;
 
     /**
-     * 用户ID
-     */
-    private Long userId;
-
-    /**
      * 角色ID
      */
     private Long roleId;
+
+    /**
+     * 菜单ID
+     */
+    private Long menuId;
 
 }
