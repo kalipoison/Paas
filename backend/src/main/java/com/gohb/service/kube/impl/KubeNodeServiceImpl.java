@@ -1,5 +1,7 @@
 package com.gohb.service.kube.impl;
 
+import com.gohb.bo.kube.KubeNodeBO;
+import com.gohb.convert.KubeToBoUtils;
 import com.gohb.service.kube.KubeNodeService;
 import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.apis.CoreV1Api;
@@ -8,6 +10,7 @@ import io.kubernetes.client.openapi.models.V1NodeList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,15 +21,19 @@ public class KubeNodeServiceImpl implements KubeNodeService {
 
 
     @Override
-    public List<V1Node> listNode() {
-        List<V1Node> v1NodeListItems = null;
+    public List<KubeNodeBO> listNode() {
+        List<KubeNodeBO> kubeNodeBOS = new ArrayList<>();
         try {
             V1NodeList v1NodeList = coreV1Api.listNode(null, null, null, null, null, null, null, null, null, null);
-            v1NodeListItems = v1NodeList.getItems();
+            List<V1Node> v1NodeListItems = v1NodeList.getItems();
+            for (V1Node v1Node : v1NodeListItems) {
+                KubeNodeBO kubeNodeBO = KubeToBoUtils.v1NodeToKubeNodeBO(v1Node);
+                kubeNodeBOS.add(kubeNodeBO);
+            }
         } catch (ApiException e) {
             e.printStackTrace();
         }
-        return v1NodeListItems;
+        return kubeNodeBOS;
     }
 
     @Override

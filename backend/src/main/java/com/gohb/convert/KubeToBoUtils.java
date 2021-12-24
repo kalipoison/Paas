@@ -1,13 +1,7 @@
 package com.gohb.convert;
 
-import com.gohb.bo.kube.KubeDeploymentBO;
-import com.gohb.bo.kube.KubeNamespaceBO;
-import com.gohb.bo.kube.KubeServiceBO;
-import com.gohb.bo.kube.KubeServicePortBO;
-import io.kubernetes.client.openapi.models.V1Deployment;
-import io.kubernetes.client.openapi.models.V1Namespace;
-import io.kubernetes.client.openapi.models.V1Service;
-import io.kubernetes.client.openapi.models.V1ServicePort;
+import com.gohb.bo.kube.*;
+import io.kubernetes.client.openapi.models.*;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -19,19 +13,50 @@ import java.util.List;
  */
 public class KubeToBoUtils {
 
+    public static KubeNodeBO v1NodeToKubeNodeBO(V1Node v1Node) {
+        KubeNodeBO kubeNodeBO = new KubeNodeBO();
+        try {
+            kubeNodeBO.setNodeName(v1Node.getMetadata().getName());
+            kubeNodeBO.setCreateTime(DateTimeUtils.kubeDateTimeToString(v1Node.getMetadata().getCreationTimestamp()));
+            kubeNodeBO.setKernelVersion(v1Node.getStatus().getNodeInfo().getKernelVersion());
+            kubeNodeBO.setKubeletVersion(v1Node.getStatus().getNodeInfo().getKubeletVersion());
+            kubeNodeBO.setKubeProxyVersion(v1Node.getStatus().getNodeInfo().getKubeProxyVersion());
+            return kubeNodeBO;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return kubeNodeBO;
+        }
+    }
+
+
     public static KubeNamespaceBO V1NamespaceToKubeNamespaceBO(V1Namespace v1Namespace) {
         KubeNamespaceBO kubeNamespaceBO = new KubeNamespaceBO();
-        try{
+        try {
             kubeNamespaceBO.setApiVersion(v1Namespace.getApiVersion());
             kubeNamespaceBO.setKind(v1Namespace.getKind());
             kubeNamespaceBO.setName(v1Namespace.getMetadata().getName());
             kubeNamespaceBO.setStatus(v1Namespace.getStatus().getPhase());
             DateTime creationTimestamp = v1Namespace.getMetadata().getCreationTimestamp();
-            kubeNamespaceBO.setCreateTime(KubeDateTimeUtils.kubeDateTimeToString(creationTimestamp));
+            kubeNamespaceBO.setCreateTime(DateTimeUtils.kubeDateTimeToString(creationTimestamp));
             return kubeNamespaceBO;
         } catch (Exception e) {
             e.printStackTrace();
             return kubeNamespaceBO;
+        }
+    }
+
+    public static KubePodBO v1PodTOKubePodBO(V1Pod v1Pod) {
+        KubePodBO kubePodBO = new KubePodBO();
+        try{
+            kubePodBO.setPodName(v1Pod.getMetadata().getName());
+            kubePodBO.setNamespace(v1Pod.getMetadata().getNamespace());
+            kubePodBO.setCreateTime(DateTimeUtils.kubeDateTimeToString(v1Pod.getMetadata().getCreationTimestamp()));
+            kubePodBO.setRestartPolicy(v1Pod.getSpec().getRestartPolicy());
+            kubePodBO.setServiceAccount(v1Pod.getSpec().getServiceAccount());
+            kubePodBO.setStatus(v1Pod.getStatus().getPhase());
+            return kubePodBO;
+        } catch (Exception e) {
+            return kubePodBO;
         }
     }
 

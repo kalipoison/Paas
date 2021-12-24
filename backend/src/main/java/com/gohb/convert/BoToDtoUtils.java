@@ -1,8 +1,14 @@
 package com.gohb.convert;
 
 import com.gohb.bo.kube.KubeNamespaceBO;
+import com.gohb.bo.kube.KubeNodeBO;
+import com.gohb.bo.kube.KubePodBO;
+import com.gohb.bo.kube.KubePodDetailBO;
 import com.gohb.bo.sys.*;
 import com.gohb.dto.kube.KubeNamespaceDTO;
+import com.gohb.dto.kube.KubeNodeDTO;
+import com.gohb.dto.kube.KubePodDTO;
+import com.gohb.dto.kube.KubePodDetailDTO;
 import com.gohb.dto.sys.*;
 import org.springframework.beans.BeanUtils;
 
@@ -95,6 +101,16 @@ public class BoToDtoUtils {
         return sysUserRoleDTO;
     }
 
+
+    public static KubeNodeDTO kubeNodeBOTOKubeNodeDTO(KubeNodeBO kubeNodeBO) {
+        if (kubeNodeBO == null) {
+            return null;
+        }
+        KubeNodeDTO kubeNodeDTO = new KubeNodeDTO();
+        BeanUtils.copyProperties(kubeNodeBO, kubeNodeDTO);
+        return kubeNodeDTO;
+    }
+
     public static KubeNamespaceDTO kubeNamespaceBOTOkubeNamespaceDTO(KubeNamespaceBO kubeNamespaceBO) {
         if (kubeNamespaceBO == null) {
             return null;
@@ -103,5 +119,27 @@ public class BoToDtoUtils {
         BeanUtils.copyProperties(kubeNamespaceBO, kubeNamespaceDTO);
         return kubeNamespaceDTO;
     }
+
+
+
+    public static KubePodDTO kubePodBOTOKubePodDTO(KubePodBO kubePodBO) {
+        if (kubePodBO == null) {
+            return null;
+        }
+        KubePodDTO kubePodDTO = new KubePodDTO();
+        BeanUtils.copyProperties(kubePodBO, kubePodDTO);
+        return kubePodDTO;
+    }
+
+    public static KubePodDetailDTO kubePodDetailBOTOKubePodDetailDTO(KubePodDetailBO kubePodDetailBO) {
+        if (kubePodDetailBO == null) {
+            return null;
+        }
+        KubePodDetailDTO kubePodDetailDTO = new KubePodDetailDTO();
+        BeanUtils.copyProperties(kubePodDetailBO, kubePodDetailDTO);
+        return kubePodDetailDTO;
+    }
+
+
 
 }

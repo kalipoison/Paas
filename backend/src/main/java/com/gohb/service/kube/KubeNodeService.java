@@ -1,5 +1,6 @@
 package com.gohb.service.kube;
 
+import com.gohb.bo.kube.KubeNodeBO;
 import io.kubernetes.client.openapi.models.V1Node;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
  */
 public interface KubeNodeService {
 
-    List<V1Node> listNode();
+    List<KubeNodeBO> listNode();
 
     V1Node nodeDetail(String nodeName);
 }

@@ -3,7 +3,7 @@
     <el-header>
       <div>
         <img src="../assets/logo.png" width="50px" height="50px" alt />
-        <span>通用后台管理系统</span>
+        <span>Paas 后台系统</span>
       </div>
       <el-button type="info" @click="logout">退出</el-button>
     </el-header>
