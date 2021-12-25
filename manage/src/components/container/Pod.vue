@@ -129,6 +129,18 @@
         <el-form-item label="容器开放端口" prop="containerPort">
           <el-input v-model="addPodForm.containerPort"></el-input>
         </el-form-item>
+        <el-form-item label="CPU资源上限" prop="limitCPU">
+          <el-input v-model="addPodForm.limitCPU"></el-input>
+        </el-form-item>
+        <el-form-item label="最少CPU资源" prop="requestCPU">
+          <el-input v-model="addPodForm.requestCPU"></el-input>
+        </el-form-item>
+        <el-form-item label="内存资源上限" prop="limitMemory">
+          <el-input v-model="addPodForm.limitMemory"></el-input>
+        </el-form-item>
+        <el-form-item label="最少内存资源" prop="requestMemory">
+          <el-input v-model="addPodForm.requestMemory"></el-input>
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="addDialogVisible = false">取 消</el-button>
@@ -238,6 +250,10 @@ export default {
         specConatinersName: '',
         specContainersImage: '',
         containerPort: '',
+        limitCPU: '',
+        requestCPU: '',
+        limitMemory: '',
+        requestMemory: ''
       },
       // Yaml添加Pod对话框
       addYamlDialogVisible: false,

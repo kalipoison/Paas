@@ -75,10 +75,10 @@ public class KubePodServiceImpl implements KubePodService {
                 kubePodContainerBO.setImage(v1Container.getImage());
                 Map<String, Quantity> limits = v1Container.getResources().getLimits();
                 Map<String, Quantity> requests = v1Container.getResources().getRequests();
-                String limitsCPU = limits != null && limits.get("cpu") != null ? limits.get("cpu").toString() : "无上限";
-                String requestsCPU = requests != null && requests.get("cpu") != null ? requests.get("cpu").toString() : "无最低要求";
-                String limitsMemory = limits != null && limits.get("memory") != null ? limits.get("memory").toString() : "无上限";
-                String requestsMemory = requests != null && requests.get("memory") != null ? requests.get("memory").toString() : "无最低要求";
+                String limitsCPU = limits != null && limits.get("cpu") != null ? limits.get("cpu").toSuffixedString() : "无上限";
+                String requestsCPU = requests != null && requests.get("cpu") != null ? requests.get("cpu").toSuffixedString() : "无最低要求";
+                String limitsMemory = limits != null && limits.get("memory") != null ? limits.get("memory").toSuffixedString() : "无上限";
+                String requestsMemory = requests != null && requests.get("memory") != null ? requests.get("memory").toSuffixedString() : "无最低要求";
                 kubePodContainerBO.setLimitsCPU(limitsCPU);
                 kubePodContainerBO.setLimitsMemory(limitsMemory);
                 kubePodContainerBO.setRequestsCPU(requestsCPU);
@@ -114,8 +114,11 @@ public class KubePodServiceImpl implements KubePodService {
                 .containers(Arrays.asList(new V1Container()
                     .name(createPodRequest.getSpecConatinersName())
                     .image(createPodRequest.getSpecContainersImage())
+                    .resources(getV1ResourceRequirements(createPodRequest))
                     .ports(Arrays.asList(new V1ContainerPort()
                         .containerPort(createPodRequest.getContainerPort()))))));
+
+
         KubePodBO kubePodBO = null;
         try {
             String namespace = (createPodRequest.getNamespace() == null || "".equals(createPodRequest.getNamespace())) ? "default" : createPodRequest.getNamespace();
@@ -144,6 +147,27 @@ public class KubePodServiceImpl implements KubePodService {
             v1ObjectMeta.setLabels(labels);
         }
         return v1ObjectMeta;
+    }
+
+    private V1ResourceRequirements getV1ResourceRequirements(CreatePodRequest createPodRequest) {
+        V1ResourceRequirements resource = new V1ResourceRequirements();
+        Map<String, Quantity> limits = new HashMap<>();
+        if (createPodRequest.getLimitCPU() != null && !"".equals(createPodRequest.getLimitCPU())) {
+            limits.put("cpu", Quantity.fromString(createPodRequest.getLimitCPU()));
+        }
+        if (createPodRequest.getLimitMemory() != null && !"".equals(createPodRequest.getLimitMemory())) {
+            limits.put("memory", Quantity.fromString(createPodRequest.getLimitMemory()));
+        }
+        resource.setLimits(limits);
+        Map<String, Quantity> requests = new HashMap<>();
+        if (createPodRequest.getRequestCPU() != null && !"".equals(createPodRequest.getRequestCPU())) {
+            requests.put("cpu", Quantity.fromString(createPodRequest.getLimitCPU()));
+        }
+        if (createPodRequest.getRequestMemory() != null && !"".equals(createPodRequest.getRequestMemory())) {
+            requests.put("memory", Quantity.fromString(createPodRequest.getRequestMemory()));
+        }
+        resource.setRequests(requests);
+        return resource;
     }
 
 }

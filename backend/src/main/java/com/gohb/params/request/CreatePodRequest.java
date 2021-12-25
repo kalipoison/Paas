@@ -12,7 +12,6 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @ToString
 @Accessors(chain = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CreatePodRequest {
 
     /**
@@ -49,5 +48,25 @@ public class CreatePodRequest {
      * 容器开放端口
      */
     private Integer containerPort;
+
+    /**
+     * CPU资源上限
+     */
+    private String limitCPU;
+
+    /**
+     * 最少需要的CPU资源
+     */
+    private String requestCPU;
+
+    /**
+     * 内存资源上限
+     */
+    private String limitMemory;
+
+    /**
+     * 最少需要的内存资源
+     */
+    private String requestMemory;
 
 }
