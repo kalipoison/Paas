@@ -1,10 +1,10 @@
 package com.gohb.manage.sys.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.gohb.bo.sys.SysMenuBO;
-import com.gohb.bo.sys.SysUserBO;
+import com.gohb.params.bo.sys.SysMenuBO;
+import com.gohb.params.bo.sys.SysUserBO;
 import com.gohb.convert.BoToDtoUtils;
-import com.gohb.dto.sys.SysMenuDTO;
+import com.gohb.params.dto.sys.SysMenuDTO;
 import com.gohb.manage.sys.SysMenuManage;
 import com.gohb.service.sys.SysMenuService;
 import com.gohb.service.sys.SysUserService;

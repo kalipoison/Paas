@@ -1,13 +1,13 @@
 package com.gohb.manage.kube.impl;
 
-import com.gohb.bo.kube.KubePodBO;
-import com.gohb.bo.kube.KubePodDetailBO;
+import com.gohb.params.bo.kube.KubePodBO;
+import com.gohb.params.bo.kube.KubePodDetailBO;
 import com.gohb.convert.BoToDtoUtils;
-import com.gohb.dto.kube.KubePodDTO;
-import com.gohb.dto.kube.KubePodDetailDTO;
+import com.gohb.params.dto.kube.KubePodDTO;
+import com.gohb.params.dto.kube.KubePodDetailDTO;
 import com.gohb.manage.kube.KubePodManage;
+import com.gohb.params.request.CreatePodRequest;
 import com.gohb.service.kube.KubePodService;
-import io.kubernetes.client.openapi.models.V1Pod;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.ManagedBean;
@@ -47,5 +47,12 @@ public class KubePodManageImpl implements KubePodManage {
     @Override
     public String podDetailYaml(String namespace, String podName) {
         return kubePodService.podDetailYaml(namespace, podName);
+    }
+
+    @Override
+    public KubePodDTO createPod(CreatePodRequest createPodRequest) {
+        KubePodBO kubePodBO = kubePodService.createPod(createPodRequest);
+        KubePodDTO kubePodDTO = BoToDtoUtils.kubePodBOTOKubePodDTO(kubePodBO);
+        return kubePodDTO;
     }
 }

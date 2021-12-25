@@ -1,7 +1,7 @@
 package com.gohb.service.sys.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.gohb.bo.sys.SysUserBO;
+import com.gohb.params.bo.sys.SysUserBO;
 import com.gohb.service.sys.SysUserService;
 import com.gohb.mapper.SysUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;

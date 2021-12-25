@@ -1,21 +1,25 @@
 package com.gohb.service.kube.impl;
 
-import com.gohb.bo.kube.KubePodBO;
-import com.gohb.bo.kube.KubePodContainerBO;
-import com.gohb.bo.kube.KubePodDetailBO;
+import com.gohb.params.bo.kube.KubePodBO;
+import com.gohb.params.bo.kube.KubePodContainerBO;
+import com.gohb.params.bo.kube.KubePodDetailBO;
 import com.gohb.convert.KubeToBoUtils;
+import com.gohb.params.exception.KubeException;
+import com.gohb.params.request.CreatePodRequest;
 import com.gohb.service.kube.KubePodService;
+import io.kubernetes.client.custom.Quantity;
 import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.apis.CoreV1Api;
 import io.kubernetes.client.openapi.models.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class KubePodServiceImpl implements KubePodService {
 
     @Autowired
@@ -36,7 +40,8 @@ public class KubePodServiceImpl implements KubePodService {
                 kubePodBOS.add(KubeToBoUtils.v1PodTOKubePodBO(v1Pod));
             }
         } catch (ApiException e) {
-            e.printStackTrace();
+            log.info(e.getMessage());
+            throw new KubeException(e.getMessage());
         }
         return kubePodBOS;
     }
@@ -68,6 +73,16 @@ public class KubePodServiceImpl implements KubePodService {
                 KubePodContainerBO kubePodContainerBO = new KubePodContainerBO();
                 kubePodContainerBO.setName(v1Container.getName());
                 kubePodContainerBO.setImage(v1Container.getImage());
+                Map<String, Quantity> limits = v1Container.getResources().getLimits();
+                Map<String, Quantity> requests = v1Container.getResources().getRequests();
+                String limitsCPU = limits != null && limits.get("cpu") != null ? limits.get("cpu").toString() : "无上限";
+                String requestsCPU = requests != null && requests.get("cpu") != null ? requests.get("cpu").toString() : "无最低要求";
+                String limitsMemory = limits != null && limits.get("memory") != null ? limits.get("memory").toString() : "无上限";
+                String requestsMemory = requests != null && requests.get("memory") != null ? requests.get("memory").toString() : "无最低要求";
+                kubePodContainerBO.setLimitsCPU(limitsCPU);
+                kubePodContainerBO.setLimitsMemory(limitsMemory);
+                kubePodContainerBO.setRequestsCPU(requestsCPU);
+                kubePodContainerBO.setRequestsMemory(requestsMemory);
                 List<Integer> ports = v1Container.getPorts().stream().map(V1ContainerPort::getContainerPort).collect(Collectors.toList());
                 kubePodContainerBO.setPorts(ports);
                 kubePodContainerBOList.add(kubePodContainerBO);
@@ -91,7 +106,44 @@ public class KubePodServiceImpl implements KubePodService {
     }
 
     @Override
-    public V1Pod createPod(String podName) {
-        return null;
+    public KubePodBO createPod(CreatePodRequest createPodRequest) {
+        V1Pod body = new V1Pod()
+            .apiVersion(createPodRequest.getApiVersion())
+            .metadata(getV1ObjectMeta(createPodRequest))
+            .spec(new V1PodSpec()
+                .containers(Arrays.asList(new V1Container()
+                    .name(createPodRequest.getSpecConatinersName())
+                    .image(createPodRequest.getSpecContainersImage())
+                    .ports(Arrays.asList(new V1ContainerPort()
+                        .containerPort(createPodRequest.getContainerPort()))))));
+        KubePodBO kubePodBO = null;
+        try {
+            String namespace = (createPodRequest.getNamespace() == null || "".equals(createPodRequest.getNamespace())) ? "default" : createPodRequest.getNamespace();
+            V1Pod pod = coreV1Api.createNamespacedPod(namespace, body, null, null, null);
+            kubePodBO = KubeToBoUtils.v1PodTOKubePodBO(pod);
+        } catch (ApiException e) {
+            log.info(e.getMessage());
+            throw new KubeException(e.getMessage());
+        }
+        return kubePodBO;
     }
+
+    /**
+     * 根据 label 内 app 是否为空，
+     * 生成 V1ObjectMeta
+     * @param createPodRequest
+     * @return
+     */
+    private V1ObjectMeta getV1ObjectMeta(CreatePodRequest createPodRequest) {
+        V1ObjectMeta v1ObjectMeta = new V1ObjectMeta();
+        v1ObjectMeta.setName(createPodRequest.getMetadataName());
+//        v1ObjectMeta.setNamespace(createPodRequest.getNamespace());
+        if (createPodRequest.getMetadataLabelsApp() != null && !"".equals(createPodRequest.getMetadataLabelsApp())) {
+            Map<String, String> labels = new HashMap<>();
+            labels.put("app", createPodRequest.getMetadataLabelsApp());
+            v1ObjectMeta.setLabels(labels);
+        }
+        return v1ObjectMeta;
+    }
+
 }

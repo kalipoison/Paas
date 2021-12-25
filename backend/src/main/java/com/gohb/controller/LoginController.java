@@ -1,8 +1,7 @@
 package com.gohb.controller;
 
-import com.gohb.dto.Result;
-import com.gohb.dto.ResultUtils;
-import org.springframework.web.bind.annotation.GetMapping;
+import com.gohb.params.dto.Result;
+import com.gohb.params.dto.ResultUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

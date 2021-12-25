@@ -1,7 +1,7 @@
 package com.gohb.service.sys.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.gohb.bo.sys.SysMenuBO;
+import com.gohb.params.bo.sys.SysMenuBO;
 import com.gohb.service.sys.SysMenuService;
 import com.gohb.mapper.SysMenuMapper;
 import lombok.extern.slf4j.Slf4j;

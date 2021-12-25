@@ -1,6 +1,6 @@
 package com.gohb.manage.kube.impl;
 
-import com.gohb.bo.kube.KubeServiceBO;
+import com.gohb.params.bo.kube.KubeServiceBO;
 import com.gohb.convert.KubeToBoUtils;
 import com.gohb.manage.kube.KubeServiceManage;
 import com.gohb.service.kube.KubeServiceService;

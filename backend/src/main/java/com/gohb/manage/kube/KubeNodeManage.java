@@ -1,6 +1,6 @@
 package com.gohb.manage.kube;
 
-import com.gohb.dto.kube.KubeNodeDTO;
+import com.gohb.params.dto.kube.KubeNodeDTO;
 import io.kubernetes.client.openapi.models.V1Node;
 
 import java.util.List;

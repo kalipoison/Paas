@@ -1,6 +1,6 @@
 package com.gohb.convert;
 
-import com.gohb.bo.kube.*;
+import com.gohb.params.bo.kube.*;
 import io.kubernetes.client.openapi.models.*;
 import org.joda.time.DateTime;
 
@@ -50,6 +50,7 @@ public class KubeToBoUtils {
         try{
             kubePodBO.setPodName(v1Pod.getMetadata().getName());
             kubePodBO.setNamespace(v1Pod.getMetadata().getNamespace());
+            kubePodBO.setLabelsApp(v1Pod.getMetadata().getLabels().get("app"));
             kubePodBO.setCreateTime(DateTimeUtils.kubeDateTimeToString(v1Pod.getMetadata().getCreationTimestamp()));
             kubePodBO.setRestartPolicy(v1Pod.getSpec().getRestartPolicy());
             kubePodBO.setServiceAccount(v1Pod.getSpec().getServiceAccount());

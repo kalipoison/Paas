@@ -3,8 +3,8 @@
     <!-- 面包屑导航区 -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>系统管理</el-breadcrumb-item>
-      <el-breadcrumb-item>管理员列表</el-breadcrumb-item>
+      <el-breadcrumb-item>容器管理</el-breadcrumb-item>
+      <el-breadcrumb-item>namespace管理</el-breadcrumb-item>
     </el-breadcrumb>
     <!-- 卡片视图 -->
     <el-card>
@@ -28,22 +28,6 @@
         <el-table-column prop="status" label="状态"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button
-              type="primary"
-              icon="el-icon-edit"
-              size="mini"
-              content="编辑角色"
-              circle
-              @click="showEditDialog(scope.row.userId)"
-            ></el-button>
-            <el-button
-              type="danger"
-              icon="el-icon-delete"
-              size="mini"
-              content="删除角色"
-              circle
-              @click="removeUserById(scope.row.userId)"
-            ></el-button>
             <el-tooltip
               class="item"
               effect="dark"
@@ -52,11 +36,12 @@
               placement="top"
             >
               <el-button
-                type="warning"
-                icon="el-icon-setting"
+                type="danger"
+                icon="el-icon-delete"
                 size="mini"
+                content="删除角色"
                 circle
-                @click="showSetRole(scope.row)"
+                @click="removeUserById(scope.row.userId)"
               ></el-button>
             </el-tooltip>
           </template>
@@ -102,67 +87,6 @@
       </span>
     </el-dialog>
 
-    <!-- 修改用户的对话框 -->
-    <el-dialog
-      title="修改用户信息"
-      :visible.sync="editDialogVisible"
-      width="50%"
-      @close="editDialogClosed"
-    >
-      <!-- 内容主体 -->
-      <el-form
-        :model="editUserForm"
-        ref="editUserFormRef"
-        :rules="editUserFormRules"
-        label-width="70px"
-      >
-        <el-form-item label="用户名">
-          <el-input v-model="editUserForm.username" disabled></el-input>
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input v-model="editUserForm.password" placeholder="为空则不修改密码"></el-input>
-        </el-form-item>
-        <el-form-item label="邮箱" prop="email">
-          <el-input v-model="editUserForm.email"></el-input>
-        </el-form-item>
-        <el-form-item label="手机" prop="mobile">
-          <el-input v-model="editUserForm.mobile"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="editDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editUser">确 定</el-button>
-      </span>
-    </el-dialog>
-
-    <!-- 分配角色对话框 -->
-    <el-dialog title="分配角色" :visible.sync="setRoleDialogVisible" width="50%" @close="setRoleDialogClosed">
-      <div>
-        <p>当前用户：{{userInfo.username}}</p>
-        <p>当前角色：{{userInfo.roleName}}</p>
-        <p>
-          分配角色：
-          <el-select
-            v-model="selectRoleId"
-            filterable
-            allow-create
-            default-first-option
-            placeholder="请选择文章标签"
-          >
-            <el-option
-              v-for="item in rolesLsit"
-              :key="item.roleId"
-              :label="item.roleName"
-              :value="item.roleId"
-            ></el-option>
-          </el-select>
-        </p>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="setRoleDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="saveRoleInfo">确 定</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 
@@ -266,8 +190,9 @@ export default {
   methods: {
     async getUserList () {
         const { data: res } = await this.$http.get('/auth/namespace')
+        console.info('res', res);
         if (!res.success) {
-            return this.$message.error('获取namespace失败！')
+            return this.$message.error(res.message)
         }
         this.userlist = res.data;
         this.totle = res.count;

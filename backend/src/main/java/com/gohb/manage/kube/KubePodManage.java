@@ -1,10 +1,8 @@
 package com.gohb.manage.kube;
 
-import com.gohb.bo.kube.KubePodBO;
-import com.gohb.bo.kube.KubePodDetailBO;
-import com.gohb.dto.kube.KubePodDTO;
-import com.gohb.dto.kube.KubePodDetailDTO;
-import io.kubernetes.client.openapi.models.V1Pod;
+import com.gohb.params.dto.kube.KubePodDTO;
+import com.gohb.params.dto.kube.KubePodDetailDTO;
+import com.gohb.params.request.CreatePodRequest;
 
 import java.util.List;
 
@@ -40,4 +38,10 @@ public interface KubePodManage {
      * @return
      */
     String podDetailYaml(String namespace, String podName);
+
+    /**
+     * 创建一个Pod
+     * @param createPodRequest
+     */
+    KubePodDTO createPod(CreatePodRequest createPodRequest);
 }

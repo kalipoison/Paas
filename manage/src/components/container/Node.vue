@@ -64,7 +64,7 @@ export default {
     async getNodeList () {
         const { data: res } = await this.$http.get('/auth/node')
         if (!res.success) {
-            return this.$message.error('获取node列表失败！')
+            return this.$message.error(res.message)
         }
         this.nodelist = res.data;
         this.totle = res.count;

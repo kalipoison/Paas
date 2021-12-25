@@ -1,7 +1,7 @@
 package com.gohb.manage.kube;
 
-import com.gohb.bo.kube.KubeNamespaceBO;
-import com.gohb.dto.kube.KubeNamespaceDTO;
+import com.gohb.params.bo.kube.KubeNamespaceBO;
+import com.gohb.params.dto.kube.KubeNamespaceDTO;
 import io.kubernetes.client.openapi.models.V1Namespace;
 import io.kubernetes.client.openapi.models.V1Status;
 

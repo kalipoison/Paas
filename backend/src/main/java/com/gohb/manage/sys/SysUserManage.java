@@ -2,9 +2,9 @@ package com.gohb.manage.sys;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.gohb.bo.sys.SysUserBO;
-import com.gohb.bo.sys.SysUserRoleBO;
-import com.gohb.dto.sys.SysUserDTO;
+import com.gohb.params.bo.sys.SysUserBO;
+import com.gohb.params.bo.sys.SysUserRoleBO;
+import com.gohb.params.dto.sys.SysUserDTO;
 
 public interface SysUserManage {
 

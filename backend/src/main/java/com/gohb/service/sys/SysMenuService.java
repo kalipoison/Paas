@@ -1,6 +1,6 @@
 package com.gohb.service.sys;
 
-import com.gohb.bo.sys.SysMenuBO;
+import com.gohb.params.bo.sys.SysMenuBO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

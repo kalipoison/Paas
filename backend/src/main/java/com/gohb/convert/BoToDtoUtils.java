@@ -1,15 +1,15 @@
 package com.gohb.convert;
 
-import com.gohb.bo.kube.KubeNamespaceBO;
-import com.gohb.bo.kube.KubeNodeBO;
-import com.gohb.bo.kube.KubePodBO;
-import com.gohb.bo.kube.KubePodDetailBO;
-import com.gohb.bo.sys.*;
-import com.gohb.dto.kube.KubeNamespaceDTO;
-import com.gohb.dto.kube.KubeNodeDTO;
-import com.gohb.dto.kube.KubePodDTO;
-import com.gohb.dto.kube.KubePodDetailDTO;
-import com.gohb.dto.sys.*;
+import com.gohb.params.bo.kube.KubeNamespaceBO;
+import com.gohb.params.bo.kube.KubeNodeBO;
+import com.gohb.params.bo.kube.KubePodBO;
+import com.gohb.params.bo.kube.KubePodDetailBO;
+import com.gohb.params.bo.sys.*;
+import com.gohb.params.dto.kube.KubeNamespaceDTO;
+import com.gohb.params.dto.kube.KubeNodeDTO;
+import com.gohb.params.dto.kube.KubePodDTO;
+import com.gohb.params.dto.kube.KubePodDetailDTO;
+import com.gohb.params.dto.sys.*;
 import org.springframework.beans.BeanUtils;
 
 /**

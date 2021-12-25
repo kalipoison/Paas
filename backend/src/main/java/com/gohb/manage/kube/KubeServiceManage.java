@@ -1,6 +1,6 @@
 package com.gohb.manage.kube;
 
-import com.gohb.bo.kube.KubeServiceBO;
+import com.gohb.params.bo.kube.KubeServiceBO;
 import io.kubernetes.client.custom.IntOrString;
 import io.kubernetes.client.openapi.models.V1Status;
 

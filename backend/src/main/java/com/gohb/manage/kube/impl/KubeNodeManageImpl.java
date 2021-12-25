@@ -1,9 +1,8 @@
 package com.gohb.manage.kube.impl;
 
-import com.gohb.bo.kube.KubeNodeBO;
+import com.gohb.params.bo.kube.KubeNodeBO;
 import com.gohb.convert.BoToDtoUtils;
-import com.gohb.convert.DateTimeUtils;
-import com.gohb.dto.kube.KubeNodeDTO;
+import com.gohb.params.dto.kube.KubeNodeDTO;
 import com.gohb.manage.kube.KubeNodeManage;
 import com.gohb.service.kube.KubeNodeService;
 import io.kubernetes.client.openapi.models.V1Node;

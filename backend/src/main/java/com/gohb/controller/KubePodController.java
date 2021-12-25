@@ -1,10 +1,12 @@
 package com.gohb.controller;
 
-import com.gohb.dto.Result;
-import com.gohb.dto.ResultUtils;
-import com.gohb.dto.kube.KubePodDTO;
-import com.gohb.dto.kube.KubePodDetailDTO;
+import com.gohb.params.dto.Result;
+import com.gohb.params.dto.ResultUtils;
+import com.gohb.params.dto.kube.KubePodDTO;
+import com.gohb.params.dto.kube.KubePodDetailDTO;
 import com.gohb.manage.kube.KubePodManage;
+import com.gohb.params.request.CreatePodRequest;
+import io.kubernetes.client.openapi.ApiClient;
 import io.kubernetes.client.openapi.models.V1Pod;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,18 +46,45 @@ public class KubePodController {
         return ResultUtils.getSuccessResult(kubePodDTO);
     }
 
+    /**
+     * Pod 详情
+     * @param namespace
+     * @param podName
+     * @return
+     */
     @GetMapping("/detail")
     public Result<KubePodDetailDTO> podDetail(@RequestParam("namespace") String namespace, @RequestParam("podName") String podName) {
         KubePodDetailDTO kubePodDetailDTO = kubePodManage.podDetail(namespace, podName);
         return ResultUtils.getSuccessResult(kubePodDetailDTO);
     }
 
+    /**
+     * Pod 所以信息， yaml格式
+     * @param namespace
+     * @param podName
+     * @return
+     */
     @GetMapping("/detailYml")
     public Result<String> podDetailYml(@RequestParam("namespace") String namespace, @RequestParam("podName") String podName) {
         String podDetailYaml = kubePodManage.podDetailYaml(namespace, podName);
         return ResultUtils.getSuccessResult(podDetailYaml);
     }
 
+    @PostMapping("")
+    public Result<String> createPod(CreatePodRequest createPodRequest) {
+        KubePodDTO kubePodDTO = kubePodManage.createPod(createPodRequest);
+        return ResultUtils.getSuccessResult("pod : " + kubePodDTO.getPodName() + "创建成功");
+    }
+
+
+    @Autowired
+    private ApiClient apiClient;
+
+    @PostMapping("/createByYaml")
+    public Result createByYaml(@RequestParam("podInfo") String podInfo) {
+        V1Pod v1Pod = apiClient.getJSON().deserialize(podInfo, V1Pod.class);
+        return ResultUtils.getSuccessResult("sss");
+    }
 
 
 }

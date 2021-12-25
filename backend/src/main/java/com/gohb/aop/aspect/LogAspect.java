@@ -3,8 +3,8 @@
 //import com.alibaba.fastjson.JSON;
 //import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 //import com.gohb.aop.anno.Log;
-//import com.gohb.bo.sys.SysLogBO;
-//import com.gohb.bo.sys.SysUserBO;
+//import com.gohb.params.bo.sys.SysLogBO;
+//import com.gohb.params.bo.sys.SysUserBO;
 //import com.gohb.service.sys.SysLogService;
 //import com.gohb.service.sys.SysUserService;
 //import org.aspectj.lang.ProceedingJoinPoint;

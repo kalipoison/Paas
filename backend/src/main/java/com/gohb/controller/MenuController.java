@@ -1,12 +1,12 @@
 package com.gohb.controller;
 
 import com.gohb.aop.anno.Log;
-import com.gohb.bo.sys.SysMenuBO;
+import com.gohb.params.bo.sys.SysMenuBO;
 import com.gohb.constant.StatusCodeConstant;
-import com.gohb.dto.sys.MenuAndAuthDTO;
-import com.gohb.dto.Result;
-import com.gohb.dto.ResultUtils;
-import com.gohb.dto.sys.SysMenuDTO;
+import com.gohb.params.dto.sys.MenuAndAuthDTO;
+import com.gohb.params.dto.Result;
+import com.gohb.params.dto.ResultUtils;
+import com.gohb.params.dto.sys.SysMenuDTO;
 import com.gohb.manage.sys.SysMenuManage;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

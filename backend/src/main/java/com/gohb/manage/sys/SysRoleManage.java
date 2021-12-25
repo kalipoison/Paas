@@ -1,7 +1,7 @@
 package com.gohb.manage.sys;
 
-import com.gohb.bo.sys.SysRoleBO;
-import com.gohb.dto.sys.SysRoleDTO;
+import com.gohb.params.bo.sys.SysRoleBO;
+import com.gohb.params.dto.sys.SysRoleDTO;
 
 import java.util.List;
 

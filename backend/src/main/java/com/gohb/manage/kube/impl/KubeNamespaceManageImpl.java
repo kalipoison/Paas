@@ -1,10 +1,10 @@
 package com.gohb.manage.kube.impl;
 
 
-import com.gohb.bo.kube.KubeNamespaceBO;
+import com.gohb.params.bo.kube.KubeNamespaceBO;
 import com.gohb.convert.BoToDtoUtils;
 import com.gohb.convert.KubeToBoUtils;
-import com.gohb.dto.kube.KubeNamespaceDTO;
+import com.gohb.params.dto.kube.KubeNamespaceDTO;
 import com.gohb.manage.kube.KubeNamespaceManage;
 import com.gohb.service.kube.KubeNamespaceService;
 import io.kubernetes.client.openapi.models.V1Namespace;

@@ -1,12 +1,14 @@
 package com.gohb.service.kube.impl;
 
-import com.gohb.bo.kube.KubeNodeBO;
+import com.gohb.params.bo.kube.KubeNodeBO;
 import com.gohb.convert.KubeToBoUtils;
+import com.gohb.params.exception.KubeException;
 import com.gohb.service.kube.KubeNodeService;
 import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.apis.CoreV1Api;
 import io.kubernetes.client.openapi.models.V1Node;
 import io.kubernetes.client.openapi.models.V1NodeList;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class KubeNodeServiceImpl implements KubeNodeService {
 
     @Autowired
@@ -31,7 +34,8 @@ public class KubeNodeServiceImpl implements KubeNodeService {
                 kubeNodeBOS.add(kubeNodeBO);
             }
         } catch (ApiException e) {
-            e.printStackTrace();
+            log.info(e.getMessage());
+            throw new KubeException(e.getMessage());
         }
         return kubeNodeBOS;
     }

@@ -1,7 +1,8 @@
 package com.gohb.service.kube.impl;
 
-import com.gohb.bo.kube.KubeNamespaceBO;
+import com.gohb.params.bo.kube.KubeNamespaceBO;
 import com.gohb.convert.KubeToBoUtils;
+import com.gohb.params.exception.KubeException;
 import com.gohb.service.kube.KubeNamespaceService;
 import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.apis.CoreV1Api;
@@ -73,7 +74,8 @@ public class KubeNameSpaceServiceImpl implements KubeNamespaceService {
         try {
             v1Namespace = coreV1Api.readNamespace(namespace, null, null, null);
         } catch (ApiException e) {
-            v1Namespace = null;
+            log.info(e.getMessage());
+            throw new KubeException(e.getMessage());
         }
         return v1Namespace;
     }

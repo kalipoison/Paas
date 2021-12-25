@@ -1,6 +1,6 @@
 package com.gohb.mapper;
 
-import com.gohb.bo.sys.SysMenuBO;
+import com.gohb.params.bo.sys.SysMenuBO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;

@@ -1,10 +1,10 @@
 package com.gohb.manage.sys.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.gohb.bo.sys.SysRoleBO;
+import com.gohb.params.bo.sys.SysRoleBO;
 import com.gohb.convert.BoToDtoUtils;
-import com.gohb.dto.sys.SysRoleDTO;
-import com.gohb.exception.SysException;
+import com.gohb.params.dto.sys.SysRoleDTO;
+import com.gohb.params.exception.SysException;
 import com.gohb.manage.sys.SysRoleManage;
 import com.gohb.service.sys.SysRoleService;
 import com.gohb.service.sys.SysUserService;

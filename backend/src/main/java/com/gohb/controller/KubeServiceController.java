@@ -1,9 +1,9 @@
 package com.gohb.controller;
 
-import com.gohb.bo.kube.KubeServiceBO;
+import com.gohb.params.bo.kube.KubeServiceBO;
 import com.gohb.constant.StatusCodeConstant;
-import com.gohb.dto.Result;
-import com.gohb.dto.ResultUtils;
+import com.gohb.params.dto.Result;
+import com.gohb.params.dto.ResultUtils;
 import com.gohb.manage.kube.KubeServiceManage;
 import io.kubernetes.client.custom.IntOrString;
 import io.kubernetes.client.openapi.models.V1Status;

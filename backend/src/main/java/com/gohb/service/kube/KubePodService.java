@@ -1,7 +1,8 @@
 package com.gohb.service.kube;
 
-import com.gohb.bo.kube.KubePodBO;
-import com.gohb.bo.kube.KubePodDetailBO;
+import com.gohb.params.bo.kube.KubePodBO;
+import com.gohb.params.bo.kube.KubePodDetailBO;
+import com.gohb.params.request.CreatePodRequest;
 import io.kubernetes.client.openapi.models.V1Pod;
 
 import java.util.List;
@@ -41,9 +42,8 @@ public interface KubePodService {
 
     /**
      * 创建pod
-     * @param podName
+     * @param createPodRequest
      * @return
      */
-    V1Pod createPod(String podName);
-
+    KubePodBO createPod(CreatePodRequest createPodRequest);
 }

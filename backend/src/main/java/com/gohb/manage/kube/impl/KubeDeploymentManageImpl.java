@@ -1,7 +1,7 @@
 package com.gohb.manage.kube.impl;
 
-import com.gohb.bo.kube.KubeDeploymentBO;
-import com.gohb.bo.kube.KubeNamespaceBO;
+import com.gohb.params.bo.kube.KubeDeploymentBO;
+import com.gohb.params.bo.kube.KubeNamespaceBO;
 import com.gohb.convert.KubeToBoUtils;
 import com.gohb.manage.kube.KubeDeploymentManage;
 import com.gohb.service.kube.KubeDeploymentService;

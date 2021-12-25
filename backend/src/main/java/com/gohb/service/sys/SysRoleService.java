@@ -1,6 +1,6 @@
 package com.gohb.service.sys;
 
-import com.gohb.bo.sys.SysRoleBO;
+import com.gohb.params.bo.sys.SysRoleBO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

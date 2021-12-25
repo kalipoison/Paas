@@ -1,7 +1,7 @@
 package com.gohb.manage.sys;
 
-import com.gohb.bo.sys.SysMenuBO;
-import com.gohb.dto.sys.SysMenuDTO;
+import com.gohb.params.bo.sys.SysMenuBO;
+import com.gohb.params.dto.sys.SysMenuDTO;
 
 import java.util.List;
 

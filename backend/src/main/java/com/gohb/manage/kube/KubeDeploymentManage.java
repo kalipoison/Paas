@@ -1,6 +1,6 @@
 package com.gohb.manage.kube;
 
-import com.gohb.bo.kube.KubeDeploymentBO;
+import com.gohb.params.bo.kube.KubeDeploymentBO;
 import io.kubernetes.client.openapi.models.V1Status;
 
 import java.util.List;
