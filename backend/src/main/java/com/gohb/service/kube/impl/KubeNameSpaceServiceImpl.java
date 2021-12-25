@@ -69,14 +69,15 @@ public class KubeNameSpaceServiceImpl implements KubeNamespaceService {
     }
 
     @Override
-    public V1Namespace namespaceDetail(String namespace) {
-        V1Namespace v1Namespace = null;
+    public String namespaceDetail(String namespace) {
+        String namespaceDetail = "";
         try {
-            v1Namespace = coreV1Api.readNamespace(namespace, null, null, null);
+            V1Namespace v1Namespace = coreV1Api.readNamespace(namespace, null, null, null);
+            namespaceDetail = v1Namespace.toString();
         } catch (ApiException e) {
             log.info(e.getMessage());
             throw new KubeException(e.getMessage());
         }
-        return v1Namespace;
+        return namespaceDetail;
     }
 }

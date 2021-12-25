@@ -22,18 +22,12 @@ public class KubeNamespaceController {
 
     @PostMapping("")
     public Result<V1Namespace> createNamespace(@RequestParam("namespace") String namespace) {
-        if (kubeNamespaceManage.isExistNamespace(namespace)) {
-            return ResultUtils.getFailedResult(StatusCodeConstant.isExist, "namespace is exist");
-        }
         V1Namespace v1Namespace = kubeNamespaceManage.createNamespace(namespace);
         return ResultUtils.getSuccessResult(v1Namespace);
     }
 
     @DeleteMapping("")
     public Result<V1Status> deleteNamespace(@RequestParam("namespace") String namespace) {
-        if (!kubeNamespaceManage.isExistNamespace(namespace)) {
-            return ResultUtils.getFailedResult(StatusCodeConstant.isExist, "namespace is not exist");
-        }
         V1Status v1Status = kubeNamespaceManage.deleteNamespace(namespace);
         return ResultUtils.getSuccessResult(v1Status);
     }
@@ -44,19 +38,10 @@ public class KubeNamespaceController {
         return ResultUtils.getSuccessResult(kubeNamespaceDTOS);
     }
 
-    @GetMapping("exist")
-    public Result<Boolean> isExistNamespace(@RequestParam("namespace") String namespace) {
-        Boolean exist = kubeNamespaceManage.isExistNamespace(namespace);
-        return ResultUtils.getSuccessResult(exist);
-    }
-
     @GetMapping("detail")
-    public Result<KubeNamespaceBO> namespaceDetail(@RequestParam("namespace") String namespace) {
-        if (!kubeNamespaceManage.isExistNamespace(namespace)) {
-            return ResultUtils.getFailedResult(StatusCodeConstant.isExist, "namespace is not exist");
-        }
-        KubeNamespaceBO kubeNamespaceBO = kubeNamespaceManage.namespaceDetail(namespace);
-        return ResultUtils.getSuccessResult(kubeNamespaceBO);
+    public Result<String> namespaceDetail(@RequestParam("namespace") String namespace) {
+        String namespaceDetail = kubeNamespaceManage.namespaceDetail(namespace);
+        return ResultUtils.getSuccessResult(namespaceDetail);
     }
 
 }

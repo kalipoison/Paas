@@ -384,6 +384,7 @@ export default {
           podName : podInfo.podName
         }
       })
+      if (!res.success) return this.$message.error(res.message)
       this.infoYamlDialogVisible = true;
       this.infoYamlPodForm.info = res.data;
     },

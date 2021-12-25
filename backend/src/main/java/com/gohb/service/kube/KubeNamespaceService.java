@@ -30,5 +30,5 @@ public interface KubeNamespaceService {
     /**
      * namespace详情
      */
-    V1Namespace namespaceDetail(String namespace);
+    String namespaceDetail(String namespace);
 }

@@ -15,8 +15,6 @@ public interface KubeNamespaceManage {
 
     List<KubeNamespaceDTO> listNamespace();
 
-    KubeNamespaceBO namespaceDetail(String namespace);
-
-    Boolean isExistNamespace(String namespace);
+    String namespaceDetail(String namespace);
 
 }

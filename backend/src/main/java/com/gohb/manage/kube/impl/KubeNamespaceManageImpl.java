@@ -40,15 +40,9 @@ public class KubeNamespaceManageImpl implements KubeNamespaceManage {
         return kubeNamespaceDTOS;
     }
 
-    public KubeNamespaceBO namespaceDetail(String namespace) {
-        V1Namespace v1Namespace = kubeNamespaceService.namespaceDetail(namespace);
-        KubeNamespaceBO kubeNamespaceBO = KubeToBoUtils.V1NamespaceToKubeNamespaceBO(v1Namespace);
-        return kubeNamespaceBO;
+    public String namespaceDetail(String namespace) {
+        return kubeNamespaceService.namespaceDetail(namespace);
     }
 
-    public Boolean isExistNamespace(String namespace) {
-        V1Namespace v1Namespace = kubeNamespaceService.namespaceDetail(namespace);
-        return v1Namespace == null ? false : true;
-    }
 
 }
