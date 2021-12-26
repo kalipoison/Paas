@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface KubeDeploymentService {
 
-    List<V1Deployment> listDeployment(String namespace);
+    List<KubeDeploymentBO> listDeployment(String namespace);
 
     KubeDeploymentDetailBO detailDeployment(String deploymentName, String namespace);
 

@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface KubeDeploymentManage {
 
-    List<KubeDeploymentBO> listDeployment(String namespace);
+    List<KubeDeploymentDTO> listDeployment(String namespace);
 
     KubeDeploymentDetailDTO detailDeployment(String deploymentName, String namespace);
 

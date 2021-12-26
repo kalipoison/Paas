@@ -7,10 +7,9 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.Map;
 
 /**
- * k8s deployment dto
+ * k8s deployment bo
  */
 @Data
 @AllArgsConstructor
@@ -27,7 +26,7 @@ public class KubeDeploymentDTO implements Serializable {
 
     Integer replicas;
 
-    Map<String,String> labels;
+    String matchLabels;
 
     String restartPolicy;
 

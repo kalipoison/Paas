@@ -107,7 +107,11 @@ public class KubeToBoUtils {
             String name = v1Deployment.getMetadata().getName();
             kubeDeploymentBO.setName(name);
             kubeDeploymentBO.setNamespace(v1Deployment.getMetadata().getNamespace());
-            kubeDeploymentBO.setLabels(v1Deployment.getMetadata().getLabels());
+            String matchLabelsApp = "";
+            if (v1Deployment.getSpec().getSelector().getMatchLabels().get("app") != null) {
+                matchLabelsApp = v1Deployment.getSpec().getSelector().getMatchLabels().get("app");
+            }
+            kubeDeploymentBO.setMatchLabels(matchLabelsApp);
             kubeDeploymentBO.setSelfLink(v1Deployment.getMetadata().getSelfLink());
             kubeDeploymentBO.setRestartPolicy(v1Deployment.getSpec().getTemplate().getSpec().getRestartPolicy());
             kubeDeploymentBO.setReplicas(v1Deployment.getStatus().getReplicas());

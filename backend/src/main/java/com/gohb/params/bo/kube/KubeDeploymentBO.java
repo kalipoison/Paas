@@ -27,7 +27,7 @@ public class KubeDeploymentBO implements Serializable {
 
     Integer replicas;
 
-    Map<String,String> labels;
+    String matchLabels;
 
     String restartPolicy;
 

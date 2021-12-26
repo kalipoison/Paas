@@ -23,9 +23,9 @@ public class KubeDeploymentController {
 
 
     @GetMapping("")
-    public Result<List<KubeDeploymentBO>> listDeployment(@RequestParam(value = "namespace", required = false) String namespace) {
-        List<KubeDeploymentBO> kubeDeploymentBOS = kubeDeploymentManage.listDeployment(namespace);
-        return ResultUtils.getSuccessResult(kubeDeploymentBOS);
+    public Result<List<KubeDeploymentDTO>> listDeployment(@RequestParam(value = "namespace", required = false) String namespace) {
+        List<KubeDeploymentDTO> kubeDeploymentDTOS = kubeDeploymentManage.listDeployment(namespace);
+        return ResultUtils.getSuccessResult(kubeDeploymentDTOS);
     }
 
     @GetMapping("/detail")

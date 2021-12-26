@@ -29,6 +29,7 @@
         <el-table-column type="index" label="#"></el-table-column>
         <el-table-column prop="name" label="deploymentName"></el-table-column>
         <el-table-column prop="namespace" label="namspace"></el-table-column>
+        <el-table-column prop="matchLabels" label="label"></el-table-column>
         <el-table-column prop="replicas" label="replicas"></el-table-column>
         <el-table-column prop="restartPolicy" label="restartPolicy"></el-table-column>
         <el-table-column prop="unavilableReplicas" label="unavilableReplicas"></el-table-column>

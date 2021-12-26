@@ -31,29 +31,30 @@ public class KubeDeploymentManageImpl implements KubeDeploymentManage {
     private KubeNamespaceService kubeNamespaceService;
 
     @Override
-    public List<KubeDeploymentBO> listDeployment(String namespace) {
-        List<KubeDeploymentBO> kubeDeploymentBOS = new ArrayList<>();
+    public List<KubeDeploymentDTO> listDeployment(String namespace) {
+        List<KubeDeploymentDTO> kubeDeploymentDTOList = new ArrayList<>();
         if(namespace != null && !"".equals(namespace)) {
-            List<KubeDeploymentBO> kubeDeploymentBOList = listDeploymentByNamespace(namespace);
-            kubeDeploymentBOS.addAll(kubeDeploymentBOList);
+            List<KubeDeploymentDTO> kubeDeploymentDTOS = listDeploymentByNamespace(namespace);
+            kubeDeploymentDTOList.addAll(kubeDeploymentDTOS);
         } else {
             List<KubeNamespaceBO> kubeNamespaceBOS = kubeNamespaceService.listNamespace();
             List<String> namespaceList = kubeNamespaceBOS.stream().map(KubeNamespaceBO::getName).collect(Collectors.toList());
             for (String name : namespaceList) {
-                List<KubeDeploymentBO> kubeDeploymentBOList = listDeploymentByNamespace(name);
-                kubeDeploymentBOS.addAll(kubeDeploymentBOList);
+                List<KubeDeploymentDTO> kubeDeploymentDTOS = listDeploymentByNamespace(name);
+                kubeDeploymentDTOList.addAll(kubeDeploymentDTOS);
             }
         }
-        return kubeDeploymentBOS;
+        return kubeDeploymentDTOList;
     }
 
-    private List<KubeDeploymentBO>  listDeploymentByNamespace(String namespace) {
-        List<KubeDeploymentBO> kubeDeploymentBOS = new ArrayList<>();
-        List<V1Deployment> v1Deployments = kubeDeploymentService.listDeployment(namespace);
-        for (V1Deployment v1Deployment : v1Deployments) {
-            kubeDeploymentBOS.add(KubeToBoUtils.v1DeploymentToKubeDeploymentBO(v1Deployment));
+    private List<KubeDeploymentDTO>  listDeploymentByNamespace(String namespace) {
+        List<KubeDeploymentBO> kubeDeploymentBOS = kubeDeploymentService.listDeployment(namespace);
+        List<KubeDeploymentDTO> kubeDeploymentDTOS = new ArrayList<>();
+        for (KubeDeploymentBO kubeDeploymentBO : kubeDeploymentBOS) {
+            KubeDeploymentDTO kubeDeploymentDTO = BoToDtoUtils.kubeDeploymentBOTOKubeDeploymentDTO(kubeDeploymentBO);
+            kubeDeploymentDTOS.add(kubeDeploymentDTO);
         }
-        return kubeDeploymentBOS;
+        return kubeDeploymentDTOS;
     }
 
     @Override

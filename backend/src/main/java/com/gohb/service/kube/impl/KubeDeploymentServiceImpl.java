@@ -23,15 +23,19 @@ public class KubeDeploymentServiceImpl implements KubeDeploymentService {
     private AppsV1Api appsV1Api;
 
     @Override
-    public List<V1Deployment> listDeployment(String namespace) {
-        List<V1Deployment> v1Deployments = null;
+    public List<KubeDeploymentBO> listDeployment(String namespace) {
+        List<KubeDeploymentBO> kubeDeploymentBOS = new ArrayList<>();
         try {
             V1DeploymentList v1DeploymentList = appsV1Api.listNamespacedDeployment(namespace, null, null, null, null, null, null, null, null, null, null);
-            v1Deployments = v1DeploymentList.getItems();
+            List<V1Deployment> v1Deployments = v1DeploymentList.getItems();
+            for (V1Deployment v1Deployment : v1Deployments) {
+                KubeDeploymentBO kubeDeploymentBO = KubeToBoUtils.v1DeploymentToKubeDeploymentBO(v1Deployment);
+                kubeDeploymentBOS.add(kubeDeploymentBO);
+            }
         } catch (ApiException e) {
-            return v1Deployments;
+            e.printStackTrace();
         }
-        return v1Deployments;
+        return kubeDeploymentBOS;
     }
 
     @Override
