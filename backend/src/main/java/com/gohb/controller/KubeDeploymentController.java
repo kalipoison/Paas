@@ -4,6 +4,10 @@ import com.gohb.params.bo.kube.KubeDeploymentBO;
 import com.gohb.params.dto.Result;
 import com.gohb.params.dto.ResultUtils;
 import com.gohb.manage.kube.KubeDeploymentManage;
+import com.gohb.params.dto.kube.KubeDeploymentDTO;
+import com.gohb.params.dto.kube.KubeDeploymentDetailDTO;
+import com.gohb.params.request.CreateDeploymentRequest;
+import com.gohb.params.request.UpdateDeploymentRequest;
 import io.kubernetes.client.openapi.models.V1Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,10 +29,22 @@ public class KubeDeploymentController {
     }
 
     @GetMapping("/detail")
-    public Result<KubeDeploymentBO> detailDeployment(@RequestParam("deploymentName") String deploymentName,
-                                         @RequestParam("namespace") String namespace) {
-        KubeDeploymentBO kubeDeploymentBO = kubeDeploymentManage.detailDeployment(deploymentName, namespace);
-        return ResultUtils.getSuccessResult(kubeDeploymentBO);
+    public Result<KubeDeploymentDetailDTO> detailDeployment(@RequestParam("deploymentName") String deploymentName,
+                                                            @RequestParam("namespace") String namespace) {
+        KubeDeploymentDetailDTO kubeDeploymentDetailDTO = kubeDeploymentManage.detailDeployment(deploymentName, namespace);
+        return ResultUtils.getSuccessResult(kubeDeploymentDetailDTO);
+    }
+
+    /**
+     * deploymentName 所有信息， yaml格式
+     * @param namespace
+     * @param deploymentName
+     * @return
+     */
+    @GetMapping("/detailYml")
+    public Result<String> deploymentDetailYml(@RequestParam("namespace") String namespace, @RequestParam("deploymentName") String deploymentName) {
+        String podDetailYaml = kubeDeploymentManage.deploymentDetailYaml(namespace, deploymentName);
+        return ResultUtils.getSuccessResult(podDetailYaml);
     }
 
     @DeleteMapping("")
@@ -39,21 +55,15 @@ public class KubeDeploymentController {
     }
 
     @PutMapping("")
-    public Result<KubeDeploymentBO> updateDeployment(@RequestParam("deploymentName") String deploymentName,
-                                         @RequestParam("namepsace") String namepsace, @RequestParam("replicas") Integer replicas,
-                                         @RequestParam("metadataLabelsApp") String metadataLabelsApp, @RequestParam("image") String image,
-                                         @RequestParam("portName") String portName, @RequestParam("containerPort") Integer containerPort) {
-        KubeDeploymentBO kubeDeploymentBO = kubeDeploymentManage.updateDeployment(deploymentName, namepsace, replicas, metadataLabelsApp, image, portName, containerPort);
-        return ResultUtils.getSuccessResult(kubeDeploymentBO);
+    public Result<KubeDeploymentDTO> updateDeployment(UpdateDeploymentRequest updateDeploymentRequest) {
+        KubeDeploymentDTO kubeDeploymentDTO = kubeDeploymentManage.updateDeployment(updateDeploymentRequest);
+        return ResultUtils.getSuccessResult(kubeDeploymentDTO);
     }
 
     @PostMapping("")
-    public Result<KubeDeploymentBO> createDeployment(@RequestParam("deploymentName") String deploymentName,
-                                         @RequestParam("namepsace") String namepsace, @RequestParam("replicas") Integer replicas,
-                                         @RequestParam("metadataLabelsApp") String metadataLabelsApp, @RequestParam("image") String image,
-                                         @RequestParam("portName") String portName, @RequestParam("containerPort") Integer containerPort) {
-        KubeDeploymentBO kubeDeploymentBO = kubeDeploymentManage.createDeployment(deploymentName, namepsace, replicas, metadataLabelsApp, image, portName, containerPort);
-        return ResultUtils.getSuccessResult(kubeDeploymentBO);
+    public Result<KubeDeploymentDTO> createDeployment(CreateDeploymentRequest createDeploymentRequest) {
+        KubeDeploymentDTO kubeDeploymentDTO = kubeDeploymentManage.createDeployment(createDeploymentRequest);
+        return ResultUtils.getSuccessResult(kubeDeploymentDTO);
     }
 
 

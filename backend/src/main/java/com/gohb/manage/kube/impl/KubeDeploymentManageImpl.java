@@ -1,9 +1,15 @@
 package com.gohb.manage.kube.impl;
 
+import com.gohb.convert.BoToDtoUtils;
 import com.gohb.params.bo.kube.KubeDeploymentBO;
+import com.gohb.params.bo.kube.KubeDeploymentDetailBO;
 import com.gohb.params.bo.kube.KubeNamespaceBO;
 import com.gohb.convert.KubeToBoUtils;
 import com.gohb.manage.kube.KubeDeploymentManage;
+import com.gohb.params.dto.kube.KubeDeploymentDTO;
+import com.gohb.params.dto.kube.KubeDeploymentDetailDTO;
+import com.gohb.params.request.CreateDeploymentRequest;
+import com.gohb.params.request.UpdateDeploymentRequest;
 import com.gohb.service.kube.KubeDeploymentService;
 import com.gohb.service.kube.KubeNamespaceService;
 import io.kubernetes.client.openapi.models.V1Deployment;
@@ -51,10 +57,10 @@ public class KubeDeploymentManageImpl implements KubeDeploymentManage {
     }
 
     @Override
-    public KubeDeploymentBO detailDeployment(String deploymentName, String namespace) {
-        V1Deployment v1Deployment = kubeDeploymentService.detailDeployment(deploymentName, namespace);
-        KubeDeploymentBO kubeDeploymentBO = KubeToBoUtils.v1DeploymentToKubeDeploymentBO(v1Deployment);
-        return kubeDeploymentBO;
+    public KubeDeploymentDetailDTO detailDeployment(String deploymentName, String namespace) {
+        KubeDeploymentDetailBO kubeDeploymentDetailBO = kubeDeploymentService.detailDeployment(deploymentName, namespace);
+        KubeDeploymentDetailDTO kubeDeploymentDetailDTO = BoToDtoUtils.kubeDeploymentDetailBOTOKubeDeploymentDetailDTO(kubeDeploymentDetailBO);
+        return kubeDeploymentDetailDTO;
     }
 
     @Override
@@ -64,16 +70,21 @@ public class KubeDeploymentManageImpl implements KubeDeploymentManage {
     }
 
     @Override
-    public KubeDeploymentBO updateDeployment(String deploymentName, String namepsace, Integer replicas, String metadataLabelsApp, String image, String portName, Integer containerPort) {
-        V1Deployment v1Deployment = kubeDeploymentService.updateDeployment(deploymentName, namepsace, replicas, metadataLabelsApp, image, portName, containerPort);
-        KubeDeploymentBO kubeDeploymentBO = KubeToBoUtils.v1DeploymentToKubeDeploymentBO(v1Deployment);
-        return kubeDeploymentBO;
+    public KubeDeploymentDTO updateDeployment(UpdateDeploymentRequest updateDeploymentRequest) {
+        KubeDeploymentBO kubeDeploymentBO = kubeDeploymentService.updateDeployment(updateDeploymentRequest);
+        KubeDeploymentDTO kubeDeploymentDTO = BoToDtoUtils.kubeDeploymentBOTOKubeDeploymentDTO(kubeDeploymentBO);
+        return kubeDeploymentDTO;
     }
 
     @Override
-    public KubeDeploymentBO createDeployment(String deploymentName, String namepsace, Integer replicas, String metadataLabelsApp, String image, String portName, Integer containerPort) {
-        V1Deployment v1Deployment = kubeDeploymentService.createDeployment(deploymentName, namepsace, replicas, metadataLabelsApp, image, portName, containerPort);
-        KubeDeploymentBO kubeDeploymentBO = KubeToBoUtils.v1DeploymentToKubeDeploymentBO(v1Deployment);
-        return kubeDeploymentBO;
+    public KubeDeploymentDTO createDeployment(CreateDeploymentRequest createDeploymentRequest) {
+        KubeDeploymentBO kubeDeploymentBO = kubeDeploymentService.createDeployment(createDeploymentRequest);
+        KubeDeploymentDTO kubeDeploymentDTO = BoToDtoUtils.kubeDeploymentBOTOKubeDeploymentDTO(kubeDeploymentBO);
+        return kubeDeploymentDTO;
+    }
+
+    @Override
+    public String deploymentDetailYaml(String namespace, String deploymentName) {
+        return kubeDeploymentService.deploymentDetailYaml(namespace, deploymentName);
     }
 }

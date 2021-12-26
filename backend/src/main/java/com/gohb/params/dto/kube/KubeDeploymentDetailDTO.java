@@ -1,6 +1,5 @@
-package com.gohb.params.request;
+package com.gohb.params.dto.kube;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,7 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @ToString
 @Accessors(chain = true)
-public class CreatePodRequest {
+public class KubeDeploymentDetailDTO {
 
     /**
      * 定义k8s api的版本
@@ -20,34 +19,39 @@ public class CreatePodRequest {
     private String apiVersion;
 
     /**
-     * 命名空间
+     * k8s namespace
      */
     private String namespace;
 
     /**
-     * 属性，名字
+     * 属性，名称
      */
     private String metadataName;
 
     /**
-     * 属性，标签叫app ： xx
+     * 标签选择器
      */
-    private String metadataLabelsApp;
+    private String matchLabelsApp;
+
+    /**
+     * 副本数
+     */
+    private String replicas;
 
     /**
      * 容器名
      */
-    private String specConatinersName;
+    private String templateSpecConatinersName;
 
     /**
      * 容器镜像
      */
-    private String specContainersImage;
+    private String templateSpecContainersImage;
 
     /**
      * 容器开放端口
      */
-    private String containerPort;
+    private String templateContainerPort;
 
     /**
      * CPU资源上限
@@ -68,5 +72,4 @@ public class CreatePodRequest {
      * 最少需要的内存资源
      */
     private String requestMemory;
-
 }

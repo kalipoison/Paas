@@ -1,12 +1,11 @@
 package com.gohb.convert;
 
 import com.gohb.params.bo.kube.*;
+import io.kubernetes.client.custom.Quantity;
 import io.kubernetes.client.openapi.models.*;
 import org.joda.time.DateTime;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * k8s 返回值过多，提取有用的
@@ -103,23 +102,55 @@ public class KubeToBoUtils {
 
     public static KubeDeploymentBO v1DeploymentToKubeDeploymentBO(V1Deployment v1Deployment){
         KubeDeploymentBO kubeDeploymentBO = new KubeDeploymentBO();
-        System.out.println(v1Deployment.getMetadata().getName());
-        String name = v1Deployment.getMetadata().getName();
-        kubeDeploymentBO.setName(name);
-        kubeDeploymentBO.setNamespace(v1Deployment.getMetadata().getNamespace());
-        kubeDeploymentBO.setLabels(v1Deployment.getMetadata().getLabels());
-        kubeDeploymentBO.setSelfLink(v1Deployment.getMetadata().getSelfLink());
-        kubeDeploymentBO.setRestartPolicy(v1Deployment.getSpec().getTemplate().getSpec().getRestartPolicy());
-        kubeDeploymentBO.setReplicas(v1Deployment.getStatus().getReplicas());
-        kubeDeploymentBO.setUnavilableReplicas(v1Deployment.getStatus().getUnavailableReplicas() != null ?
-                v1Deployment.getStatus().getUnavailableReplicas() : 0);
-        kubeDeploymentBO.setAvilableReplicas(v1Deployment.getStatus().getAvailableReplicas() != null ?
-                v1Deployment.getStatus().getAvailableReplicas() : 0);
-        return kubeDeploymentBO;
-//        try {
-//        } catch (Exception e) {
-//            return kubeDeploymentBO;
-//        }
+        try {
+            System.out.println(v1Deployment.getMetadata().getName());
+            String name = v1Deployment.getMetadata().getName();
+            kubeDeploymentBO.setName(name);
+            kubeDeploymentBO.setNamespace(v1Deployment.getMetadata().getNamespace());
+            kubeDeploymentBO.setLabels(v1Deployment.getMetadata().getLabels());
+            kubeDeploymentBO.setSelfLink(v1Deployment.getMetadata().getSelfLink());
+            kubeDeploymentBO.setRestartPolicy(v1Deployment.getSpec().getTemplate().getSpec().getRestartPolicy());
+            kubeDeploymentBO.setReplicas(v1Deployment.getStatus().getReplicas());
+            kubeDeploymentBO.setUnavilableReplicas(v1Deployment.getStatus().getUnavailableReplicas() != null ?
+                    v1Deployment.getStatus().getUnavailableReplicas() : 0);
+            kubeDeploymentBO.setAvilableReplicas(v1Deployment.getStatus().getAvailableReplicas() != null ?
+                    v1Deployment.getStatus().getAvailableReplicas() : 0);
+            return kubeDeploymentBO;
+        } catch (Exception e) {
+            return kubeDeploymentBO;
+        }
+    }
+
+    public static KubeDeploymentDetailBO v1DeploymentToKubeDeploymentDetailBO(V1Deployment v1Deployment) {
+        KubeDeploymentDetailBO kubeDeploymentDetailBO = new KubeDeploymentDetailBO();
+        try {
+            kubeDeploymentDetailBO.setApiVersion(v1Deployment.getApiVersion());
+            kubeDeploymentDetailBO.setNamespace(v1Deployment.getMetadata().getNamespace());
+            kubeDeploymentDetailBO.setMetadataName(v1Deployment.getMetadata().getName());
+            String matchLabelsApp = "";
+            if (v1Deployment.getSpec().getSelector().getMatchLabels().get("app") != null) {
+                matchLabelsApp = v1Deployment.getSpec().getSelector().getMatchLabels().get("app");
+            }
+            kubeDeploymentDetailBO.setMatchLabelsApp(matchLabelsApp);
+            kubeDeploymentDetailBO.setReplicas(String.valueOf(v1Deployment.getSpec().getReplicas()));
+            kubeDeploymentDetailBO.setTemplateSpecConatinersName(v1Deployment.getSpec().getTemplate().getSpec().getContainers().get(0).getName());
+            kubeDeploymentDetailBO.setTemplateSpecContainersImage(v1Deployment.getSpec().getTemplate().getSpec().getContainers().get(0).getImage());
+            kubeDeploymentDetailBO.setTemplateContainerPort(String.valueOf(v1Deployment.getSpec().getTemplate().getSpec().getContainers().get(0).getPorts().get(0).getContainerPort()));
+            V1ResourceRequirements resources = v1Deployment.getSpec().getTemplate().getSpec().getContainers().get(0).getResources();
+            Map<String, Quantity> limits = resources.getLimits();
+            String limitCPU = limits.get("cpu") != null ? limits.get("cpu").toSuffixedString() : "";
+            String limitMemory = limits.get("memory") != null ? limits.get("memory").toSuffixedString() : "";
+            Map<String, Quantity> requests = resources.getRequests();
+            String requestCPU = requests.get("cpu") != null ? requests.get("cpu").toSuffixedString() : "";
+            String requestMemory = requests.get("memory") != null ? requests.get("memory").toSuffixedString() : "";
+            kubeDeploymentDetailBO.setLimitCPU(limitCPU);
+            kubeDeploymentDetailBO.setLimitMemory(limitMemory);
+            kubeDeploymentDetailBO.setRequestCPU(requestCPU);
+            kubeDeploymentDetailBO.setRequestMemory(requestMemory);
+            return kubeDeploymentDetailBO;
+        } catch (Exception e) {
+            return kubeDeploymentDetailBO;
+        }
     }
 
 }

@@ -1,6 +1,10 @@
 package com.gohb.service.kube;
 
 
+import com.gohb.params.bo.kube.KubeDeploymentBO;
+import com.gohb.params.bo.kube.KubeDeploymentDetailBO;
+import com.gohb.params.request.CreateDeploymentRequest;
+import com.gohb.params.request.UpdateDeploymentRequest;
 import io.kubernetes.client.openapi.models.V1Deployment;
 import io.kubernetes.client.openapi.models.V1Status;
 
@@ -10,11 +14,13 @@ public interface KubeDeploymentService {
 
     List<V1Deployment> listDeployment(String namespace);
 
-    V1Deployment detailDeployment(String deploymentName, String namespace);
+    KubeDeploymentDetailBO detailDeployment(String deploymentName, String namespace);
 
     V1Status deleteDeployment(String deploymentName, String namespace);
 
-    V1Deployment updateDeployment(String deploymentName, String namepsace, Integer replicas, String metadataLabelsApp, String image, String portName, Integer containerPort);
+    KubeDeploymentBO updateDeployment(UpdateDeploymentRequest updateDeploymentRequest);
 
-    V1Deployment createDeployment(String deploymentName, String namepsace, Integer replicas, String metadataLabelsApp, String image, String portName, Integer containerPort);
+    KubeDeploymentBO createDeployment(CreateDeploymentRequest createDeploymentRequest);
+
+    String deploymentDetailYaml(String namespace, String deploymentName);
 }

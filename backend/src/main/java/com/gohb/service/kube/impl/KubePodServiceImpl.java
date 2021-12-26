@@ -116,7 +116,7 @@ public class KubePodServiceImpl implements KubePodService {
                     .image(createPodRequest.getSpecContainersImage())
                     .resources(getV1ResourceRequirements(createPodRequest))
                     .ports(Arrays.asList(new V1ContainerPort()
-                        .containerPort(createPodRequest.getContainerPort()))))));
+                        .containerPort(Integer.valueOf(createPodRequest.getContainerPort())))))));
 
 
         KubePodBO kubePodBO = null;

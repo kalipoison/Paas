@@ -3,24 +3,28 @@
     <!-- 面包屑导航区 -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>系统管理</el-breadcrumb-item>
-      <el-breadcrumb-item>管理员列表</el-breadcrumb-item>
+      <el-breadcrumb-item>容器管理</el-breadcrumb-item>
+      <el-breadcrumb-item>Delpyment列表</el-breadcrumb-item>
     </el-breadcrumb>
     <!-- 卡片视图 -->
     <el-card>
       <!-- 搜索 添加 -->
       <el-row :gutter="20">
         <el-col :span="6">
-          <el-input placeholder="请输入用户名" v-model="queryInfo.query" clearable @clear="getUserList">
-            <el-button slot="append" icon="el-icon-search" @click="getUserList"></el-button>
+          <el-input placeholder="请输入namespace" v-model="queryInfo.query" clearable @clear="getDeploymentList">
+            <el-button slot="append" icon="el-icon-search" @click="getDeploymentList"></el-button>
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary" @click="addDialogVisible = true">添加用户</el-button>
+          <el-button type="primary" @click="addDialogVisible = true">添加Deployment</el-button>
+        </el-col>
+        <el-col :span="4">
+          <el-button type="primary" @click="addYamlDialogVisible = true">Yaml格式自定义Deployment</el-button>
         </el-col>
       </el-row>
-      <!-- 用户列表区域 -->
-      <el-table :data="userlist" border stripe>
+      <el-divider></el-divider>
+      <!-- Deployment 列表区域 -->
+      <el-table :data="deploymentlist" border stripe>
         <!-- stripe: 斑马条纹 border：边框-->
         <el-table-column type="index" label="#"></el-table-column>
         <el-table-column prop="name" label="deploymentName"></el-table-column>
@@ -31,37 +35,55 @@
         <el-table-column prop="avilableReplicas" label="avilableReplicas"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button
-              type="primary"
-              icon="el-icon-edit"
-              size="mini"
-              content="编辑角色"
-              circle
-              @click="showEditDialog(scope.row.userId)"
-            ></el-button>
-            <el-button
-              type="danger"
-              icon="el-icon-delete"
-              size="mini"
-              content="删除角色"
-              circle
-              @click="removeUserById(scope.row.userId)"
-            ></el-button>
             <el-tooltip
               class="item"
               effect="dark"
-              content="角色分配"
+              content="编辑 Delpyment 信息"
               :enterable="false"
               placement="top"
             >
               <el-button
                 type="warning"
-                icon="el-icon-setting"
+                icon="el-icon-edit"
                 size="mini"
+                content="编辑 Delpyment 信息"
                 circle
-                @click="showSetRole(scope.row)"
+                @click="showEditDialog(scope.row)"
               ></el-button>
             </el-tooltip>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="更多Deployment信息"
+              :enterable="false"
+              placement="top"
+            >
+              <el-button
+                type="success"
+                icon="el-icon-more"
+                size="mini"
+                content="更多Deployment信息"
+                circle
+                @click="InfoYamlDeployment(scope.row)"
+              ></el-button>
+            </el-tooltip>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="删除Pod"
+              :enterable="false"
+              placement="top"
+            >
+              <el-button
+                type="danger"
+                icon="el-icon-delete"
+                size="mini"
+                content="删除Pod"
+                circle
+                @click="removeDeployment(scope.row)"
+              ></el-button>
+            </el-tooltip>
+
           </template>
         </el-table-column>
       </el-table>
@@ -77,121 +99,150 @@
       ></el-pagination>
     </el-card>
 
-    <!-- 添加用户的对话框 -->
-    <el-dialog title="添加用户" :visible.sync="addDialogVisible" width="50%" @close="addDialogClosed">
+    <!-- 添加 Deployment 的对话框 -->
+    <el-dialog title="新增 Deployment" :visible.sync="addDialogVisible" width="50%" @close="addDialogClosed">
       <!-- 内容主体 -->
       <el-form
-        :model="addUserForm"
-        ref="addUserFormRef"
-        :rules="addUserFormRules"
+        :model="addDeploymentForm"
+        ref="addDeploymentFormRef"
         label-width="100px"
       >
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="addUserForm.username"></el-input>
+        <el-form-item label="apiVersion" prop="apiVersion">
+          <el-input v-model="addDeploymentForm.apiVersion" @input="change($event)"></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input v-model="addUserForm.password"></el-input>
+        <el-form-item label="deployment名" prop="metadataName">
+          <el-input v-model="addDeploymentForm.metadataName" @input="change($event)"></el-input>
         </el-form-item>
-        <el-form-item label="邮箱" prop="email">
-          <el-input v-model="addUserForm.email"></el-input>
+        <el-form-item label="namespace" prop="namespace">
+          <el-input v-model="addDeploymentForm.namespace" @input="change($event)"></el-input>
         </el-form-item>
-        <el-form-item label="手机" prop="mobile">
-          <el-input v-model="addUserForm.mobile"></el-input>
+        <el-form-item label="标签选择器" prop="matchLabelsApp">
+          <el-input v-model="addDeploymentForm.matchLabelsApp" @input="change($event)"></el-input>
+        </el-form-item>
+        <el-form-item label="副本数" prop="replicas">
+          <el-input v-model="addDeploymentForm.replicas" @input="change($event)"></el-input>
+        </el-form-item>
+        <el-form-item label="模板容器名" prop="templateSpecConatinersName">
+          <el-input v-model="addDeploymentForm.templateSpecConatinersName" @input="change($event)"></el-input>
+        </el-form-item>
+        <el-form-item label="模板容器镜像" prop="templateSpecContainersImage">
+          <el-input v-model="addDeploymentForm.templateSpecContainersImage" @input="change($event)"></el-input>
+        </el-form-item>
+        <el-form-item label="模板容器开放端口" prop="templateContainerPort">
+          <el-input v-model="addDeploymentForm.templateContainerPort" @input="change($event)"></el-input>
+        </el-form-item>
+        <el-form-item label="模板CPU资源上限" prop="limitCPU">
+          <el-input v-model="addDeploymentForm.limitCPU" @input="change($event)"></el-input>
+        </el-form-item>
+        <el-form-item label="模板最少CPU资源" prop="requestCPU">
+          <el-input v-model="addDeploymentForm.requestCPU" @input="change($event)"></el-input>
+        </el-form-item>
+        <el-form-item label="模板内存资源上限" prop="limitMemory">
+          <el-input v-model="addDeploymentForm.limitMemory" @input="change($event)"></el-input>
+        </el-form-item>
+        <el-form-item label="模板最少内存资源" prop="requestMemory">
+          <el-input v-model="addDeploymentForm.requestMemory" @input="change($event)"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="addDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addUser">确 定</el-button>
+        <el-button type="primary" @click="addDeployment">确 定</el-button>
       </span>
     </el-dialog>
 
-    <!-- 修改用户的对话框 -->
-    <el-dialog
-      title="修改用户信息"
-      :visible.sync="editDialogVisible"
-      width="50%"
-      @close="editDialogClosed"
-    >
+    <!-- Yaml 方式添加Pod的对话框 -->
+    <el-dialog title="新增 Deployment(Yaml 格式)" :visible.sync="addYamlDialogVisible" width="50%" @close="infoYamlDialogClosed">
       <!-- 内容主体 -->
       <el-form
-        :model="editUserForm"
-        ref="editUserFormRef"
-        :rules="editUserFormRules"
-        label-width="70px"
+        :model="addYamlPodForm"
+        ref="addYamlPodFormRef"
+        label-width="100px"
       >
-        <el-form-item label="用户名">
-          <el-input v-model="editUserForm.username" disabled></el-input>
+
+        <el-input type="textarea" v-model="addYamlPodForm.podYamlInfo" placeholder="" :autosize="{ minRows: 7}" @input="change($event)">
+        </el-input>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addYamlDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addPodYaml()">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <!-- 编辑 Deployment 的对话框 -->
+    <el-dialog title="编辑 Deployment" :visible.sync="editDialogVisible" width="50%" @close="editDialogClosed">
+      <!-- 内容主体 -->
+      <el-form
+        :model="editDeploymentForm"
+        ref="editDeploymentFormRef"
+        label-width="100px"
+      >
+        <el-form-item label="Deployment" prop="metadataName">
+          <el-input v-model="editDeploymentForm.metadataName" disabled></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input v-model="editUserForm.password" placeholder="为空则不修改密码"></el-input>
+        <el-form-item label="namespace" prop="namespace">
+          <el-input v-model="editDeploymentForm.namespace" disabled></el-input>
         </el-form-item>
-        <el-form-item label="邮箱" prop="email">
-          <el-input v-model="editUserForm.email"></el-input>
+        <el-form-item label="apiVersion" prop="apiVersion">
+          <el-input v-model="editDeploymentForm.apiVersion"></el-input>
         </el-form-item>
-        <el-form-item label="手机" prop="mobile">
-          <el-input v-model="editUserForm.mobile"></el-input>
+        <el-form-item label="标签选择器" prop="matchLabelsApp">
+          <el-input v-model="editDeploymentForm.matchLabelsApp"></el-input>
+        </el-form-item>
+        <el-form-item label="副本数" prop="replicas">
+          <el-input v-model="editDeploymentForm.replicas"></el-input>
+        </el-form-item>
+        <el-form-item label="模板容器名" prop="templateSpecConatinersName">
+          <el-input v-model="editDeploymentForm.templateSpecConatinersName"></el-input>
+        </el-form-item>
+        <el-form-item label="模板容器镜像" prop="templateSpecContainersImage">
+          <el-input v-model="editDeploymentForm.templateSpecContainersImage"></el-input>
+        </el-form-item>
+        <el-form-item label="模板容器开放端口" prop="templateContainerPort">
+          <el-input v-model="editDeploymentForm.templateContainerPort"></el-input>
+        </el-form-item>
+        <el-form-item label="模板CPU资源上限" prop="limitCPU">
+          <el-input v-model="editDeploymentForm.limitCPU"></el-input>
+        </el-form-item>
+        <el-form-item label="模板最少CPU资源" prop="requestCPU">
+          <el-input v-model="editDeploymentForm.requestCPU"></el-input>
+        </el-form-item>
+        <el-form-item label="模板内存资源上限" prop="limitMemory">
+          <el-input v-model="editDeploymentForm.limitMemory"></el-input>
+        </el-form-item>
+        <el-form-item label="模板最少内存资源" prop="requestMemory">
+          <el-input v-model="editDeploymentForm.requestMemory"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="editDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editUser">确 定</el-button>
+        <el-button type="primary" @click="editDeployment">确 定</el-button>
       </span>
     </el-dialog>
 
-    <!-- 分配角色对话框 -->
-    <el-dialog title="分配角色" :visible.sync="setRoleDialogVisible" width="50%" @close="setRoleDialogClosed">
-      <div>
-        <p>当前用户：{{userInfo.username}}</p>
-        <p>当前角色：{{userInfo.roleName}}</p>
-        <p>
-          分配角色：
-          <el-select
-            v-model="selectRoleId"
-            filterable
-            allow-create
-            default-first-option
-            placeholder="请选择文章标签"
-          >
-            <el-option
-              v-for="item in rolesLsit"
-              :key="item.roleId"
-              :label="item.roleName"
-              :value="item.roleId"
-            ></el-option>
-          </el-select>
-        </p>
-      </div>
+    <!-- 更多 Deployment 信息的对话框 -->
+    <el-dialog title="Deployment 详细信息" :visible.sync="infoYamlDialogVisible" width="50%" @close="infoYamlDialogClosed">
+      <!-- 内容主体 -->
+      <el-form
+        :model="InfoYamlDeploymentForm"
+        ref="InfoYamlDeploymentFormRef"
+        label-width="100px"
+      >
+          <pre>{{InfoYamlDeploymentForm.info}}</pre>
+      </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="setRoleDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="saveRoleInfo">确 定</el-button>
+        <!-- <el-button @click="infoYamlDialogVisible = false">取 消</el-button> -->
+        <el-button type="primary" @click="infoYamlDialogVisible = false">确 定</el-button>
       </span>
     </el-dialog>
+
   </div>
 </template>
 
 <script>
 export default {
   data () {
-    // 自定义邮箱规则
-    var checkEmail = (rule, value, callback) => {
-      const regEmail = /^\w+@\w+(\.\w+)+$/
-      if (regEmail.test(value)) {
-        // 合法邮箱
-        return callback()
-      }
-      callback(new Error('请输入合法邮箱'))
-    }
-    // 自定义手机号规则
-    var checkMobile = (rule, value, callback) => {
-      const regMobile = /^1[34578]\d{9}$/
-      if (regMobile.test(value)) {
-        return callback()
-      }
-      // 返回一个错误提示
-      callback(new Error('请输入合法的手机号码'))
-    }
     return {
-      // 获取用户列表查询参数对象
+      // 获取Pod列表查询参数对象
       queryInfo: {
         query: '',
         // 当前页数
@@ -199,184 +250,137 @@ export default {
         // 每页显示多少数据
         pagesize: 5
       },
-      userlist: [],
+      deploymentlist: [],
       totle: 0,
-      // 添加用户对话框
+      // 添加 Deployment 对话框
       addDialogVisible: false,
-      // 用户添加
-      addUserForm: {
-        username: '',
-        password: '',
-        email: '',
-        mobile: ''
+      // Deployment 添加
+      addDeploymentForm: {
+        apiVersion: '',
+        namespace: '',
+        metadataName: '',
+        metadataLabelsApp: '',
+        specConatinersName: '',
+        specContainersImage: '',
+        containerPort: '',
       },
-      // 用户添加表单验证规则
-      addUserFormRules: {
-        username: [
-          { required: true, message: '请输入用户名', trigger: 'blur' },
-          {
-            min: 2,
-            max: 10,
-            message: '用户名的长度在2～10个字',
-            trigger: 'blur'
-          }
-        ],
-        password: [
-          { required: true, message: '请输入用户密码', trigger: 'blur' },
-          {
-            min: 6,
-            max: 18,
-            message: '用户密码的长度在6～18个字',
-            trigger: 'blur'
-          }
-        ],
-        email: [
-          { required: true, message: '请输入邮箱', trigger: 'blur' },
-          { validator: checkEmail, trigger: 'blur' }
-        ],
-        mobile: [
-          { required: true, message: '请输入手机号码', trigger: 'blur' },
-          { validator: checkMobile, trigger: 'blur' }
-        ]
+      // Yaml添加 Deployment 对话框
+      addYamlDialogVisible: false,
+      // Yaml 添加 Deployment
+      addYamlPodForm: {
+        podYamlInfo: '',
       },
-      // 修改用户
+      // 编辑 Deployment 对话框
       editDialogVisible: false,
-      editUserForm: {},
-      // 编辑用户表单验证
-      editUserFormRules: {
-        email: [
-          { required: true, message: '请输入邮箱', trigger: 'blur' },
-          { validator: checkEmail, trigger: 'blur' }
-        ],
-        mobile: [
-          { required: true, message: '请输入手机号码', trigger: 'blur' },
-          { validator: checkMobile, trigger: 'blur' }
-        ]
+      // 编辑 Deployment
+      editDeploymentForm: {
+        apiVersion: '',
+        namespace: '',
+        metadataName: '',
+        metadataLabelsApp: '',
+        specConatinersName: '',
+        specContainersImage: '',
+        containerPort: '',
       },
-      // 分配角色对话框
-      setRoleDialogVisible: false,
-      // 当前需要被分配角色的用户
-      userInfo: {},
-      // 所有角色数据列表
-      rolesLsit: [],
-      // 已选中的角色Id值
-      selectRoleId: ''
+      // Deployment 更多信息对话框
+      infoYamlDialogVisible: false,
+      // Deployment 更多信息
+      InfoYamlDeploymentForm: {
+        info: '',
+      },
     }
   },
   created () {
-    this.getUserList()
+    this.getDeploymentList()
   },
   methods: {
-    async getUserList () {
-        const { data: res } = await this.$http.get('/auth/deployment')
-        console.info('deployment', res);
+    async getDeploymentList () {
+        const { data: res } = await this.$http.get('/auth/deployment', {
+          params : {
+            namespace : this.queryInfo.query,
+          }
+        })
+        console.info('res', res);
         if (!res.success) {
-            return this.$message.error('获取用户列表失败！')
+            return this.$message.error(res.message)
         }
-        this.userlist = res.data;
+        this.deploymentlist = res.data;
         this.totle = res.count;
-        console.info("userlist", this.userlist, this.totle);
+        console.info("userlist", this.deploymentlist, this.totle);
     },
     // 监听 pagesize改变的事件
     handleSizeChange (newSize) {
       // console.log(newSize)
       this.queryInfo.pagesize = newSize
-      this.getUserList()
+      this.getDeploymentList()
     },
     // 监听 页码值 改变事件
     handleCurrentChange (newSize) {
       // console.log(newSize)
       this.queryInfo.pagenum = newSize
-      this.getUserList()
+      this.getDeploymentList()
     },
-    // 监听 switch开关 状态改变
-    async userStateChanged (userInfo) {
-      console.log("userInfo", userInfo)
-      const { data: res } = await this.$http.put('/auth/user', {
-          username : userInfo.username,
-          password : userInfo.password,
-          email : userInfo.email,
-          mobile : userInfo.mobile,
-          status : Math.abs(userInfo.status - 1),
-          type : userInfo.type
-      })
-      console.info ( "put res", res)
-    //   if (res.meta.status !== 200) {
-    //     userInfo.mg_state = !userInfo.mg_state
-    //     return this.$message.error('更新用户状态失败')
-    //   }
-      this.$message.success('更新用户状态成功！')
-    },
-    // 监听 添加用户对话框的关闭事件
+    // 监听 添加 Pod 对话框的关闭事件
     addDialogClosed () {
-      this.$refs.addUserFormRef.resetFields()
+      this.$refs.addDeploymentFormRef.resetFields()
     },
-    // 添加用户
-    addUser () {
+    // 添加 Pod
+    addDeployment () {
       // 提交请求前，表单预验证
-      this.$refs.addUserFormRef.validate(async valid => {
+      this.$refs.addDeploymentFormRef.validate(async valid => {
         // 表单预校验失败
         if (!valid) return
-        const { data: res } = await this.$http.post('/auth/user', {
-          ...this.addUserForm
+        const { data: res } = await this.$http.post('/auth/deployment', {
+          ...this.addDeploymentForm,
         })
-        console.info('addUser', this.addUserForm);
-        console.info('res', res);
+        console.info('addDeployment', res)
         if (!res.success) {
-          this.$message.error('添加用户失败！')
+          return this.$message.error(res.message)
         }
-        this.$message.success('添加用户成功！')
-        // 隐藏添加用户对话框
+        this.$message.success(res.data)
+        // 隐藏添加Pod对话框
         this.addDialogVisible = false
-        this.getUserList()
+        this.getDeploymentList()
       })
     },
-    // 获取编辑用户原有信息
-    async showEditDialog (id) {
-      const { data: res } = await this.$http.get('/auth/user/detail', {
+    // 添加pod yaml方式
+    async addPodYaml () {
+      const { data: res } = await this.$http.post('/auth/pod/createByYaml', {
+        podInfo : this.addYamlPodForm.podYamlInfo
+      })
+      console.info('addPodYaml', this.addYamlPodForm)
+      this.addYamlDialogVisible = false
+
+    },
+    // 展开 编辑deployment 对话框
+    async showEditDialog (deploymentInfo) {
+      this.editDialogVisible = true
+      console.info('showEditDialog deploymentInfo', deploymentInfo)
+      const { data: res } = await this.$http.get('/auth/deployment/detail', {
         params : {
-          id : id,
+          namespace : deploymentInfo.namespace,
+          deploymentName : deploymentInfo.name
         }
       })
       if (!res.success) {
-        return this.$message.error('查询用户信息失败！')
+        this.$message.error(res.message)
       }
-      res.data.password=''
-      this.editUserForm = res.data
-      this.editDialogVisible = true
+      this.editDeploymentForm = res.data
     },
-    // 监听修改用户对话框的关闭事件
-    editDialogClosed () {
-      this.$refs.editUserFormRef.resetFields()
-    },
-    // 修改用户信息
-    editUser () {
-      // 提交请求前，表单预验证
-      this.$refs.editUserFormRef.validate(async valid => {
-        // console.log(valid)
-        // 表单预校验失败
-        if (!valid) return
-        const { data: res } = await this.$http.put('/auth/user', 
-          {
-            userId: this.editUserForm.userId,
-            email: this.editUserForm.email,
-            mobile: this.editUserForm.mobile,
-            password: this.editUserForm.password
-          }
-        )
-        if (res.meta.status !== 200) {
-          this.$message.error('更新用户信息失败！')
-        }
-        // 隐藏添加用户对话框
-        this.editDialogVisible = false
-        this.$message.success('更新用户信息成功！')
-        this.getUserList()
+    // 更新 deployment信息
+    async editDeployment (deploymentInfo) {
+      console.info('deploymnetInfo edit', deploymentInfo)
+      const { data: res } = await this.$http.put('/auth/deployment', {
+        ...this.editDeploymentForm,
       })
+      console.info('editDeployment', res)
+      this.editDialogVisible = false
+      this.getDeploymentList()
     },
-    // 删除用户
-    async removeUserById (id) {
+    // 删除Pod
+    async removeDeployment (deploymentInfo) {
       const confirmResult = await this.$confirm(
-        '此操作将永久删除该用户, 是否继续?',
+        '此操作将永久删除该 Deployment , 是否继续?',
         '提示',
         {
           confirmButtonText: '确定',
@@ -387,46 +391,46 @@ export default {
       if (confirmResult !== 'confirm') {
         return this.$message.info('已取消删除')
       }
-      const { data: res } = await this.$http.delete('/auth/user', {
+      const { data: res } = await this.$http.delete('/auth/deployment', {
         params: {
-          id : id,
+          namespace : deploymentInfo.namespace,
+          deploymentName : deploymentInfo.name
         }
       })
-      if (!res.success) return this.$message.error('删除用户失败！')
-      this.$message.success('删除用户成功！')
-      this.getUserList()
+      if (!res.success) return this.$message.error('删除 Deployment 失败！')
+      this.$message.success('删除 Deployment 成功！')
+      this.getDeploymentList()
     },
-    // 展示分配角色的对话框
-    async showSetRole (role) {
-      this.userInfo = role
-      // 展示对话框之前，获取所有角色列表
-      const { data: res } = await this.$http.get('/auth/role')
-      console.info('showSetRole', res);
-      if (!res.success) {
-        return this.$message.error('获取角色列表失败！')
-      }
-      this.rolesLsit = res.data
-      this.setRoleDialogVisible = true
+    // 监听修改用户对话框的关闭事件
+    editDialogClosed () {
+      this.$refs.editDeploymentFormRef.resetFields()
     },
-    // 分配角色
-    async saveRoleInfo () {
-      console.info('this.selectRoleId', this.selectRoleId);
-      // if (!this.selectRoleId) {
-      //   return this.$message.error('请选择要分配的角色')
-      // }
-      // const { data: res } = await this.$http.put(`users/${this.userInfo.id}/role`, { rid: this.selectRoleId })
-      // if (!res.success) {
-      //   return this.$message.error('更新用户角色失败！')
-      // }
-      // this.$message.success('更新角色成功！')
-      this.getUserList()
-      this.setRoleDialogVisible = false
+    // 监听 deployment 详细信息yaml格式 对话框的关闭事件
+    infoDialogClosed () {
+      this.$refs.InfoYamlDeploymentFormRef.resetFields()
     },
-    // 分配角色对话框关闭事件
-    setRoleDialogClosed () {
-      this.selectRoleId = ''
-      this.userInfo = {}
-    }
+    // deployment 全部信息yaml格式
+    async InfoYamlDeployment (deploymentInfo) {
+      console.info('deployment', deploymentInfo)
+      const { data: res } = await this.$http.get('/auth/deployment/detailYml', {
+        params : {
+          namespace : deploymentInfo.namespace,
+          deploymentName : deploymentInfo.name
+        }
+      })
+      console.info('deployment res', res)
+      if (!res.success) return this.$message.error(res.message)
+      this.infoYamlDialogVisible = true;
+      this.InfoYamlDeploymentForm.info = res.data;
+    },
+
+    infoYamlDialogClosed () {
+      this.InfoYamlDeploymentForm.info = '';
+    },
+
+    change (e) {
+      this.$forceUpdate()
+    },
   }
 }
 </script>

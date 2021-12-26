@@ -1,14 +1,8 @@
 package com.gohb.convert;
 
-import com.gohb.params.bo.kube.KubeNamespaceBO;
-import com.gohb.params.bo.kube.KubeNodeBO;
-import com.gohb.params.bo.kube.KubePodBO;
-import com.gohb.params.bo.kube.KubePodDetailBO;
+import com.gohb.params.bo.kube.*;
 import com.gohb.params.bo.sys.*;
-import com.gohb.params.dto.kube.KubeNamespaceDTO;
-import com.gohb.params.dto.kube.KubeNodeDTO;
-import com.gohb.params.dto.kube.KubePodDTO;
-import com.gohb.params.dto.kube.KubePodDetailDTO;
+import com.gohb.params.dto.kube.*;
 import com.gohb.params.dto.sys.*;
 import org.springframework.beans.BeanUtils;
 
@@ -138,6 +132,24 @@ public class BoToDtoUtils {
         KubePodDetailDTO kubePodDetailDTO = new KubePodDetailDTO();
         BeanUtils.copyProperties(kubePodDetailBO, kubePodDetailDTO);
         return kubePodDetailDTO;
+    }
+
+    public static KubeDeploymentDTO kubeDeploymentBOTOKubeDeploymentDTO(KubeDeploymentBO kubeDeploymentBO) {
+        if (kubeDeploymentBO == null) {
+            return null;
+        }
+        KubeDeploymentDTO kubeDeploymentDTO = new KubeDeploymentDTO();
+        BeanUtils.copyProperties(kubeDeploymentBO, kubeDeploymentDTO);
+        return kubeDeploymentDTO;
+    }
+
+    public static KubeDeploymentDetailDTO kubeDeploymentDetailBOTOKubeDeploymentDetailDTO(KubeDeploymentDetailBO kubeDeploymentDetailBO) {
+        if (kubeDeploymentDetailBO == null) {
+            return null;
+        }
+        KubeDeploymentDetailDTO kubeDeploymentDetailDTO = new KubeDeploymentDetailDTO();
+        BeanUtils.copyProperties(kubeDeploymentDetailBO, kubeDeploymentDetailDTO);
+        return kubeDeploymentDetailDTO;
     }
 
 
