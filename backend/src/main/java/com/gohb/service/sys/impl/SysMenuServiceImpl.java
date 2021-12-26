@@ -3,7 +3,7 @@ package com.gohb.service.sys.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gohb.params.bo.sys.SysMenuBO;
 import com.gohb.service.sys.SysMenuService;
-import com.gohb.mapper.SysMenuMapper;
+import com.gohb.mapper.sys.SysMenuMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

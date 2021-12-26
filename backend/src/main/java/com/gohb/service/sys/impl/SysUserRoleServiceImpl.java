@@ -3,7 +3,7 @@ package com.gohb.service.sys.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gohb.params.bo.sys.SysUserRoleBO;
 import com.gohb.service.sys.SysUserRoleService;
-import com.gohb.mapper.SysUserRoleMapper;
+import com.gohb.mapper.sys.SysUserRoleMapper;
 import org.springframework.stereotype.Service;
 
 /**

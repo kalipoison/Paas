@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gohb.mapper.dashboard.SysDauMapper">
+
+    <resultMap id="BaseResultMap" type="com.gohb.params.bo.dashboard.SysDauBO">
+            <id property="dauId" column="dau_id" jdbcType="BIGINT"/>
+            <result property="year" column="year" jdbcType="VARCHAR"/>
+            <result property="month" column="month" jdbcType="VARCHAR"/>
+            <result property="day" column="day" jdbcType="VARCHAR"/>
+            <result property="count" column="count" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        dau_id,year,month,
+        day,count
+    </sql>
+</mapper>

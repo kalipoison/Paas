@@ -2,7 +2,7 @@ package com.gohb.service.sys.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.gohb.params.bo.sys.SysUserBO;
-import com.gohb.mapper.SysUserMapper;
+import com.gohb.mapper.sys.SysUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

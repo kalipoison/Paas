@@ -3,7 +3,7 @@ package com.gohb.service.sys.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gohb.params.bo.sys.SysLogBO;
 import com.gohb.service.sys.SysLogService;
-import com.gohb.mapper.SysLogMapper;
+import com.gohb.mapper.sys.SysLogMapper;
 import org.springframework.stereotype.Service;
 
 /**

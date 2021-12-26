@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gohb.mapper.SysLogMapper">
+<mapper namespace="com.gohb.mapper.sys.SysLogMapper">
 
     <resultMap id="BaseResultMap" type="com.gohb.params.bo.sys.SysLogBO">
             <id property="id" column="id" jdbcType="BIGINT"/>
