@@ -1,5 +1,11 @@
 package com.gohb.service.kube.impl;
 
+import com.gohb.convert.KubeToBoUtils;
+import com.gohb.params.bo.kube.KubeServiceBO;
+import com.gohb.params.bo.kube.KubeServiceDetailBO;
+import com.gohb.params.exception.KubeException;
+import com.gohb.params.request.CreateServiceRequest;
+import com.gohb.params.request.UpdateServiceRequest;
 import com.gohb.service.kube.KubeServiceService;
 import io.kubernetes.client.custom.IntOrString;
 import io.kubernetes.client.openapi.ApiException;
@@ -8,8 +14,7 @@ import io.kubernetes.client.openapi.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class KubeServiceServiceImpl implements KubeServiceService {
@@ -18,35 +23,27 @@ public class KubeServiceServiceImpl implements KubeServiceService {
     private CoreV1Api coreV1Api;
 
     @Override
-    public V1Service createService(String serviceName, String namespace, String type, Integer port, Integer nodePort, IntOrString targetPort, String protocol) {
-        //    "metadata_name":"test-bs",
-        //    "metadata_namespace":"test",
-        //    "labels_workLayer":"svc",
-        //    "spec_type":"ClusterIP",
-        //    "spec_ports_port":8995,
-        //    "spec_ports_targetPort":8995,
-        //    "spec_ports_protocol":"TCP"
-        V1Service svc = new V1Service();
-        V1ObjectMeta objectMeta = new V1ObjectMeta();
-        objectMeta.setName(serviceName);
-        objectMeta.setNamespace(namespace);
-        V1ServiceSpec serviceSpec = new V1ServiceSpec();
-        List<V1ServicePort> servicePorts = new ArrayList<>();
-        serviceSpec.setType(type);
-        V1ServicePort servicePort = new V1ServicePort();
-        servicePort.setPort(port);
-        servicePort.setNodePort(nodePort);
-        servicePort.setProtocol(protocol);
-        servicePort.setTargetPort(targetPort);
-        servicePorts.add(servicePort);
-        serviceSpec.setPorts(servicePorts);
-        svc.setApiVersion("v1");
-        svc.setKind("Service");
-        svc.setMetadata(objectMeta);
-        svc.setSpec(serviceSpec);
+    public V1Service createService(CreateServiceRequest createServiceRequest) {
         V1Service v1Service = null;
+        Map<String, String> selector = new HashMap<>();
+        String specType = "ClusterIP";
+        if (createServiceRequest.getType() != null && !"".equals(createServiceRequest.getType())) {
+            specType = createServiceRequest.getType();
+        }
+        selector.put("app", createServiceRequest.getSpecSelectorApp());
+        V1Service body = new V1Service()
+            .apiVersion(createServiceRequest.getApiVersion())
+            .metadata(new V1ObjectMeta()
+                .name(createServiceRequest.getMetadataName()))
+            .spec(new V1ServiceSpec()
+                .type(specType)
+                .selector(selector)
+                .externalIPs(Arrays.asList(createServiceRequest.getExternalIP()))
+                .ports(Arrays.asList(new V1ServicePort()
+                    .port(Integer.valueOf(createServiceRequest.getSpecPort()))
+                    .protocol(createServiceRequest.getSpecProtocol()))));
         try {
-            v1Service = coreV1Api.createNamespacedService(namespace, svc, null, null, null);
+            v1Service = coreV1Api.createNamespacedService(createServiceRequest.getNamespace(), body, null, null, null);
         } catch (ApiException e) {
             e.printStackTrace();
         }
@@ -65,25 +62,72 @@ public class KubeServiceServiceImpl implements KubeServiceService {
     }
 
     @Override
-    public List<V1Service> listService(String namespace) {
-        List<V1Service> v1ServiceListItems = null;
+    public KubeServiceBO updateService(UpdateServiceRequest updateServiceRequest) {
+        V1Service v1Service = null;
+        Map<String, String> selector = new HashMap<>();
+        String specType = "ClusterIP";
+        if (updateServiceRequest.getType() != null && !"".equals(updateServiceRequest.getType())) {
+            specType = updateServiceRequest.getType();
+        }
+        selector.put("app", updateServiceRequest.getSpecSelectorApp());
+        V1Service body = new V1Service()
+            .apiVersion(updateServiceRequest.getApiVersion())
+            .metadata(new V1ObjectMeta()
+                .name(updateServiceRequest.getMetadataName()))
+            .spec(new V1ServiceSpec()
+                .type(specType)
+                .selector(selector)
+                .externalIPs(Arrays.asList(updateServiceRequest.getExternalIP()))
+                .ports(Arrays.asList(new V1ServicePort()
+                    .port(Integer.valueOf(updateServiceRequest.getSpecPort()))
+                    .protocol(updateServiceRequest.getSpecProtocol()))));
+        KubeServiceBO kubeServiceBO = null;
         try {
-            V1ServiceList v1ServiceList = coreV1Api.listNamespacedService(namespace, null, null, null, null, null, null, null, null, null, null);
-            v1ServiceListItems = v1ServiceList.getItems();
-        } catch (ApiException e) {
+            v1Service = coreV1Api.replaceNamespacedService(updateServiceRequest.getMetadataName(), updateServiceRequest.getNamespace(), body, null, null, null);
+            kubeServiceBO = KubeToBoUtils.v1ServiceToKubeServiceBO(v1Service);
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return v1ServiceListItems;
+        return kubeServiceBO;
     }
 
     @Override
-    public V1Service serviceDetail(String serviceName, String namespace) {
-        V1Service v1Service = null;
+    public List<KubeServiceBO> listNamespaceService(String namespace) {
+        List<KubeServiceBO> kubeServiceBOS = new ArrayList<>();
         try {
-            v1Service = coreV1Api.readNamespacedService(serviceName, namespace, null, null, null);
+            V1ServiceList v1ServiceList = coreV1Api.listNamespacedService(namespace, null, null, null, null, null, null, null, null, null, null);
+            List<V1Service> v1Services = v1ServiceList.getItems();
+            for (V1Service v1Service : v1Services) {
+                KubeServiceBO kubeServiceBO = KubeToBoUtils.v1ServiceToKubeServiceBO(v1Service);
+                kubeServiceBOS.add(kubeServiceBO);
+            }
         } catch (ApiException e) {
             e.printStackTrace();
         }
-        return v1Service;
+        return kubeServiceBOS;
+    }
+
+    @Override
+    public String serviceDetailYaml(String serviceName, String namespace) {
+        String serviceYaml = "";
+        try {
+            V1Service v1Service = coreV1Api.readNamespacedService(serviceName, namespace, null, null, null);
+            serviceYaml = v1Service.toString();
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
+        return serviceYaml;
+    }
+
+    @Override
+    public KubeServiceDetailBO serviceDetail(String serviceName, String namespace) {
+        KubeServiceDetailBO kubeServiceDetailBO = null;
+        try {
+            V1Service v1Service = coreV1Api.readNamespacedService(serviceName, namespace, null, null, null);
+            kubeServiceDetailBO = KubeToBoUtils.v1ServiceToKubeServiceDetailBO(v1Service);
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
+        return kubeServiceDetailBO;
     }
 }

@@ -1,5 +1,9 @@
 package com.gohb.service.kube;
 
+import com.gohb.params.bo.kube.KubeServiceBO;
+import com.gohb.params.bo.kube.KubeServiceDetailBO;
+import com.gohb.params.request.CreateServiceRequest;
+import com.gohb.params.request.UpdateServiceRequest;
 import io.kubernetes.client.custom.IntOrString;
 import io.kubernetes.client.openapi.models.V1Service;
 import io.kubernetes.client.openapi.models.V1Status;
@@ -13,16 +17,10 @@ public interface KubeServiceService {
 
     /**
      * 创建service
-     * @param serviceName
-     * @param namespace
-     * @param type
-     * @param port
-     * @param nodePort
-     * @param targetPort
-     * @param protocol
+     * @param createServiceRequest
      * @return
      */
-    V1Service createService(String serviceName, String namespace, String type, Integer port, Integer nodePort, IntOrString targetPort, String protocol);
+    V1Service createService(CreateServiceRequest createServiceRequest);
 
     /**
      * 删除service
@@ -32,18 +30,34 @@ public interface KubeServiceService {
      */
     V1Status deleteService(String serviceName, String namespace);
 
+
+    /**
+     * 修改service
+     * @param updateServiceRequest
+     * @return
+     */
+    KubeServiceBO updateService(UpdateServiceRequest updateServiceRequest);
+
     /**
      * 列出所有service
      * @param namespace
      * @return
      */
-    List<V1Service> listService(String namespace);
+    List<KubeServiceBO> listNamespaceService(String namespace);
 
     /**
-     * service详情
+     * service 详情, yaml 格式
      * @param serviceName
      * @param namespace
      * @return
      */
-    V1Service serviceDetail(String serviceName, String namespace);
+    String serviceDetailYaml(String serviceName, String namespace);
+
+    /**
+     * service 详情
+     * @param serviceName
+     * @param namespace
+     * @return
+     */
+    KubeServiceDetailBO serviceDetail(String serviceName, String namespace);
 }

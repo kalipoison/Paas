@@ -1,4 +1,5 @@
-package com.gohb.params.bo.kube;
+package com.gohb.params.dto.kube;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Accessors(chain = true)
-public class KubeServiceBO implements Serializable {
+public class KubeServiceDTO implements Serializable {
 
     String apiVersion;
 

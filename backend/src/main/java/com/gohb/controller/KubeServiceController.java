@@ -5,6 +5,10 @@ import com.gohb.constant.StatusCodeConstant;
 import com.gohb.params.dto.Result;
 import com.gohb.params.dto.ResultUtils;
 import com.gohb.manage.kube.KubeServiceManage;
+import com.gohb.params.dto.kube.KubeServiceDTO;
+import com.gohb.params.dto.kube.KubeServiceDetailDTO;
+import com.gohb.params.request.CreateServiceRequest;
+import com.gohb.params.request.UpdateServiceRequest;
 import io.kubernetes.client.custom.IntOrString;
 import io.kubernetes.client.openapi.models.V1Status;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,60 +24,49 @@ import java.util.List;
 @RequestMapping("/api/auth/service")
 public class KubeServiceController {
 
-    @Value("${kubernetes.namespace.default}")
-    public String defaultNamespace;
-
-
     @Autowired
     private KubeServiceManage kubeServiceManage;
 
+
+    @GetMapping("")
+    public Result<List<KubeServiceDTO>> listService(@RequestParam(value = "namespace", required = false) String namespace) {
+        List<KubeServiceDTO> kubeServiceDTOS = kubeServiceManage.listService(namespace);
+        return ResultUtils.getSuccessResult(kubeServiceDTOS);
+    }
+
+
     @PostMapping("")
-    public Result<KubeServiceBO> createService(@RequestParam("serviceName") String serviceName, @RequestParam("namespace") String namespace,
-                                              @RequestParam("type") String type, @RequestParam("port") Integer port,
-                                              @RequestParam("nodePort") Integer nodePort, @RequestParam("targetPort") IntOrString targetPort,
-                                              @RequestParam("protocol") String protocol) {
-        if (kubeServiceManage.isExistService(serviceName, namespace)) {
-            return ResultUtils.getFailedResult(StatusCodeConstant.isExist,
-                    String.format("ServiceName : {} has already existed in namespace : {}",
-                            serviceName, namespace));
-        }
-        KubeServiceBO kubeServiceBO = kubeServiceManage.createService(serviceName, namespace, type, port, nodePort, targetPort, protocol);
-        return ResultUtils.getSuccessResult(kubeServiceBO);
+    public Result<KubeServiceDTO> createService(CreateServiceRequest createServiceRequest) {
+        KubeServiceDTO kubeServiceDTO = kubeServiceManage.createService(createServiceRequest);
+        return ResultUtils.getSuccessResult(kubeServiceDTO);
     }
 
     @DeleteMapping("")
     public Result<V1Status> deleteService(@RequestParam("serviceName")String serviceName,
                                           @RequestParam("namespace") String namespace) {
-        if (!kubeServiceManage.isExistService(serviceName, namespace)) {
-            return ResultUtils.getFailedResult(StatusCodeConstant.isNotExist,
-                    String.format("ServiceName : {} is not existed in namespace : {}",
-                            serviceName, namespace));
-        }
         V1Status v1Status = kubeServiceManage.deleteService(serviceName, namespace);
         return ResultUtils.getSuccessResult(v1Status);
     }
 
-    @GetMapping("")
-    public Result<List<KubeServiceBO>> listService(@RequestParam("namespace") String namespace) {
-        if (namespace == null || namespace.equals("")) {
-            namespace = defaultNamespace;
-        }
-        List<KubeServiceBO> kubeServiceBOS = kubeServiceManage.listService(namespace);
-        return ResultUtils.getSuccessResult(kubeServiceBOS);
+    @PutMapping("")
+    public Result<KubeServiceDTO> updateService(UpdateServiceRequest updateServiceRequest) {
+        KubeServiceDTO kubeServiceDTO = kubeServiceManage.updateService(updateServiceRequest);
+        return ResultUtils.getSuccessResult(kubeServiceDTO);
     }
 
-    @GetMapping("exist")
-    public Result<Boolean> isExistService(@RequestParam("serviceName")String serviceName,
-                                          @RequestParam("namespace") String namespace) {
-        Boolean exist = kubeServiceManage.isExistService(serviceName, namespace);
-        return ResultUtils.getSuccessResult(exist);
+
+    @GetMapping("detailYml")
+    public Result<String> serviceDetailYaml(@RequestParam("serviceName")String serviceName,
+                                               @RequestParam("namespace") String namespace) {
+        String serviceDetailYaml = kubeServiceManage.serviceDetailYaml(serviceName, namespace);
+        return ResultUtils.getSuccessResult(serviceDetailYaml);
     }
 
     @GetMapping("detail")
-    public Result<KubeServiceBO> serviceDetail(@RequestParam("serviceName")String serviceName,
-                                               @RequestParam("namespace") String namespace) {
-        KubeServiceBO kubeServiceBO = kubeServiceManage.serviceDetail(serviceName, namespace);
-        return ResultUtils.getSuccessResult(kubeServiceBO);
+    public Result<KubeServiceDetailDTO> serviceDetail(@RequestParam("serviceName")String serviceName,
+                                        @RequestParam("namespace") String namespace) {
+        KubeServiceDetailDTO kubeServiceDetailDTO = kubeServiceManage.serviceDetail(serviceName, namespace);
+        return ResultUtils.getSuccessResult(kubeServiceDetailDTO);
     }
 
 }

@@ -12,6 +12,7 @@ import Namespace from '../components/container/Namespace.vue'
 import Deployment from '../components/container/Deployment.vue'
 import Pod from '../components/container/Pod.vue'
 import Dau from '../components/drawer/Dau.vue'
+import Service from '../components/container/Service.vue'
 
 Vue.use(VueRouter)
 
@@ -35,6 +36,7 @@ const routes = [
             {path: '/sys/deployment', component: Deployment},
             {path: '/sys/pod', component: Pod},
             {path: '/sys/dau', component: Dau},
+            {path: '/sys/service', component: Service},
         ]
     }
 ]

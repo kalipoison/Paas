@@ -152,6 +152,23 @@ public class BoToDtoUtils {
         return kubeDeploymentDetailDTO;
     }
 
+    public static KubeServiceDTO kubeServiceBOTOKubeServiceDTO(KubeServiceBO kubeServiceBO) {
+        if (kubeServiceBO == null) {
+            return null;
+        }
+        KubeServiceDTO kubeServiceDTO = new KubeServiceDTO();
+        BeanUtils.copyProperties(kubeServiceBO, kubeServiceDTO);
+        return kubeServiceDTO;
+    }
+
+    public static KubeServiceDetailDTO kubeServiceDetailBOTOKubeServiceDetailDTO(KubeServiceDetailBO kubeServiceDetailBO) {
+        if (kubeServiceDetailBO == null) {
+            return null;
+        }
+        KubeServiceDetailDTO kubeServiceDetailDTO = new KubeServiceDetailDTO();
+        BeanUtils.copyProperties(kubeServiceDetailBO, kubeServiceDetailDTO);
+        return kubeServiceDetailDTO;
+    }
 
 
 }

@@ -75,31 +75,6 @@ public class KubeToBoUtils {
         }
     }
 
-    public static KubeServiceBO v1ServiceToKubeServiceBO(V1Service v1Service) {
-        KubeServiceBO kubeServiceBO = new KubeServiceBO();
-        try {
-            kubeServiceBO.setApiVersion(v1Service.getApiVersion());
-            kubeServiceBO.setKind(v1Service.getKind());
-            DateTime creationTimestamp = v1Service.getMetadata().getCreationTimestamp();
-            kubeServiceBO.setCreateTime(new Date(creationTimestamp.getMillis()));
-            kubeServiceBO.setNamespace(v1Service.getMetadata().getNamespace());
-            kubeServiceBO.setName(v1Service.getMetadata().getName());
-            kubeServiceBO.setSelfLink(v1Service.getMetadata().getSelfLink());
-            kubeServiceBO.setClusterIP(v1Service.getSpec().getClusterIP());
-            kubeServiceBO.setExternalIPs(v1Service.getSpec().getExternalIPs());
-            kubeServiceBO.setType(v1Service.getSpec().getType());
-            List<V1ServicePort> v1ServicePorts = v1Service.getSpec().getPorts();
-            List<KubeServicePortBO> kubeServicePortBOS = new ArrayList<>();
-            for (V1ServicePort v1ServicePort : v1ServicePorts) {
-                kubeServicePortBOS.add(KubeToBoUtils.v1ServicePortToKubeServicePortBO(v1ServicePort));
-            }
-            kubeServiceBO.setPorts(kubeServicePortBOS);
-            return kubeServiceBO;
-        } catch (Exception e) {
-            return kubeServiceBO;
-        }
-    }
-
     public static KubeDeploymentBO v1DeploymentToKubeDeploymentBO(V1Deployment v1Deployment){
         KubeDeploymentBO kubeDeploymentBO = new KubeDeploymentBO();
         try {
@@ -154,6 +129,58 @@ public class KubeToBoUtils {
             return kubeDeploymentDetailBO;
         } catch (Exception e) {
             return kubeDeploymentDetailBO;
+        }
+    }
+
+    public static KubeServiceBO v1ServiceToKubeServiceBO(V1Service v1Service) {
+        KubeServiceBO kubeServiceBO = new KubeServiceBO();
+        try {
+            kubeServiceBO.setApiVersion(v1Service.getApiVersion());
+            kubeServiceBO.setKind(v1Service.getKind());
+            DateTime creationTimestamp = v1Service.getMetadata().getCreationTimestamp();
+            kubeServiceBO.setCreateTime(new Date(creationTimestamp.getMillis()));
+            kubeServiceBO.setNamespace(v1Service.getMetadata().getNamespace());
+            kubeServiceBO.setMetadataName(v1Service.getMetadata().getName());
+            String specSelectorLabelsApp = "";
+            if (v1Service.getSpec().getSelector() != null && !"".equals(v1Service.getSpec().getSelector().get("app"))) {
+                specSelectorLabelsApp = v1Service.getSpec().getSelector().get("app");
+            }
+            kubeServiceBO.setSpecSelectorLabelsApp(specSelectorLabelsApp);
+            kubeServiceBO.setClusterIP(v1Service.getSpec().getClusterIP());
+            String externalIP = "";
+            if (v1Service.getSpec().getExternalIPs() != null && v1Service.getSpec().getExternalIPs().get(0) != null) {
+                externalIP = v1Service.getSpec().getExternalIPs().get(0);
+            }
+            kubeServiceBO.setExternalIP(externalIP);
+            kubeServiceBO.setPort(String.valueOf(v1Service.getSpec().getPorts().get(0).getPort()));
+            kubeServiceBO.setProtocal(v1Service.getSpec().getPorts().get(0).getProtocol());
+            kubeServiceBO.setTargetPort(String.valueOf(v1Service.getSpec().getPorts().get(0).getTargetPort()));
+            kubeServiceBO.setType(v1Service.getSpec().getType());
+            return kubeServiceBO;
+        } catch (Exception e) {
+            return kubeServiceBO;
+        }
+    }
+
+    public static KubeServiceDetailBO v1ServiceToKubeServiceDetailBO(V1Service v1Service) {
+        KubeServiceDetailBO kubeServiceDetailBO = new KubeServiceDetailBO();
+        try {
+            kubeServiceDetailBO.setApiVersion(v1Service.getApiVersion());
+            kubeServiceDetailBO.setMetadataName(v1Service.getMetadata().getName());
+            kubeServiceDetailBO.setNamespace(v1Service.getMetadata().getNamespace());
+            kubeServiceDetailBO.setSpecSelectorApp(v1Service.getSpec().getSelector().get("app"));
+            String externalIP = "";
+            if (v1Service.getSpec().getExternalIPs() != null && v1Service.getSpec().getExternalIPs().get(0) != null) {
+                externalIP = v1Service.getSpec().getExternalIPs().get(0);
+            }
+            kubeServiceDetailBO.setExternalIP(externalIP);
+            kubeServiceDetailBO.setSpecPort(String.valueOf(v1Service.getSpec().getPorts().get(0).getPort()));
+            kubeServiceDetailBO.setSpecProtocol(v1Service.getSpec().getPorts().get(0).getProtocol());
+            kubeServiceDetailBO.setSpecTargetPort(String.valueOf(v1Service.getSpec().getPorts().get(0).getTargetPort()));
+            kubeServiceDetailBO.setType(v1Service.getSpec().getType());
+            return kubeServiceDetailBO;
+        } catch (Exception e) {
+            return kubeServiceDetailBO;
         }
     }
 
