@@ -2,9 +2,8 @@ package com.gohb.service.kube;
 
 import com.gohb.params.bo.kube.KubeServiceBO;
 import com.gohb.params.bo.kube.KubeServiceDetailBO;
-import com.gohb.params.request.CreateServiceRequest;
-import com.gohb.params.request.UpdateServiceRequest;
-import io.kubernetes.client.custom.IntOrString;
+import com.gohb.params.request.kube.CreateServiceRequest;
+import com.gohb.params.request.kube.UpdateServiceRequest;
 import io.kubernetes.client.openapi.models.V1Service;
 import io.kubernetes.client.openapi.models.V1Status;
 

@@ -1,4 +1,4 @@
-package com.gohb.params.request;
+package com.gohb.params.request.kube;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

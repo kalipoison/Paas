@@ -1,4 +1,4 @@
-package com.gohb.config;
+package com.gohb.config.webssh;
 
 import com.gohb.constant.WebSSHConstantPool;
 import org.springframework.http.server.ServerHttpRequest;

@@ -1,4 +1,4 @@
-package com.gohb.config;
+package com.gohb.config.mybatis;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;

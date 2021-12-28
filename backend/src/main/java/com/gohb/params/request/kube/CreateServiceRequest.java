@@ -1,4 +1,4 @@
-package com.gohb.params.request;
+package com.gohb.params.request.kube;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,9 +13,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @ToString
 @Accessors(chain = true)
-public class UpdateServiceRequest implements Serializable {
-
-    private String serviceName;
+public class CreateServiceRequest implements Serializable {
 
     private String apiVersion;
 

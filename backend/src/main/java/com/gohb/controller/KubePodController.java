@@ -5,7 +5,7 @@ import com.gohb.params.dto.ResultUtils;
 import com.gohb.params.dto.kube.KubePodDTO;
 import com.gohb.params.dto.kube.KubePodDetailDTO;
 import com.gohb.manage.kube.KubePodManage;
-import com.gohb.params.request.CreatePodRequest;
+import com.gohb.params.request.kube.CreatePodRequest;
 import io.kubernetes.client.openapi.ApiClient;
 import io.kubernetes.client.openapi.models.V1Pod;
 import lombok.extern.slf4j.Slf4j;

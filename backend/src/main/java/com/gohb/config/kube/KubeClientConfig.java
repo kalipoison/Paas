@@ -1,4 +1,4 @@
-package com.gohb.config;
+package com.gohb.config.kube;
 
 
 import io.kubernetes.client.openapi.ApiClient;

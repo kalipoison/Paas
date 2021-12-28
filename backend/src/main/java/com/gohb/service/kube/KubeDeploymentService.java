@@ -3,9 +3,8 @@ package com.gohb.service.kube;
 
 import com.gohb.params.bo.kube.KubeDeploymentBO;
 import com.gohb.params.bo.kube.KubeDeploymentDetailBO;
-import com.gohb.params.request.CreateDeploymentRequest;
-import com.gohb.params.request.UpdateDeploymentRequest;
-import io.kubernetes.client.openapi.models.V1Deployment;
+import com.gohb.params.request.kube.CreateDeploymentRequest;
+import com.gohb.params.request.kube.UpdateDeploymentRequest;
 import io.kubernetes.client.openapi.models.V1Status;
 
 import java.util.List;

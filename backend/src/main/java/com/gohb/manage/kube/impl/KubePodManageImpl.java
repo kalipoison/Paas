@@ -6,7 +6,7 @@ import com.gohb.convert.BoToDtoUtils;
 import com.gohb.params.dto.kube.KubePodDTO;
 import com.gohb.params.dto.kube.KubePodDetailDTO;
 import com.gohb.manage.kube.KubePodManage;
-import com.gohb.params.request.CreatePodRequest;
+import com.gohb.params.request.kube.CreatePodRequest;
 import com.gohb.service.kube.KubePodService;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -4,7 +4,7 @@
 
 # 技术栈
 
-后端： springboot + kubernetes + springsecurity + jwt + websocket
+后端： springboot + mybatis + kubernetes + springsecurity + jwt + websocket
 
 前端： vue + echarts + element-ui + xterm
 

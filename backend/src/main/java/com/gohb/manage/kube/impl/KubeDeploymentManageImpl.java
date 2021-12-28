@@ -4,15 +4,13 @@ import com.gohb.convert.BoToDtoUtils;
 import com.gohb.params.bo.kube.KubeDeploymentBO;
 import com.gohb.params.bo.kube.KubeDeploymentDetailBO;
 import com.gohb.params.bo.kube.KubeNamespaceBO;
-import com.gohb.convert.KubeToBoUtils;
 import com.gohb.manage.kube.KubeDeploymentManage;
 import com.gohb.params.dto.kube.KubeDeploymentDTO;
 import com.gohb.params.dto.kube.KubeDeploymentDetailDTO;
-import com.gohb.params.request.CreateDeploymentRequest;
-import com.gohb.params.request.UpdateDeploymentRequest;
+import com.gohb.params.request.kube.CreateDeploymentRequest;
+import com.gohb.params.request.kube.UpdateDeploymentRequest;
 import com.gohb.service.kube.KubeDeploymentService;
 import com.gohb.service.kube.KubeNamespaceService;
-import io.kubernetes.client.openapi.models.V1Deployment;
 import io.kubernetes.client.openapi.models.V1Status;
 import org.springframework.beans.factory.annotation.Autowired;
 

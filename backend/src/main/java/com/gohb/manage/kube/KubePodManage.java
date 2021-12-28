@@ -2,7 +2,7 @@ package com.gohb.manage.kube;
 
 import com.gohb.params.dto.kube.KubePodDTO;
 import com.gohb.params.dto.kube.KubePodDetailDTO;
-import com.gohb.params.request.CreatePodRequest;
+import com.gohb.params.request.kube.CreatePodRequest;
 
 import java.util.List;
 

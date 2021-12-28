@@ -5,7 +5,7 @@ import com.gohb.params.bo.kube.KubePodContainerBO;
 import com.gohb.params.bo.kube.KubePodDetailBO;
 import com.gohb.convert.KubeToBoUtils;
 import com.gohb.params.exception.KubeException;
-import com.gohb.params.request.CreatePodRequest;
+import com.gohb.params.request.kube.CreatePodRequest;
 import com.gohb.service.kube.KubePodService;
 import io.kubernetes.client.custom.Quantity;
 import io.kubernetes.client.openapi.ApiException;

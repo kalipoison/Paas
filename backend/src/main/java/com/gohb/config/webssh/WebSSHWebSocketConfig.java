@@ -1,4 +1,4 @@
-package com.gohb.config;
+package com.gohb.config.webssh;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

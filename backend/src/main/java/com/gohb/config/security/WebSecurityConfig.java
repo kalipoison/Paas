@@ -1,5 +1,8 @@
-package com.gohb.config;
+package com.gohb.config.security;
 
+import com.gohb.config.security.JWTAuthenticationEntryPoint;
+import com.gohb.config.security.JWTAuthenticationFilter;
+import com.gohb.config.security.JWTAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

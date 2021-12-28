@@ -1,4 +1,4 @@
-package com.gohb.config;
+package com.gohb.config.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

@@ -2,8 +2,7 @@ package com.gohb.service.kube;
 
 import com.gohb.params.bo.kube.KubePodBO;
 import com.gohb.params.bo.kube.KubePodDetailBO;
-import com.gohb.params.request.CreatePodRequest;
-import io.kubernetes.client.openapi.models.V1Pod;
+import com.gohb.params.request.kube.CreatePodRequest;
 
 import java.util.List;
 

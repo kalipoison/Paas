@@ -1,4 +1,4 @@
-package com.gohb.config;
+package com.gohb.config.security;
 
 import com.gohb.constant.SecurityConstant;
 import org.springframework.beans.factory.annotation.Autowired;

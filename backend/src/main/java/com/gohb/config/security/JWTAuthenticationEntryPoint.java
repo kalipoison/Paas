@@ -1,4 +1,4 @@
-package com.gohb.config;
+package com.gohb.config.security;
 
 import com.alibaba.fastjson.JSONObject;
 import com.gohb.params.dto.Result;

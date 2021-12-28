@@ -1,4 +1,4 @@
-package com.gohb.config;
+package com.gohb.config.cors;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
