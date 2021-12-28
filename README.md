@@ -12,6 +12,8 @@
 
 # 部署
 
+导入paas_db.sql文件
+
 ## 前端部署
 
 ```javascript
