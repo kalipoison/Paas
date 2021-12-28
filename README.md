@@ -2,6 +2,33 @@
 
 
 
+# 技术栈
+
+后端： springboot + kubernetes + springsecurity + jwt + websocket
+
+前端： vue + echarts + element-ui + xterm
+
+
+
+# 部署
+
+## 前端部署
+
+```javascript
+npm install
+npm run serve
+```
+
+## 后端
+
+```java
+java -jar xxx.jar
+```
+
+
+
+
+
 # 效果展示：
 
 ## 1.登录界面 
@@ -67,3 +94,11 @@
 ### 4.1 访问量
 
 ![image-20211227002712839](./pic/image-20211227002712839.png)
+
+
+
+# 5. 终端 
+
+### 5.1 终端
+
+![image-20211229052324284](./pic/image-20211229052324284.png)
