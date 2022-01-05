@@ -5,6 +5,11 @@ import Login from '../components/Login.vue'
 import First from '../components/home/First.vue'
 import Price from '../components/home/Price.vue'
 import Service from '../components/home/Service.vue'
+import Person from '../components/person/Person.vue'
+import PersonHome from '../components/person/PersonHome.vue'
+import PersonShop from '../components/person/PersonShop.vue'
+import PersonTool from '../components/person/PersonTool.vue'
+import PersonNotify from '../components/person/PersonNotify.vue'
 
 Vue.use(VueRouter)
 
@@ -19,6 +24,15 @@ const routes = [{
 }, {
     path : '/login',
     component : Login
+}, {
+    path : '/console',
+    component : Person,
+    children: [
+        {path : '/home' , component: PersonHome},
+        {path : '/shop' , component: PersonShop},
+        {path : '/tool' , component: PersonTool},
+        {path : '/notify' , component: PersonNotify},
+    ]
 }
 ]
 
