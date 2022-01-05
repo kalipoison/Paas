@@ -6,7 +6,7 @@
             <el-row><span>You can access GLaDOS edge network via V2Ray or Wireguard clients.
                 <br>Switch based on your needs anytime.</span></el-row>
             <el-row :style="{padding:'50px'}">
-                <el-col :span="10" :offset="2">
+                <el-col :span="10" :offset="1">
                     <el-card :body-style="{ padding: '0px' }">
                     <div>
                         <div class="card_header">

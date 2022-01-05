@@ -23,6 +23,11 @@
 <script>
 import Footer from '@/components/Footer'
 export default {
+    data() {
+        return {
+            
+        } 
+    },
     components : {
         Footer
     }
@@ -35,7 +40,17 @@ div {
     width: 100%;
     height: 100%;
 }
-
-
+.el-container {
+    padding: 0px;
+    margin: 0px;
+}
+.el-header {
+    padding: 0px;
+    margin: 0px;
+}
+.el-main {
+    padding: 0px;
+    margin: 0px;
+}
 
 </style>

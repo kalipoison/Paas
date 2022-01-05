@@ -172,6 +172,7 @@ span {
     background: #edf2f7;
     color: #a0a2a0;
     font-size: 16px;
+    text-align: center;
 }
 
 .clearfix:before,
