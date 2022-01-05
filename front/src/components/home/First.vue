@@ -9,8 +9,8 @@
                     high speed inter-national Internet, Netflix and Privacy with confidence.
                 </div>
                 <div>
-                    <el-button type="primary" round>Register</el-button>
-                    <el-button round>Login</el-button>
+                    <el-button type="primary" round @click="handleLoginOrRegister">Register</el-button>
+                    <el-button round @click="handleLoginOrRegister">Login</el-button>
                 </div>
             </div>
         </div>
@@ -41,6 +41,21 @@
     </div>
 
 </template>
+
+<script>
+export default {
+    data () {
+        return {
+            
+        }
+    },
+    methods: {
+        handleLoginOrRegister () {
+            this.$router.push('/login')
+        }
+    }
+}
+</script>
 
 <style lang="less" scoped>
 #content {
