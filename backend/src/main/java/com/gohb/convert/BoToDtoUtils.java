@@ -1,8 +1,12 @@
 package com.gohb.convert;
 
 import com.gohb.params.bo.kube.*;
+import com.gohb.params.bo.prod.ProdPropBO;
+import com.gohb.params.bo.prod.ProdPropValueBO;
 import com.gohb.params.bo.sys.*;
 import com.gohb.params.dto.kube.*;
+import com.gohb.params.dto.prod.ProdPropDTO;
+import com.gohb.params.dto.prod.ProdPropValueDTO;
 import com.gohb.params.dto.sys.*;
 import org.springframework.beans.BeanUtils;
 
@@ -170,5 +174,23 @@ public class BoToDtoUtils {
         return kubeServiceDetailDTO;
     }
 
+
+    public static ProdPropDTO prodPropBOTOProdPropDTO(ProdPropBO prodPropBO) {
+        if (prodPropBO == null) {
+            return null;
+        }
+        ProdPropDTO prodPropDTO = new ProdPropDTO();
+        BeanUtils.copyProperties(prodPropBO, prodPropDTO);
+        return prodPropDTO;
+    }
+
+    public static ProdPropValueDTO prodPropValueBOTOProdPropValueDTO(ProdPropValueBO prodPropValueBO) {
+        if (prodPropValueBO == null) {
+            return null;
+        }
+        ProdPropValueDTO prodPropValueDTO = new ProdPropValueDTO();
+        BeanUtils.copyProperties(prodPropValueBO, prodPropValueDTO);
+        return prodPropValueDTO;
+    }
 
 }

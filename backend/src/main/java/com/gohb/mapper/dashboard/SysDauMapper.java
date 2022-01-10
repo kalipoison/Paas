@@ -11,7 +11,7 @@ import java.util.List;
 * @author zsh
 * @description 针对表【sys_dau(访问量统计)】的数据库操作Mapper
 * @createDate 2021-12-26 23:02:27
-* @Entity com.gohb.entity.domain.SysDau
+* @Entity com.gohb.params.bo.domain.SysDau
 */
 public interface SysDauMapper extends BaseMapper<SysDauBO> {
 
