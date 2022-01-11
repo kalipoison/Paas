@@ -1,10 +1,12 @@
 package com.gohb.convert;
 
 import com.gohb.params.bo.kube.*;
+import com.gohb.params.bo.prod.ProdBO;
 import com.gohb.params.bo.prod.ProdPropBO;
 import com.gohb.params.bo.prod.ProdPropValueBO;
 import com.gohb.params.bo.sys.*;
 import com.gohb.params.dto.kube.*;
+import com.gohb.params.dto.prod.ProdDTO;
 import com.gohb.params.dto.prod.ProdPropDTO;
 import com.gohb.params.dto.prod.ProdPropValueDTO;
 import com.gohb.params.dto.sys.*;
@@ -191,6 +193,15 @@ public class BoToDtoUtils {
         ProdPropValueDTO prodPropValueDTO = new ProdPropValueDTO();
         BeanUtils.copyProperties(prodPropValueBO, prodPropValueDTO);
         return prodPropValueDTO;
+    }
+
+    public static ProdDTO prodBOTOProdDTO(ProdBO prodBO) {
+        if (prodBO == null) {
+            return null;
+        }
+        ProdDTO prodDTO = new ProdDTO();
+        BeanUtils.copyProperties(prodBO, prodDTO);
+        return prodDTO;
     }
 
 }
