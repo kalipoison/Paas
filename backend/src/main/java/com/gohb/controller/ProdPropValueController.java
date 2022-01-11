@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/auth/prodProp")
+@RequestMapping("/api/auth/prodPropValue")
 public class ProdPropValueController {
 
     @Autowired
