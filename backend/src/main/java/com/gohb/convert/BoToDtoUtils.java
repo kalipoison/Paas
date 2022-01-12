@@ -4,11 +4,13 @@ import com.gohb.params.bo.kube.*;
 import com.gohb.params.bo.prod.ProdBO;
 import com.gohb.params.bo.prod.ProdPropBO;
 import com.gohb.params.bo.prod.ProdPropValueBO;
+import com.gohb.params.bo.prod.SkuBO;
 import com.gohb.params.bo.sys.*;
 import com.gohb.params.dto.kube.*;
 import com.gohb.params.dto.prod.ProdDTO;
 import com.gohb.params.dto.prod.ProdPropDTO;
 import com.gohb.params.dto.prod.ProdPropValueDTO;
+import com.gohb.params.dto.prod.SkuDTO;
 import com.gohb.params.dto.sys.*;
 import org.springframework.beans.BeanUtils;
 
@@ -202,6 +204,15 @@ public class BoToDtoUtils {
         ProdDTO prodDTO = new ProdDTO();
         BeanUtils.copyProperties(prodBO, prodDTO);
         return prodDTO;
+    }
+
+    public static SkuDTO skuBoTOSkuDTO(SkuBO skuBO) {
+        if (skuBO == null) {
+            return null;
+        }
+        SkuDTO skuDTO = new SkuDTO();
+        BeanUtils.copyProperties(skuBO, skuDTO);
+        return skuDTO;
     }
 
 }
