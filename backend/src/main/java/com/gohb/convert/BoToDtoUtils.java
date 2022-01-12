@@ -6,12 +6,14 @@ import com.gohb.params.bo.prod.ProdPropBO;
 import com.gohb.params.bo.prod.ProdPropValueBO;
 import com.gohb.params.bo.prod.SkuBO;
 import com.gohb.params.bo.sys.*;
+import com.gohb.params.bo.voucher.VoucherBO;
 import com.gohb.params.dto.kube.*;
 import com.gohb.params.dto.prod.ProdDTO;
 import com.gohb.params.dto.prod.ProdPropDTO;
 import com.gohb.params.dto.prod.ProdPropValueDTO;
 import com.gohb.params.dto.prod.SkuDTO;
 import com.gohb.params.dto.sys.*;
+import com.gohb.params.dto.voucher.VoucherDTO;
 import org.springframework.beans.BeanUtils;
 
 /**
@@ -213,6 +215,15 @@ public class BoToDtoUtils {
         SkuDTO skuDTO = new SkuDTO();
         BeanUtils.copyProperties(skuBO, skuDTO);
         return skuDTO;
+    }
+
+    public static VoucherDTO VoucherBoTOVoucherDTO(VoucherBO voucherBO) {
+        if (voucherBO == null) {
+            return null;
+        }
+        VoucherDTO voucherDTO = new VoucherDTO();
+        BeanUtils.copyProperties(voucherBO, voucherDTO);
+        return voucherDTO;
     }
 
 }
