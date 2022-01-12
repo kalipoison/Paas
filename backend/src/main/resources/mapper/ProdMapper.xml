@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gohb.mapper.prod.ProdMapper">
+
+    <resultMap id="BaseResultMap" type="com.gohb.params.bo.prod.ProdBO">
+            <id property="prodId" column="prod_id" jdbcType="BIGINT"/>
+            <result property="prodName" column="prod_name" jdbcType="VARCHAR"/>
+            <result property="price" column="price" jdbcType="DECIMAL"/>
+            <result property="brief" column="brief" jdbcType="VARCHAR"/>
+            <result property="content" column="content" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="putawayTime" column="putaway_time" jdbcType="TIMESTAMP"/>
+            <result property="version" column="version" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        prod_id,prod_name,price,
+        brief,content,status,
+        create_time,update_time,putaway_time,
+        version
+    </sql>
+</mapper>
