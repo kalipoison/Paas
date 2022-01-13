@@ -15,7 +15,8 @@ import Dau from '../components/drawer/Dau.vue'
 import Service from '../components/container/Service.vue'
 import Terms from '../components/term/Terms.vue'
 import Product from '../components/prod/Product.vue'
-import ProdProp from '@/components/prod/ProdProp'
+import ProdProp from '../components/prod/ProdProp.vue'
+import ProdPropValue from '../components/prod/ProdPropValue.vue'
 
 Vue.use(VueRouter)
 
@@ -43,6 +44,7 @@ const routes = [
             {path: '/terminal/terminal', component: Terms},
             {path: '/prod/product', component: Product},
             {path: '/prod/prodProp', component: ProdProp},
+            {path: '/prod/ProdPropValue', component: ProdPropValue},
         ]
     }
 ]

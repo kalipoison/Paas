@@ -36,4 +36,11 @@ public interface ProdPropManage {
     List<ProdPropDTO> listProdProp(ProdPropBO prodPropBO);
 
 
+    /**
+     * 查询 商品属性详情
+     * @param propId
+     * @return
+     */
+    ProdPropDTO prodPropDetail(Integer propId);
+
 }
