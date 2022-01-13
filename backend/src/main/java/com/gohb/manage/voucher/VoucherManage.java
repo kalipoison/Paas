@@ -1,8 +1,6 @@
 package com.gohb.manage.voucher;
 
-import com.gohb.params.bo.prod.ProdBO;
 import com.gohb.params.bo.voucher.VoucherBO;
-import com.gohb.params.dto.prod.ProdDTO;
 import com.gohb.params.dto.voucher.VoucherDTO;
 
 import java.util.List;

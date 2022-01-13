@@ -14,6 +14,8 @@ import Pod from '../components/container/Pod.vue'
 import Dau from '../components/drawer/Dau.vue'
 import Service from '../components/container/Service.vue'
 import Terms from '../components/term/Terms.vue'
+import Product from '../components/prod/Product.vue'
+import ProdProp from '@/components/prod/ProdProp'
 
 Vue.use(VueRouter)
 
@@ -32,13 +34,15 @@ const routes = [
             {path: '/sys/role', component: Role},
             {path: '/sys/menu', component: Menu},
             {path: '/sys/log', component: Log},
-            {path: '/sys/node', component: Node},
-            {path: '/sys/namespace', component: Namespace},
-            {path: '/sys/deployment', component: Deployment},
-            {path: '/sys/pod', component: Pod},
-            {path: '/sys/dau', component: Dau},
-            {path: '/sys/service', component: Service},
-            {path: '/sys/terminal', component: Terms},
+            {path: '/container/node', component: Node},
+            {path: '/container/namespace', component: Namespace},
+            {path: '/container/deployment', component: Deployment},
+            {path: '/container/pod', component: Pod},
+            {path: '/container/service', component: Service},
+            {path: '/dau/request', component: Dau},
+            {path: '/terminal/terminal', component: Terms},
+            {path: '/prod/product', component: Product},
+            {path: '/prod/prodProp', component: ProdProp},
         ]
     }
 ]

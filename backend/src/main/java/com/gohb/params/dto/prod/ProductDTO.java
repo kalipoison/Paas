@@ -13,7 +13,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProdDTO implements Serializable {
+public class ProductDTO implements Serializable {
     /**
      * 产品ID
      */
@@ -47,17 +47,17 @@ public class ProdDTO implements Serializable {
     /**
      * 录入时间
      */
-    private Date createTime;
+    private String createTime;
 
     /**
      * 修改时间
      */
-    private Date updateTime;
+    private String updateTime;
 
     /**
      * 上架时间
      */
-    private Date putawayTime;
+    private String putawayTime;
 
     /**
      * 版本 乐观锁
