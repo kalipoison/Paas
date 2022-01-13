@@ -48,4 +48,12 @@ public class ProdPropManageImpl implements ProdPropManage {
         }
         return prodPropDTOS;
     }
+
+    @Override
+    public ProdPropDTO prodPropDetail(Integer propId) {
+        ProdPropBO propBO = prodPropService.getOne(new LambdaQueryWrapper<ProdPropBO>()
+                .eq(ProdPropBO::getPropId, propId));
+        ProdPropDTO prodPropDTO = BoToDtoUtils.prodPropBOTOProdPropDTO(propBO);
+        return prodPropDTO;
+    }
 }

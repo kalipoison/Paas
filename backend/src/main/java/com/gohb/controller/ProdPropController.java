@@ -39,12 +39,12 @@ public class ProdPropController {
 
     /**
      * 删除商品属性
-     * @param id
+     * @param propId
      * @return
      */
     @DeleteMapping()
-    public Result deleteProdPropById(Integer id) {
-        Boolean delete = prodPropManage.deleteProdProp(id);
+    public Result deleteProdPropById(Integer propId) {
+        Boolean delete = prodPropManage.deleteProdProp(propId);
         if (!delete) {
             return ResultUtils.getFailedResult(StatusCodeConstant.deleteFail, "删除商品属性失败");
         }
@@ -67,16 +67,28 @@ public class ProdPropController {
     }
 
     /**
-     * 获取商品属性详细信息
+     * 获取商品属性 列表
      * @param prodPropBO
      * @return
      */
-    @GetMapping("detail")
-    @Log(operation = "查询商品属性详细信息")
-    public Result<List<ProdPropDTO>> getProdPropDetail(ProdPropBO prodPropBO) {
+    @GetMapping("")
+    @Log(operation = "查询商品属性 列表")
+    public Result<List<ProdPropDTO>> getProdPropList(ProdPropBO prodPropBO) {
         List<ProdPropDTO> prodPropDTOS = prodPropManage.listProdProp(prodPropBO);
         return ResultUtils.getSuccessResult(prodPropDTOS);
     }
 
+
+    /**
+     * 获取商品属性详细信息
+     * @param propId
+     * @return
+     */
+    @GetMapping("/detail")
+    @Log(operation = "查询商品属性详细信息")
+    public Result<ProdPropDTO> getProdPropDetail(Integer propId) {
+        ProdPropDTO prodPropDTO = prodPropManage.prodPropDetail(propId);
+        return ResultUtils.getSuccessResult(prodPropDTO);
+    }
 
 }
