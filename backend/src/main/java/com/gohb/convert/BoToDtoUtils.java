@@ -1,14 +1,14 @@
 package com.gohb.convert;
 
 import com.gohb.params.bo.kube.*;
-import com.gohb.params.bo.prod.ProdBO;
+import com.gohb.params.bo.prod.ProductBO;
 import com.gohb.params.bo.prod.ProdPropBO;
 import com.gohb.params.bo.prod.ProdPropValueBO;
 import com.gohb.params.bo.prod.SkuBO;
 import com.gohb.params.bo.sys.*;
 import com.gohb.params.bo.voucher.VoucherBO;
 import com.gohb.params.dto.kube.*;
-import com.gohb.params.dto.prod.ProdDTO;
+import com.gohb.params.dto.prod.ProductDTO;
 import com.gohb.params.dto.prod.ProdPropDTO;
 import com.gohb.params.dto.prod.ProdPropValueDTO;
 import com.gohb.params.dto.prod.SkuDTO;
@@ -199,13 +199,16 @@ public class BoToDtoUtils {
         return prodPropValueDTO;
     }
 
-    public static ProdDTO prodBOTOProdDTO(ProdBO prodBO) {
-        if (prodBO == null) {
+    public static ProductDTO productBOTOProductDTO(ProductBO productBO) {
+        if (productBO == null) {
             return null;
         }
-        ProdDTO prodDTO = new ProdDTO();
-        BeanUtils.copyProperties(prodBO, prodDTO);
-        return prodDTO;
+        ProductDTO productDTO = new ProductDTO();
+        BeanUtils.copyProperties(productBO, productDTO);
+        productDTO.setCreateTime(DateTimeUtils.DateToString(productBO.getCreateTime()));
+        productDTO.setUpdateTime(DateTimeUtils.DateToString(productBO.getUpdateTime()));
+        productDTO.setPutawayTime(DateTimeUtils.DateToString(productBO.getPutawayTime()));
+        return productDTO;
     }
 
     public static SkuDTO skuBoTOSkuDTO(SkuBO skuBO) {

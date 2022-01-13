@@ -15,7 +15,7 @@ import lombok.Data;
  */
 @TableName(value ="prod")
 @Data
-public class ProdBO implements Serializable {
+public class ProductBO implements Serializable {
     /**
      * 产品ID
      */
@@ -90,7 +90,7 @@ public class ProdBO implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        ProdBO other = (ProdBO) that;
+        ProductBO other = (ProductBO) that;
         return (this.getProdId() == null ? other.getProdId() == null : this.getProdId().equals(other.getProdId()))
             && (this.getProdName() == null ? other.getProdName() == null : this.getProdName().equals(other.getProdName()))
             && (this.getPrice() == null ? other.getPrice() == null : this.getPrice().equals(other.getPrice()))

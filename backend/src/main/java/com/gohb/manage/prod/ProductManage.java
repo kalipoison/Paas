@@ -1,20 +1,19 @@
 package com.gohb.manage.prod;
 
-import com.gohb.params.bo.prod.ProdBO;
-import com.gohb.params.bo.prod.ProdPropBO;
-import com.gohb.params.dto.prod.ProdDTO;
-import com.gohb.params.dto.prod.ProdPropDTO;
+import com.gohb.params.bo.prod.ProductBO;
+import com.gohb.params.dto.prod.ProductDTO;
 
 import java.util.List;
 
-public interface ProdManage {
+public interface ProductManage {
 
     /**
      * 新增商品
      * @param prodBO
      * @return
      */
-    Boolean saveProd(ProdBO prodBO);
+    Boolean saveProd(ProductBO prodBO);
+
 
     /**
      * 根据id 删除商品
@@ -28,12 +27,18 @@ public interface ProdManage {
      * @param prodBO
      * @return
      */
-    Boolean updateProd(ProdBO prodBO);
+    Boolean updateProd(ProductBO prodBO);
 
     /**
      * 查询所有商品，模糊查询
      * @return
      */
-    List<ProdDTO> listProd(ProdBO prodBO);
+    List<ProductDTO> listProd(ProductBO prodBO);
+
+    /**
+     * 查询商品详情
+     * @return
+     */
+    ProductDTO detailProduct(Integer productId);
 
 }
