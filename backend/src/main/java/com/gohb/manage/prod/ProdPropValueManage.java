@@ -9,11 +9,18 @@ import java.util.List;
 public interface ProdPropValueManage {
 
     /**
-     * 新增商品属性值
+     * 新增 商品属性值
      * @param prodPropValueBO
      * @return
      */
     Boolean saveProdPropValue(ProdPropValueBO prodPropValueBO);
+
+    /**
+     * 获取 商品属性值 详情
+     * @param valueId
+     * @return
+     */
+    ProdPropValueDTO detailProdPropValue(Integer valueId);
 
     /**
      * 根据id 删除商品属性值

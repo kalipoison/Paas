@@ -29,5 +29,10 @@ public class ProdPropValueDTO implements Serializable {
      */
     private Long propId;
 
+    /**
+     * 属性名
+     */
+    private String propName;
+
 
 }

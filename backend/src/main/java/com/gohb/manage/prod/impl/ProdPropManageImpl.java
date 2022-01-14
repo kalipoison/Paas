@@ -6,6 +6,7 @@ import com.gohb.manage.prod.ProdPropManage;
 import com.gohb.params.bo.prod.ProdPropBO;
 import com.gohb.params.dto.prod.ProdPropDTO;
 import com.gohb.service.prod.ProdPropService;
+import com.gohb.service.prod.ProdPropValueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
@@ -19,6 +20,9 @@ public class ProdPropManageImpl implements ProdPropManage {
     @Autowired
     private ProdPropService prodPropService;
 
+    @Autowired
+    private ProdPropValueService prodPropValueService;
+
     @Override
     public Boolean saveProdProp(ProdPropBO prodPropBO) {
         boolean save = prodPropService.save(prodPropBO);
@@ -28,6 +32,9 @@ public class ProdPropManageImpl implements ProdPropManage {
     @Override
     public Boolean deleteProdProp(Integer id) {
         boolean delete = prodPropService.removeById(id);
+        if (delete) {
+            prodPropValueService.deleteByProdId(Long.valueOf(id));
+        }
         return delete;
     }
 

@@ -10,4 +10,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface ProdPropValueService extends IService<ProdPropValueBO> {
 
+    Boolean deleteByProdId(Long prodId);
+
 }
