@@ -37,12 +37,12 @@ public class ProdPropValueController {
 
     /**
      * 删除商品属性
-     * @param id
+     * @param valueId
      * @return
      */
     @DeleteMapping()
-    public Result deleteProdPropById(Integer id) {
-        Boolean delete = prodPropValueManage.deleteProdPropValue(id);
+    public Result deleteProdPropById(Integer valueId) {
+        Boolean delete = prodPropValueManage.deleteProdPropValue(valueId);
         if (!delete) {
             return ResultUtils.getFailedResult(StatusCodeConstant.deleteFail, "删除商品属性值失败");
         }
@@ -65,15 +65,28 @@ public class ProdPropValueController {
     }
 
     /**
-     * 获取商品属性详细信息
+     * 获取商品属性值列表
      * @param prodPropValueBO
      * @return
      */
-    @GetMapping("detail")
-    @Log(operation = "查询商品属性值详细信息")
-    public Result<List<ProdPropValueDTO>> getProdPropDetail(ProdPropValueBO prodPropValueBO) {
+    @GetMapping("")
+    @Log(operation = "查询商品属性值列表")
+    public Result<List<ProdPropValueDTO>> getProdPropList(ProdPropValueBO prodPropValueBO) {
         List<ProdPropValueDTO> prodPropValueDTOS = prodPropValueManage.listProdPropValue(prodPropValueBO);
-        return ResultUtils.getSuccessResult(prodPropValueDTOS);
+        return ResultUtils.getSuccessResult(prodPropValueDTOS).setCount(Long.valueOf(prodPropValueDTOS.size()));
+    }
+
+
+    /**
+     * 获取商品属性值详情
+     * @param valueId
+     * @return
+     */
+    @GetMapping("/detail")
+    @Log(operation = "查询商品属性值详细信息")
+    public Result<ProdPropValueDTO> getProdPropList(Integer valueId) {
+        ProdPropValueDTO prodPropValueDTO = prodPropValueManage.detailProdPropValue(valueId);
+        return ResultUtils.getSuccessResult(prodPropValueDTO);
     }
 
 
