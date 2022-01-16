@@ -26,12 +26,13 @@ public class VoucherController {
 
     /**
      * 新增 兑换券
-     * @param voucherBO
+     * @param userName
+     * @param num
      * @return
      */
     @PostMapping
-    public Result saveProdProp(VoucherBO voucherBO) {
-        Boolean save = voucherManage.saveVoucher(voucherBO);
+    public Result saveProdProp(String username, Integer num) {
+        Boolean save = voucherManage.saveVoucher(username, num);
         if (!save) {
             return ResultUtils.getFailedResult(StatusCodeConstant.createFail, "新增 兑换券 失败");
         }
@@ -72,9 +73,9 @@ public class VoucherController {
      * @param voucherBO
      * @return
      */
-    @GetMapping("detail")
+    @GetMapping("")
     @Log(operation = "查询 兑换券 详细信息")
-    public Result<List<VoucherDTO>> getProdPropDetail(VoucherBO voucherBO) {
+    public Result<List<VoucherDTO>> getVoucherList(VoucherBO voucherBO) {
         List<VoucherDTO> voucherDTOS = voucherManage.listVoucher(voucherBO);
         return ResultUtils.getSuccessResult(voucherDTOS);
     }

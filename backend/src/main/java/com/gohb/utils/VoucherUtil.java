@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-public class GenSerialUtil {
+public class VoucherUtil {
     private static final String Base32Alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
     /**
