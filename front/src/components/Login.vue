@@ -12,8 +12,8 @@
                         <el-input v-model="form.password"></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary">Login</el-button>
-                        <el-button>取消</el-button>
+                        <el-button type="primary" @click="login">Login</el-button>
+                        <el-button @click="register">Register</el-button>
                     </el-form-item>
                 </el-form>
             </div>
@@ -28,6 +28,29 @@ export default {
             form: {
                 email: '',
                 password: '',
+            }
+        }
+    },
+    methods: {
+        async register () {
+            const { data: res } = await this.$http.post("/client/register", this.form);
+            console.info('client register', res)
+            if (res.success && res.statusCode === 200) {
+                this.$message.success("注册成功");
+            } else {
+                this.$message.error('注册失败');
+            }
+        },
+        async login () {
+            const { data: res } = await this.$http.post("/login", {
+                ...this.form,
+            });
+            console.info('client login', res)
+            if (res.success && res.statusCode === 200) {
+                this.$message.success("成功");
+                this.$router.push('/console');
+            } else {
+                this.$message.success("登录失败");
             }
         }
     }

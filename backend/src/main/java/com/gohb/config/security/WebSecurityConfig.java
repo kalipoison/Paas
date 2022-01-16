@@ -46,6 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 访问/data需要ADMIN角色
                 .antMatchers("/api/auth/login").permitAll()
                 .antMatchers("/api/auth/websocket").permitAll()
+                .antMatchers("/api/client/register").permitAll()
                 // 其余资源任何人都可访问
                 .anyRequest().authenticated()
                 .and()
