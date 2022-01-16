@@ -68,16 +68,18 @@ public class SkuController {
     }
 
     /**
-     * 获取 SKU
+     * 获取 SKU 列表
      * @param skuBO
      * @return
      */
-    @GetMapping("detail")
-    @Log(operation = "查询SKU详细信息")
-    public Result<List<SkuDTO>> getProdPropDetail(SkuBO skuBO) {
+    @GetMapping("")
+    @Log(operation = "查询 SKU 列表")
+    public Result<List<SkuDTO>> getSkuList(SkuBO skuBO) {
         List<SkuDTO> skuDTOS = skuManage.listSku(skuBO);
-        return ResultUtils.getSuccessResult(skuDTOS);
+        return ResultUtils.getSuccessResult(skuDTOS).setCount(Long.valueOf(skuDTOS.size()));
     }
+
+
 
 
 }
