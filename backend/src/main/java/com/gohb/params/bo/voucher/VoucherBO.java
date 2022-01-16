@@ -49,10 +49,11 @@ public class VoucherBO implements Serializable {
      * 状态  0：未使用   1：已使用
      */
     @TableField(value = "status")
-    private Byte status;
+    private Integer status;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
 
     @Override
     public boolean equals(Object that) {

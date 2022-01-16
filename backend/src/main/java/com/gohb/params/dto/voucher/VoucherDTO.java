@@ -14,9 +14,9 @@ public class VoucherDTO implements Serializable {
     private Long voucherId;
 
     /**
-     * 使用用户id
+     * 使用用户名
      */
-    private Long userId;
+    private String username;
 
     /**
      * 兑换码
@@ -26,17 +26,17 @@ public class VoucherDTO implements Serializable {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private String createTime;
 
     /**
      * 过期时间
      */
-    private Date expireTime;
+    private String expireTime;
 
     /**
      * 状态  0：未使用   1：已使用
      */
-    private Byte status;
+    private Integer status;
 
     private static final long serialVersionUID = 1L;
 

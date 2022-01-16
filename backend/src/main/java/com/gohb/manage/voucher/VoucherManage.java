@@ -7,12 +7,14 @@ import java.util.List;
 
 public interface VoucherManage {
 
+
     /**
      * 新增 兑换券
-     * @param voucherBO
+     * @param userName
+     * @param num
      * @return
      */
-    Boolean saveVoucher(VoucherBO voucherBO);
+    Boolean saveVoucher(String userName, Integer num);
 
     /**
      * 根据id 删除 兑换券
