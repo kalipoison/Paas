@@ -17,6 +17,7 @@ import Terms from '../components/term/Terms.vue'
 import Product from '../components/prod/Product.vue'
 import ProdProp from '../components/prod/ProdProp.vue'
 import ProdPropValue from '../components/prod/ProdPropValue.vue'
+import Sku from '../components/prod/Sku.vue'
 
 Vue.use(VueRouter)
 
@@ -45,6 +46,7 @@ const routes = [
             {path: '/prod/product', component: Product},
             {path: '/prod/prodProp', component: ProdProp},
             {path: '/prod/ProdPropValue', component: ProdPropValue},
+            {path: '/prod/sku', component: Sku},
         ]
     }
 ]
