@@ -1,6 +1,7 @@
 package com.gohb.config.security;
 
 import com.alibaba.fastjson.JSON;
+import com.gohb.params.bo.client.MyUserBO;
 import com.gohb.params.bo.sys.SysUserBO;
 import com.gohb.constant.SecurityConstant;
 import com.gohb.constant.StatusCodeConstant;
@@ -36,7 +37,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,HttpServletResponse response) throws AuthenticationException {
         // 从输入流中获取到登录的信息
-        String username = request.getParameter("username");
+        String username = request.getHeader("loginType") == null ? request.getParameter("username") : request.getParameter("email");
         String password = request.getParameter("password");
         // 创建一个token并调用authenticationManager.authenticate() 让Spring security进行验证
         return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
@@ -48,10 +49,20 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
      */
     @Override
     protected void successfulAuthentication(HttpServletRequest request,HttpServletResponse response,FilterChain chain,Authentication authResult) throws IOException {
-        SysUserBO sysUserBO= (SysUserBO) authResult.getPrincipal();
+        String username = "";
+        String password = "";
+        if (request.getHeader("loginType") == null) {
+            SysUserBO sysUserBO= (SysUserBO) authResult.getPrincipal();
+            username = sysUserBO.getUsername();
+            password = sysUserBO.getPassword();
+        } else {
+            MyUserBO myUserBO = (MyUserBO) authResult.getPrincipal();
+            username = myUserBO.getEmail();
+            password = myUserBO.getPassword();
+        }
         // 创建Token
         // 带有"Bearer "前缀的token字符串
-        String token = SecurityConstant.TOKEN_PREFIX + JWTUtils.generateToken(sysUserBO.getUsername(), sysUserBO.getPassword());
+        String token = SecurityConstant.TOKEN_PREFIX + JWTUtils.generateToken(username, password);
         // 设置编码 防止乱码问题
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");

@@ -2,6 +2,7 @@ package com.gohb.controller;
 
 import com.gohb.params.dto.Result;
 import com.gohb.params.dto.ResultUtils;
+import com.gohb.params.exception.ClientException;
 import com.gohb.params.exception.KubeException;
 import com.gohb.params.exception.SysException;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,16 @@ public class ExceptionController {
      */
     @ExceptionHandler(value = KubeException.class)
     public Result kubeOerationHandler(KubeException e) {
+        return ResultUtils.getFailedResult(200, e.getMessage());
+    }
+
+    /**
+     * 客户端 前台异常抛出
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(value = ClientException.class)
+    public Result clientOerationHandler(ClientException e) {
         return ResultUtils.getFailedResult(200, e.getMessage());
     }
 

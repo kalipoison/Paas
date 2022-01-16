@@ -26,7 +26,7 @@
                         router>
                         <el-submenu index="2-4">
                             <template slot="title">1174616074@qq.com</template>
-                            <el-menu-item index="2-4-1">logout</el-menu-item>
+                            <el-menu-item index="/">logout</el-menu-item>
                         </el-submenu>
                     </el-menu>
                 </div>
