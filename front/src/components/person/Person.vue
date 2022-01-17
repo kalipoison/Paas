@@ -10,10 +10,10 @@
                         text-color="#545c64"
                         active-text-color="#ffd04b"
                         router>
-                        <el-menu-item index="/home">Home</el-menu-item>
-                        <el-menu-item index="/shop">Shop</el-menu-item>
-                        <el-menu-item index="/tool">Tool</el-menu-item>
-                        <el-menu-item index="/notify">Notify</el-menu-item>
+                        <el-menu-item index="/console">Home</el-menu-item>
+                        <el-menu-item index="/console/shop">Shop</el-menu-item>
+                        <el-menu-item index="/console/tool">Tool</el-menu-item>
+                        <el-menu-item index="/console/notify">Notify</el-menu-item>
                     </el-menu>
                 </div>
                 <div id="header_person">
