@@ -15,6 +15,9 @@ public class DateTimeUtils {
     }
 
     public static String DateToString(Date date) {
+        if (date == null) {
+            return "";
+        }
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date).toString();
     }
 

@@ -1,6 +1,7 @@
 package com.gohb.convert;
 
 import com.gohb.params.bo.kube.*;
+import com.gohb.params.bo.notify.NotifyBO;
 import com.gohb.params.bo.prod.ProductBO;
 import com.gohb.params.bo.prod.ProdPropBO;
 import com.gohb.params.bo.prod.ProdPropValueBO;
@@ -8,6 +9,7 @@ import com.gohb.params.bo.prod.SkuBO;
 import com.gohb.params.bo.sys.*;
 import com.gohb.params.bo.voucher.VoucherBO;
 import com.gohb.params.dto.kube.*;
+import com.gohb.params.dto.notify.NotifyDTO;
 import com.gohb.params.dto.prod.ProductDTO;
 import com.gohb.params.dto.prod.ProdPropDTO;
 import com.gohb.params.dto.prod.ProdPropValueDTO;
@@ -227,6 +229,15 @@ public class BoToDtoUtils {
         VoucherDTO voucherDTO = new VoucherDTO();
         BeanUtils.copyProperties(voucherBO, voucherDTO);
         return voucherDTO;
+    }
+
+    public static NotifyDTO NotifyBoTONotifyDTO(NotifyBO notifyBO) {
+        if (notifyBO == null) {
+            return null;
+        }
+        NotifyDTO notifyDTO = new NotifyDTO();
+        BeanUtils.copyProperties(notifyBO, notifyDTO);
+        return notifyDTO;
     }
 
 }

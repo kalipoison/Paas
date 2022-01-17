@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gohb.mapper.notify.NotifyMapper">
+
+    <resultMap id="BaseResultMap" type="com.gohb.params.bo.notify.NotifyBO">
+            <id property="notifyId" column="notify_id" jdbcType="BIGINT"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="notifyContent" column="notify_content" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        notify_id,create_time,notify_content
+    </sql>
+</mapper>
