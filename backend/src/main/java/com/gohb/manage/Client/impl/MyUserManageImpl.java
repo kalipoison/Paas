@@ -1,9 +1,12 @@
 package com.gohb.manage.Client.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.gohb.manage.Client.MyUserManage;
 import com.gohb.params.bo.client.MyUserBO;
+import com.gohb.params.bo.voucher.VoucherBO;
 import com.gohb.params.exception.ClientException;
 import com.gohb.service.client.MyUserService;
+import com.gohb.service.voucher.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.ManagedBean;
@@ -15,7 +18,6 @@ public class MyUserManageImpl implements MyUserManage {
     @Autowired
     private MyUserService myUserService;
 
-
     @Override
     public Boolean register(MyUserBO myUserBO) {
         myUserBO.setCreateTime(new Date());
@@ -26,4 +28,6 @@ public class MyUserManageImpl implements MyUserManage {
             throw new ClientException(e.getMessage());
         }
     }
+
+
 }
