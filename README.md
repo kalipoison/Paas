@@ -33,6 +33,8 @@ java -jar xxx.jar
 
 
 
+后台管理默认                           账号： admin  密码：admin
+
 
 
 # 效果展示：
