@@ -5,6 +5,39 @@
             <el-row><b>Simple and Transparent Pricing</b></el-row>
             <el-row><span>All type plans have been designed to fit most people need.</span></el-row>
             <el-row :style="{padding:'50px'}">
+                <el-col 
+                    :span="6" 
+                    :offset="1" 
+                    v-for="product in productList"
+                    :key="product.productId"
+                    >
+                    <el-card :body-style="{ padding: '0px' }">
+                    <div>
+                        <div class="card_header">
+                            <el-row :style="{padding:'15px'}">
+                                <span>{{product.prodName}}<br></span>
+                            </el-row>
+                            <el-row :style="{padding:'5px'}">
+                                <span>${{product.price}}/month</span>
+                            </el-row>
+                        </div>
+                        <div class="card_content clearfix">
+                            <el-row :style="{padding:'15px'}"
+                                v-for="prop in product.props"
+                                :key="prop"
+                            >
+                              <el-col :span="4"><img src="../../assets/gou.png" width="25px" height="25px"/></el-col>
+                              <el-col :span="20">
+                                  <span>{{prop}}</span><br>
+                              </el-col>
+                            </el-row>
+                            <el-button round>Start Today</el-button>
+                        </div>
+                    </div>
+                    </el-card>
+                </el-col>
+            </el-row>
+            <!-- <el-row :style="{padding:'50px'}">
                 <el-col :span="6" :offset="1">
                     <el-card :body-style="{ padding: '0px' }">
                     <div>
@@ -42,8 +75,8 @@
                         </div>
                     </div>
                     </el-card>
-                </el-col>
-                <el-col :span="6" :offset="2">
+                </el-col> -->
+                <!-- <el-col :span="6" :offset="2">
                     <el-card :body-style="{ padding: '0px' }">
                     <div>
                         <div class="card_header">
@@ -118,12 +151,37 @@
                         </div>
                     </div>
                     </el-card>
-                </el-col>
+                </el-col> -->
 
-            </el-row>
+            <!-- </el-row> -->
         </div>
     </div>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            productList : [],
+        }
+    },
+    created() {
+        this.getNotifylist()
+    },
+    methods : {
+        async getNotifylist () {
+            const { data: res } = await this.$http.get('/client/products', {
+            })
+            console.info('products', res)
+            if (!res.success) {
+                return this.$message.error(res.message)
+            }
+            this.productList = res.data
+        },
+    }
+}
+</script>
+
 
 <style lang="less" scoped>
 #content {
