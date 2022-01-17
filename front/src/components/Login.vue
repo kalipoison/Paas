@@ -48,6 +48,8 @@ export default {
             console.info('client login', res)
             if (res.success && res.statusCode === 200) {
                 this.$message.success("成功");
+                window.sessionStorage.setItem('token', res.data);
+                window.sessionStorage.setItem('username', this.form.email);
                 this.$router.push('/console');
             } else {
                 this.$message.success("登录失败");
