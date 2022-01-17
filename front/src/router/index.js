@@ -28,10 +28,10 @@ const routes = [{
     path : '/console',
     component : Person,
     children: [
-        {path : '/home' , component: PersonHome},
-        {path : '/shop' , component: PersonShop},
-        {path : '/tool' , component: PersonTool},
-        {path : '/notify' , component: PersonNotify},
+        {path : '/' , component: PersonHome},
+        {path : '/console/shop' , component: PersonShop},
+        {path : '/console/tool' , component: PersonTool},
+        {path : '/console/notify' , component: PersonNotify},
     ]
 }
 ]
