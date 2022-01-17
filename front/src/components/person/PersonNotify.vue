@@ -5,21 +5,19 @@
                 <b>Notify</b><br>
             </div>
             <div id="content_info">
-            <el-table
-                :data="notifyData"
-                stripe
-                style="width: 100%">
-                <el-table-column
-                prop="date"
-                label="日期"
-                width="180">
-                </el-table-column>
-                <el-table-column
-                prop="content"
-                label="内容"
-                width="180">
-                </el-table-column>
-            </el-table>
+                <el-table
+                    :data="notifyList"
+                    stripe>
+                    <el-table-column
+                        prop="createTime"
+                        label="日期"
+                        width="200">
+                    </el-table-column>
+                    <el-table-column
+                        prop="notifyContent"
+                        label="内容">
+                    </el-table-column>
+                </el-table>
             </div>
         </div>
     </div>
@@ -29,11 +27,22 @@
 export default {
     data () {
         return {
-            notifyData : {
-                date : '',
-                content : '',
-            }
+            notifyList : [],
         }
+    },
+    created() {
+        this.getNotifylist();
+    },
+    methods : {
+        async getNotifylist () {
+            const { data: res } = await this.$http.get('/auth/notify', {
+            })
+            console.info('getNotifylist', res)
+            if (!res.success) {
+                return this.$message.error(res.message)
+            }
+            this.notifyList = res.data;
+        },
     }
 }
 </script>
@@ -55,11 +64,6 @@ export default {
         font-size: 19.8px;
     }
 }
-#content_info {
-    width: 80%;
-    div {
-        background: #fff;
-    }
-}
+
 
 </style>
