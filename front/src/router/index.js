@@ -10,6 +10,8 @@ import PersonHome from '../components/person/PersonHome.vue'
 import PersonShop from '../components/person/PersonShop.vue'
 import PersonTool from '../components/person/PersonTool.vue'
 import PersonNotify from '../components/person/PersonNotify.vue'
+import PersonSecurity from '../components/person/PersonSecurity.vue'
+import PersonGift from '../components/person/PersonGift.vue'
 
 Vue.use(VueRouter)
 
@@ -32,6 +34,8 @@ const routes = [{
         {path : '/console/shop' , component: PersonShop},
         {path : '/console/tool' , component: PersonTool},
         {path : '/console/notify' , component: PersonNotify},
+        {path : '/console/security' , component: PersonSecurity},
+        {path : '/console/giftcard' , component: PersonGift},
     ]
 }
 ]

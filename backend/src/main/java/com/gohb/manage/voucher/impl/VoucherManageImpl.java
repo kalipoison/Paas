@@ -39,7 +39,7 @@ public class VoucherManageImpl implements VoucherManage {
             voucherBO.setCreateTime(new Date());
             voucherBO.setStatus(0);
             voucherBO.setExpireTime(getExpireTime(new Date()));
-            voucherBO.setUserId(sysUserBO.getUserId());
+//            voucherBO.setUserId(sysUserBO.getUserId());
             voucherBO.setVoucherCode(VoucherUtil.generateNewCode());
             voucherBOS.add(voucherBO);
         }
