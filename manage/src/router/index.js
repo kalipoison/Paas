@@ -19,6 +19,7 @@ import ProdProp from '../components/prod/ProdProp.vue'
 import ProdPropValue from '../components/prod/ProdPropValue.vue'
 import Sku from '../components/prod/Sku.vue'
 import Voucher from '../components/voucher/Voucher.vue'
+import Notify from '../components/notify/Notify.vue'
 
 Vue.use(VueRouter)
 
@@ -49,6 +50,7 @@ const routes = [
             {path: '/prod/ProdPropValue', component: ProdPropValue},
             {path: '/prod/sku', component: Sku},
             {path: '/voucher/voucher', component: Voucher},
+            {path: '/notify/notify', component: Notify},
         ]
     }
 ]
