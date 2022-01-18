@@ -6,18 +6,26 @@
                 <span>Current plan is Basic Plan, 157 days to be expired.</span>
             </div>
             <div id="content_info">
-                <el-form ref="form" :model="form" label-width="80px">
-                    <el-form-item label="Email">
-                        <el-input v-model="form.email"></el-input>
-                    </el-form-item>
-                    <el-form-item label="Password">
-                        <el-input v-model="form.password"></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary">Login</el-button>
-                        <el-button>取消</el-button>
-                    </el-form-item>
-                </el-form>
+                <el-table
+                    :data="notifyList"
+                    stripe>
+                    <el-table-column
+                        prop="containerName"
+                        label="容器名">
+                    </el-table-column>
+                    <el-table-column
+                        prop="image"
+                        label="镜像">
+                    </el-table-column>
+                    <el-table-column
+                        prop="productName"
+                        label="产品名">
+                    </el-table-column>
+                    <el-table-column
+                        prop="expireTime"
+                        label="到期时间">
+                    </el-table-column>
+                </el-table>
             </div>
         </div>
     </div>
@@ -27,11 +35,25 @@
 export default {
     data () {
         return {
-            form : {
-                email: '',
-                password: '',
-            }
+            notifyList : [],
         }
+    },
+    created() {
+        this.getUserProdlist();
+    },
+    methods : {
+        async getUserProdlist () {
+            const username = window.sessionStorage.getItem('username')
+            console.info('username' , username)
+            const { data: res } = await this.$http.get('/auth/userProd', {
+                username : username
+            })
+            console.info('getNotifylist', res)
+            if (!res.success) {
+                return this.$message.error(res.message)
+            }
+            this.notifyList = res.data;
+        },
     }
 }
 </script>
@@ -58,8 +80,8 @@ export default {
 }
 #content_info {
     background: #f8f8f9;
-    width: 40%;
-    padding: 10%;
+    width: 100%;
+    // padding: 10%;
     // margin-top: 10%;
 }
 </style>
