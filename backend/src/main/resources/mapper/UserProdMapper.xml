@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gohb.mapper.client.UserProdMapper">
+
+    <resultMap id="BaseResultMap" type="com.gohb.params.bo.client.UserProdBO">
+            <id property="userProdId" column="user_prod_id" jdbcType="BIGINT"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="prodId" column="prod_id" jdbcType="BIGINT"/>
+            <result property="image" column="image" jdbcType="TINYINT"/>
+            <result property="containerName" column="container_name" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="expireTime" column="expire_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        user_prod_id,user_id,prod_id,
+        image,container_name,create_time,
+        expire_time
+    </sql>
+</mapper>
