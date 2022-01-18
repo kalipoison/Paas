@@ -55,9 +55,14 @@ public class ClientManageImpl implements ClientManage {
         if (voucherBO.getExpireTime().before(new Date())) {
             throw new ClientException("兑换码已过期");
         }
-        voucherBO.setUserId(myUserBO.getUserId());
-        boolean save = voucherService.updateById(voucherBO);
-        return save;
+        myUserBO.setMember(0);
+        boolean saveUser = myUserService.save(myUserBO);
+        if (saveUser) {
+            voucherBO.setUserId(myUserBO.getUserId());
+            boolean save = voucherService.updateById(voucherBO);
+            return save;
+        }
+        return false;
     }
 
     public List<ProdDetailDTO> listProd() {
@@ -106,6 +111,7 @@ public class ClientManageImpl implements ClientManage {
         }
         return prodDetailDTOS;
     }
+
 
 
 }
