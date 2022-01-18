@@ -10,10 +10,11 @@
             <result property="password" column="password" jdbcType="VARCHAR"/>
             <result property="status" column="status" jdbcType="TINYINT"/>
             <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="member" column="member" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         user_id,email,password,
-        status,create_time
+        status,create_time,member
     </sql>
 </mapper>
