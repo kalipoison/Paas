@@ -52,7 +52,7 @@ public class ClientManageImpl implements ClientManage {
         if (voucherBO == null || voucherBO.getUserId() != null) {
             throw new ClientException("兑换码失效");
         }
-        if (voucherBO.getExpireTime().before(new Date())) {
+        if (voucherBO.getExpireTime().after(new Date())) {
             throw new ClientException("兑换码已过期");
         }
         myUserBO.setMember(0);
