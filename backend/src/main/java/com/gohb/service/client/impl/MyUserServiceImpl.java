@@ -1,9 +1,11 @@
 package com.gohb.service.client.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gohb.params.bo.client.MyUserBO;
 import com.gohb.service.client.MyUserService;
 import com.gohb.mapper.client.MyUserMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +17,15 @@ import org.springframework.stereotype.Service;
 public class MyUserServiceImpl extends ServiceImpl<MyUserMapper, MyUserBO>
     implements MyUserService {
 
+    @Autowired
+    private MyUserMapper myUserMapper;
+
+    @Override
+    public MyUserBO getByName(String username) {
+        MyUserBO myUserBO = myUserMapper.selectOne(new LambdaQueryWrapper<MyUserBO>()
+                .eq(MyUserBO::getEmail, username));
+        return myUserBO;
+    }
 }
 
 

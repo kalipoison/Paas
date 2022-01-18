@@ -10,4 +10,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface MyUserService extends IService<MyUserBO> {
 
+    MyUserBO getByName(String username);
+
 }
