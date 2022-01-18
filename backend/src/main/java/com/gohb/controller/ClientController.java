@@ -3,13 +3,11 @@ package com.gohb.controller;
 import com.gohb.constant.StatusCodeConstant;
 import com.gohb.manage.Client.ClientManage;
 import com.gohb.manage.Client.MyUserManage;
-import com.gohb.manage.voucher.VoucherManage;
 import com.gohb.params.bo.client.MyUserBO;
 import com.gohb.params.dto.Result;
 import com.gohb.params.dto.ResultUtils;
 import com.gohb.params.dto.client.ProdDetailDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,13 +25,11 @@ public class ClientController {
     @Autowired
     private ClientManage clientManage;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+
 
     @PostMapping("/register")
     public Result register(MyUserBO myUserBO) {
-        myUserBO.setPassword(passwordEncoder.encode(myUserBO.getPassword()));
-        Boolean register = myUserManage.register(myUserBO);
+        Boolean register = myUserManage.saveMyUser(myUserBO);
         if (!register) {
             return ResultUtils.getFailedResult(StatusCodeConstant.createFail, "注册失败");
         }
