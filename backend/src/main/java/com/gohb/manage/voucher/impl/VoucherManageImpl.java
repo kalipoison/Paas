@@ -50,7 +50,7 @@ public class VoucherManageImpl implements VoucherManage {
     private Date getExpireTime(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);   //设置当前时间
-        cal.add(Calendar.YEAR, 1);
+        cal.add(Calendar.MONTH, 1);
         return new Date(cal.getTimeInMillis());
     }
 
