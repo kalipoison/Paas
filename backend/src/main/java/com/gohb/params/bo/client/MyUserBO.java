@@ -40,13 +40,19 @@ public class MyUserBO implements Serializable, UserDetails {
      * 状态  0：禁用   1：正常
      */
     @TableField(value = "status")
-    private Byte status;
+    private Integer status;
 
     /**
      * 创建时间
      */
     @TableField(value = "create_time")
     private Date createTime;
+
+    /**
+     * 是否会员
+     */
+    @TableField(value = "member")
+    private Integer member;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
