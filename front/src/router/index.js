@@ -12,32 +12,36 @@ import PersonTool from '../components/person/PersonTool.vue'
 import PersonNotify from '../components/person/PersonNotify.vue'
 import PersonSecurity from '../components/person/PersonSecurity.vue'
 import PersonGift from '../components/person/PersonGift.vue'
+import Terms from '../components/term/Terms.vue'
 
 Vue.use(VueRouter)
 
 const routes = [{
-    path : '/',
-    component : Home,
-    children: [
-        {path : '/' , component: First},
-        {path : '/price' , component: Price},
-        {path : '/service' , component: Service},
-    ]
-}, {
-    path : '/login',
-    component : Login
-}, {
-    path : '/console',
-    component : Person,
-    children: [
-        {path : '/' , component: PersonHome},
-        {path : '/console/shop' , component: PersonShop},
-        {path : '/console/tool' , component: PersonTool},
-        {path : '/console/notify' , component: PersonNotify},
-        {path : '/console/security' , component: PersonSecurity},
-        {path : '/console/giftcard' , component: PersonGift},
-    ]
-}
+        path : '/',
+        component : Home,
+        children: [
+            {path : '/' , component: First},
+            {path : '/price' , component: Price},
+            {path : '/service' , component: Service},
+        ]
+    }, {
+        path : '/login',
+        component : Login
+    }, {
+        path : '/console',
+        component : Person,
+        children: [
+            {path : '/' , component: PersonHome},
+            {path : '/console/shop' , component: PersonShop},
+            {path : '/console/tool' , component: PersonTool},
+            {path : '/console/notify' , component: PersonNotify},
+            {path : '/console/security' , component: PersonSecurity},
+            {path : '/console/giftcard' , component: PersonGift},
+        ]
+    }, {
+        path : '/terminal',
+        component : Terms
+    }
 ]
 
 const router = new VueRouter({
