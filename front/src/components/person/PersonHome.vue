@@ -11,24 +11,24 @@
                     stripe>
                     <el-table-column
                         prop="containerName"
-                        label="容器名">
+                        label="Container Name">
                     </el-table-column>
                     <el-table-column
                         prop="image"
-                        label="镜像">
+                        label="Image">
                     </el-table-column>
                     <el-table-column
                         prop="productName"
-                        label="产品名">
+                        label="Product Name">
                     </el-table-column>
                     <el-table-column
                         prop="expireTime"
-                        label="到期时间">
+                        label="Expire Time">
                     </el-table-column>
                     <el-table-column
-                        label="进入终端">
+                        label="Terminate">
                         <template slot-scope="scope">
-                        <a href="#" @click="handleTerm(scope.row)"><b>进入容器终端</b></a>
+                        <a href="#" @click="handleTerm(scope.row)"><b>Enter Terminate</b></a>
                         </template>
                         <!-- <el-tooltip
                             class="item"
