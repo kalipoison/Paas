@@ -25,6 +25,28 @@
                         prop="expireTime"
                         label="到期时间">
                     </el-table-column>
+                    <el-table-column
+                        label="进入终端">
+                        <template slot-scope="scope">
+                        <a href="#" @click="handleTerm(scope.row)"><b>进入容器终端</b></a>
+                        </template>
+                        <!-- <el-tooltip
+                            class="item"
+                            effect="dark"
+                            content="进入终端"
+                            :enterable="false"
+                            placement="top"
+                        >
+                            <el-button
+                            type="success"
+                            icon="el-icon-more"
+                            size="mini"
+                            content="进入终端"
+                            circle
+                            @click="InfoYamlDeployment(scope.row)"
+                            ></el-button>
+                        </el-tooltip> -->
+                    </el-table-column>
                 </el-table>
             </div>
         </div>
@@ -54,6 +76,10 @@ export default {
             }
             this.notifyList = res.data;
         },
+        handleTerm (serviceInfo) {
+            console.info('触发进入终端', serviceInfo)
+            this.$router.push('/terminal')
+        }
     }
 }
 </script>
