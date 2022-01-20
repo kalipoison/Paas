@@ -4,20 +4,14 @@ import com.gohb.params.bo.client.MyUserBO;
 import com.gohb.params.bo.client.UserProdBO;
 import com.gohb.params.bo.kube.*;
 import com.gohb.params.bo.notify.NotifyBO;
-import com.gohb.params.bo.prod.ProductBO;
-import com.gohb.params.bo.prod.ProdPropBO;
-import com.gohb.params.bo.prod.ProdPropValueBO;
-import com.gohb.params.bo.prod.SkuBO;
+import com.gohb.params.bo.prod.*;
 import com.gohb.params.bo.sys.*;
 import com.gohb.params.bo.voucher.VoucherBO;
 import com.gohb.params.dto.client.MyUserDTO;
 import com.gohb.params.dto.client.UserProdDTO;
 import com.gohb.params.dto.kube.*;
 import com.gohb.params.dto.notify.NotifyDTO;
-import com.gohb.params.dto.prod.ProductDTO;
-import com.gohb.params.dto.prod.ProdPropDTO;
-import com.gohb.params.dto.prod.ProdPropValueDTO;
-import com.gohb.params.dto.prod.SkuDTO;
+import com.gohb.params.dto.prod.*;
 import com.gohb.params.dto.sys.*;
 import com.gohb.params.dto.voucher.VoucherDTO;
 import org.springframework.beans.BeanUtils;
@@ -260,6 +254,15 @@ public class BoToDtoUtils {
         UserProdDTO userProdDTO = new UserProdDTO();
         BeanUtils.copyProperties(userProdBO, userProdDTO);
         return userProdDTO;
+    }
+
+    public static OrderDTO OrderBoTOOrderDTO(OrderBO orderBO) {
+        if (orderBO == null) {
+            return null;
+        }
+        OrderDTO orderDTO = new OrderDTO();
+        BeanUtils.copyProperties(orderBO, orderDTO);
+        return orderDTO;
     }
 
 }

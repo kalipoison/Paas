@@ -22,6 +22,7 @@ import Voucher from '../components/voucher/Voucher.vue'
 import Notify from '../components/notify/Notify.vue'
 import MyUser from '../components/user/MyUser.vue'
 import UserProd from '../components/user/UserProd.vue'
+import Order from '../components/prod/Order.vue'
 
 Vue.use(VueRouter)
 
@@ -55,6 +56,7 @@ const routes = [
             {path: '/notify/notify', component: Notify},
             {path: '/user/info', component: MyUser},
             {path: '/user/userprod', component: UserProd},
+            {path: '/prod/order', component: Order},
         ]
     }
 ]
