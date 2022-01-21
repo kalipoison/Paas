@@ -1,5 +1,6 @@
 package com.gohb.manage.prod;
 
+import cn.hutool.db.sql.Order;
 import com.gohb.params.bo.prod.OrderBO;
 import com.gohb.params.dto.notify.NotifyDTO;
 import com.gohb.params.dto.prod.OrderDTO;
@@ -21,6 +22,13 @@ public interface OrderManage {
      * @return
      */
     Boolean deleteOrder(Integer id);
+
+    /**
+     * 根据id 修改 订单
+     * @param orderBO
+     * @return
+     */
+    Boolean updateOrder(OrderBO orderBO);
 
     /**
      * 修改订单为 已经支付
