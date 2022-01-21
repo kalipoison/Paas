@@ -49,6 +49,16 @@ public class OrderController {
         return ResultUtils.getSuccessResult("删除 订单 成功");
     }
 
+    @PutMapping("")
+    @Log(operation = "修改 订单 信息")
+    public Result updateOrder(OrderBO orderBO) {
+        Boolean update = orderManage.updateOrder(orderBO);
+        if (!update) {
+            return ResultUtils.getFailedResult(StatusCodeConstant.deleteFail, "修改 订单 失败");
+        }
+        return ResultUtils.getSuccessResult("修改 订单 成功");
+    }
+
     /**
      * 修改 订单支付状态 信息
      * @param orderNum

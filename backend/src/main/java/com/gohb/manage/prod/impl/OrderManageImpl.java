@@ -35,7 +35,7 @@ public class OrderManageImpl implements OrderManage {
     @Override
     public Boolean submitOrder(OrderBO orderBO) {
         ProductBO productBO = productService.getProductById(orderBO.getProdId());
-        MyUserBO myUserBO = myUserService.getByName(orderBO.getUsername());
+        MyUserBO myUserBO = myUserService.getByName(orderBO.getEmail());
         orderBO.setUserId(myUserBO.getUserId());
         Snowflake snowflake = SnowUtil.snowflake;
         orderBO.setOrderNumber(snowflake.nextIdStr());
@@ -53,6 +53,12 @@ public class OrderManageImpl implements OrderManage {
     public Boolean deleteOrder(Integer id) {
         boolean delete = orderService.removeById(id);
         return null;
+    }
+
+    @Override
+    public Boolean updateOrder(OrderBO orderBO) {
+        boolean update = orderService.updateById(orderBO);
+        return update;
     }
 
     @Override
@@ -83,16 +89,27 @@ public class OrderManageImpl implements OrderManage {
     @Override
     public List<OrderDTO> listOrder(OrderBO orderBO) {
         List<OrderBO> orderBOS = orderService.list(new LambdaQueryWrapper<OrderBO>()
-                .eq(StringUtils.hasText(orderBO.getOrderNumber()),OrderBO::getOrderNumber, orderBO.getOrderNumber()));
-        List<Long> prodIdList = orderBOS.stream().map(OrderBO::getProdId).collect(Collectors.toList());
-        List<ProductBO> productBOS = productService.list(new LambdaQueryWrapper<ProductBO>()
-                .in(ProductBO::getProdId, prodIdList));
+                .like(StringUtils.hasText(orderBO.getOrderNumber()),OrderBO::getOrderNumber, orderBO.getOrderNumber()));
+        if (orderBOS == null || orderBOS.size() == 0) {
+            return new ArrayList<OrderDTO>();
+        }
         Map<Long, ProductBO> productBOMap = new HashMap<>();
+        Map<Long, MyUserBO> myUserBOMap = new HashMap<>();
+        orderBOS.forEach(order -> {
+            productBOMap.put(order.getProdId(), new ProductBO());
+            myUserBOMap.put(order.getUserId(), new MyUserBO());
+        });
+        List<ProductBO> productBOS = productService.list(new LambdaQueryWrapper<ProductBO>()
+                .in(ProductBO::getProdId, new ArrayList<>(productBOMap.keySet())));
         productBOS.forEach(productBO -> productBOMap.put(productBO.getProdId(), productBO));
+        List<MyUserBO> myUserBOS = myUserService.list(new LambdaQueryWrapper<MyUserBO>()
+                .in(MyUserBO::getUserId, new ArrayList<>(myUserBOMap.keySet())));
+        myUserBOS.forEach(myUserBO -> myUserBOMap.put(myUserBO.getUserId(), myUserBO));
         List<OrderDTO> orderDTOS = new ArrayList<>();
         for (OrderBO order : orderBOS) {
             OrderDTO orderDTO = BoToDtoUtils.OrderBoTOOrderDTO(order);
             orderDTO.setProductName(productBOMap.get(order.getProdId()).getProdName());
+            orderDTO.setEmail(myUserBOMap.get(order.getUserId()).getEmail());
             orderDTOS.add(orderDTO);
         }
         return orderDTOS;
@@ -103,6 +120,10 @@ public class OrderManageImpl implements OrderManage {
         OrderBO orderBO = orderService.getOne(new LambdaQueryWrapper<OrderBO>()
                 .eq(OrderBO::getOrderId, orderId));
         OrderDTO orderDTO = BoToDtoUtils.OrderBoTOOrderDTO(orderBO);
+        MyUserBO myUserBO = myUserService.getById(orderBO.getUserId());
+        orderDTO.setEmail(myUserBO.getEmail());
+        ProductBO productBO = productService.getProductById(orderBO.getProdId());
+        orderDTO.setProductName(productBO.getProdName());
         return orderDTO;
     }
 

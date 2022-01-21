@@ -12,4 +12,6 @@ public interface MyUserService extends IService<MyUserBO> {
 
     MyUserBO getByName(String username);
 
+    MyUserBO getById(Long userId);
+
 }

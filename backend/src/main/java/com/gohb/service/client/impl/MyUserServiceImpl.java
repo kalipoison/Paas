@@ -26,6 +26,13 @@ public class MyUserServiceImpl extends ServiceImpl<MyUserMapper, MyUserBO>
                 .eq(MyUserBO::getEmail, username));
         return myUserBO;
     }
+
+    @Override
+    public MyUserBO getById(Long userId) {
+        MyUserBO myUserBO = myUserMapper.selectOne(new LambdaQueryWrapper<MyUserBO>()
+                .eq(MyUserBO::getUserId, userId));
+        return myUserBO;
+    }
 }
 
 
