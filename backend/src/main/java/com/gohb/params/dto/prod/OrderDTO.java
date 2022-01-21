@@ -20,6 +20,11 @@ public class OrderDTO implements Serializable {
     private Long userId;
 
     /**
+     * 用户名
+     */
+    private String email;
+
+    /**
      * 产品名
      */
     private String productName;
@@ -80,9 +85,9 @@ public class OrderDTO implements Serializable {
     private Date cancelTime;
 
     /**
-     * 是否已经支付，1：已经支付过，0：，没有支付过
+     * 是否已经支付，1：已经支付过，0：没有支付过
      */
-    private Boolean isPayed;
+    private Integer isPayed;
 
     /**
      * 用户订单删除状态，0：没有删除， 1：回收站， 2：永久删除
@@ -90,7 +95,7 @@ public class OrderDTO implements Serializable {
     private Integer deleteStatus;
 
     /**
-     * 0:默认,1:在处理,2:处理完成
+     * 0:在处理,1:处理完成
      */
     private Integer refundSts;
 
@@ -100,9 +105,9 @@ public class OrderDTO implements Serializable {
     private BigDecimal reduceAmount;
 
     /**
-     * 订单关闭原因 1-超时未支付 2-退款关闭 4-买家取消
+     * 订单关闭原因 1-超时未支付 2-退款关闭 3-买家取消
      */
-    private Byte closeType;
+    private Integer closeType;
 
     private static final long serialVersionUID = 1L;
 

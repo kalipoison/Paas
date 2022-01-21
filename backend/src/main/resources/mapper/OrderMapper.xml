@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gohb.mapper.prod.OrderMapper">
+
+    <resultMap id="BaseResultMap" type="com.gohb.params.bo.prod.OrderBO">
+            <id property="orderId" column="order_id" jdbcType="BIGINT"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="prodId" column="prod_id" jdbcType="BIGINT"/>
+            <result property="orderNumber" column="order_number" jdbcType="VARCHAR"/>
+            <result property="total" column="total" jdbcType="DECIMAL"/>
+            <result property="actualTotal" column="actual_total" jdbcType="DECIMAL"/>
+            <result property="payType" column="pay_type" jdbcType="INTEGER"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="payTime" column="pay_time" jdbcType="TIMESTAMP"/>
+            <result property="finallyTime" column="finally_time" jdbcType="TIMESTAMP"/>
+            <result property="cancelTime" column="cancel_time" jdbcType="TIMESTAMP"/>
+            <result property="isPayed" column="is_payed" jdbcType="INTEGER"/>
+            <result property="deleteStatus" column="delete_status" jdbcType="INTEGER"/>
+            <result property="refundSts" column="refund_sts" jdbcType="INTEGER"/>
+            <result property="reduceAmount" column="reduce_amount" jdbcType="DECIMAL"/>
+            <result property="closeType" column="close_type" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        order_id,user_id,prod_id,
+        order_number,total,actual_total,
+        pay_type,status,create_time,
+        update_time,pay_time,finally_time,
+        cancel_time,is_payed,delete_status,
+        refund_sts,reduce_amount,close_type
+    </sql>
+</mapper>
