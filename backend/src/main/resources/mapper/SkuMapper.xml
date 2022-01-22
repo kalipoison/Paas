@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gohb.generate.mapper.SkuMapper">
+<mapper namespace="com.gohb.mapper.prod.SkuMapper">
 
     <resultMap id="BaseResultMap" type="com.gohb.params.bo.prod.SkuBO">
             <id property="skuId" column="sku_id" jdbcType="BIGINT"/>
