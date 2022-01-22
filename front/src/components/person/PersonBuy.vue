@@ -50,19 +50,37 @@ export default {
         }
     },
     methods : {
+        async addOrder(product) {
+            const email = window.sessionStorage.getItem('username');
+            const { data: res } = await this.$http.post('/auth/order', {
+                email : email,
+                prodId : product.productId,
+                payType : product.payType,
+                imageName : this.OrderForm.imageName,
+            })
+            if (!res.success) {
+            return this.$message.error(res.message)
+            }
+            this.$store.commit('setProduct', product)
+            this.$store.commit('setOrderNum', res.data)
+            this.$message.success("创建 订单 成功")
+            this.$router.push('/console/PersonPay')
+        },
+
         handleAliPay() {
             const product = this.$store.state.product.product
             product.payType = 2
-            
-            console.info('aliPay', product)
+            this.addOrder(product)
         },
         handleWxPay() {
             const product = this.$store.state.product.product
             product.payType = 1
+            this.addOrder(product)
         },
         handleOther() {
             const product = this.$store.state.product.product
             product.payType = 0
+            this.addOrder(product)
         }
     }
 }

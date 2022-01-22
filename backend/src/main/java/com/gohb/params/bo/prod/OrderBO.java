@@ -130,6 +130,12 @@ public class OrderBO implements Serializable {
     @TableField(value = "close_type")
     private Integer closeType;
 
+    /**
+     * 镜像名
+     */
+    @TableField(value = "image_name")
+    private String imageName;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 

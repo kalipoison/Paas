@@ -14,7 +14,7 @@ public interface OrderManage {
      * @param orderBO
      * @return
      */
-    Boolean submitOrder(OrderBO orderBO);
+    String submitOrder(OrderBO orderBO);
 
     /**
      * 根据id 删除 订单

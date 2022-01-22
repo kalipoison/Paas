@@ -23,6 +23,7 @@
             <result property="refundSts" column="refund_sts" jdbcType="INTEGER"/>
             <result property="reduceAmount" column="reduce_amount" jdbcType="DECIMAL"/>
             <result property="closeType" column="close_type" jdbcType="INTEGER"/>
+            <result property="imageName" column="image_name" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -31,6 +32,7 @@
         pay_type,status,create_time,
         update_time,pay_time,finally_time,
         cancel_time,is_payed,delete_status,
-        refund_sts,reduce_amount,close_type
+        refund_sts,reduce_amount,close_type,
+        image_name
     </sql>
 </mapper>

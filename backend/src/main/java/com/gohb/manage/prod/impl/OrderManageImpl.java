@@ -33,7 +33,7 @@ public class OrderManageImpl implements OrderManage {
     private MyUserService myUserService;
 
     @Override
-    public Boolean submitOrder(OrderBO orderBO) {
+    public String submitOrder(OrderBO orderBO) {
         ProductBO productBO = productService.getProductById(orderBO.getProdId());
         MyUserBO myUserBO = myUserService.getByName(orderBO.getEmail());
         orderBO.setUserId(myUserBO.getUserId());
@@ -46,7 +46,10 @@ public class OrderManageImpl implements OrderManage {
         orderBO.setCreateTime(new Date());
         orderBO.setRefundSts(0);
         boolean save = orderService.save(orderBO);
-        return save;
+        if (save) {
+            return orderBO.getOrderNumber();
+        }
+        return "";
     }
 
     @Override
