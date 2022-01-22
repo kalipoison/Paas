@@ -27,12 +27,9 @@ public class OrderController {
      * @return
      */
     @PostMapping
-    public Result submitOrder(OrderBO orderBO) {
-        Boolean save = orderManage.submitOrder(orderBO);
-        if (!save) {
-            return ResultUtils.getFailedResult(StatusCodeConstant.createFail, "新增 订单 失败");
-        }
-        return ResultUtils.getSuccessResult("新增 订单 成功");
+    public Result<String> submitOrder(OrderBO orderBO) {
+        String orderNum = orderManage.submitOrder(orderBO);
+        return ResultUtils.getSuccessResult(orderNum);
     }
 
     /**
