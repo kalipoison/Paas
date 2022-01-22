@@ -3,6 +3,7 @@
         <div id="content">
             <div id="content_info">
                 <div class="time">
+                    <h1>订单编号 : {{orderNum}}</h1>
                     <b>请在剩余</b>
                     <span>{{hour}}</span> : 
                     <span>{{minute}}</span> : 
@@ -11,8 +12,8 @@
                 </div>
                 <div class="qrcode" ref="qrCodeUrl"></div>
                 <el-row>
-                    <el-button type="success"> 支付完成 </el-button>
-                    <el-button type=""> 取消支付 </el-button>
+                    <el-button type="success" @click="handlePay"> 支付完成 </el-button>
+                    <el-button type="" @click="handleCancel"> 取消支付 </el-button>
                 </el-row>
                 
             </div>
@@ -30,19 +31,39 @@ export default {
                 imageName : '',
                 day: '',
             },
-            hour: "", //倒计时  小时
-            minute: "", // 倒计时 分钟
-            seconds: "", //倒计时 秒
-            interval: "",
-            countdownTime: 15
+            hour: '', //倒计时  小时
+            minute: '', // 倒计时 分钟
+            seconds: '', //倒计时 秒
+            interval: '',
+            countdownTime: 15,
+            orderNum: '',
         }
     },
     mounted() {
+        // console.info('store orderNum', this.$store.state.orderNum)
+        console.info('store product', this.$store.state.product)
+        this.orderNum = this.$store.state.product.orderNum
         this.creatQrCode();
         this.setTimer()
         this.setTimeData(this.countdownTime * 60 * 1000);
     },
     methods : {
+        async handlePay () {
+            const { data: res } = await this.$http.put('/auth/order/pay', {
+                orderNum : this.orderNum,
+            });
+            if (!res.success) {
+                return this.$message.error(res.message)
+            }
+        },
+        async handleCancel () {
+            const { data: res } = await this.$http.put('/auth/order/cancel', {
+                orderNum : this.orderNum,
+            });
+            if (!res.success) {
+                return this.$message.error(res.message)
+            }
+        },
         creatQrCode() {
             var qrcode = new QRCode(this.$refs.qrCodeUrl, {
                 text: 'xxxx',
