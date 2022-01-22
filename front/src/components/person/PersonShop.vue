@@ -31,7 +31,7 @@
                                   <span>{{prop}}</span><br>
                               </el-col>
                             </el-row>
-                            <el-button round>Start Today</el-button>
+                            <el-button round @click="handleShop(product)">Start Today</el-button>
                         </div>
                     </div>
                     </el-card>
@@ -169,6 +169,11 @@ export default {
         this.getNotifylist()
     },
     methods : {
+        async handleShop (product) {
+            console.info('productId', product)
+            this.$store.commit('setProduct', product)
+            this.$router.push('/console/personBuy')
+        },
         async getNotifylist () {
             const { data: res } = await this.$http.get('/client/products', {
             })
