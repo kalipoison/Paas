@@ -12,6 +12,8 @@ import PersonTool from '../components/person/PersonTool.vue'
 import PersonNotify from '../components/person/PersonNotify.vue'
 import PersonSecurity from '../components/person/PersonSecurity.vue'
 import PersonGift from '../components/person/PersonGift.vue'
+import PersonBuy from '../components/person/PersonBuy.vue'
+import PersonPay from '../components/person/PersonPay.vue'
 import Terms from '../components/term/Terms.vue'
 
 Vue.use(VueRouter)
@@ -37,6 +39,8 @@ const routes = [{
             {path : '/console/notify' , component: PersonNotify},
             {path : '/console/security' , component: PersonSecurity},
             {path : '/console/giftcard' , component: PersonGift},
+            {path : '/console/PersonBuy' , component: PersonBuy},
+            {path : '/console/PersonPay' , component: PersonPay},
         ]
     }, {
         path : '/terminal',
