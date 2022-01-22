@@ -10,6 +10,9 @@ import'element-ui/lib/theme-chalk/index.css';//引入element-ui的样式文件
 import axios from 'axios'
 import qs from 'qs'
 
+// store
+import store from './store'
+
 //通过这个命令使所有的element-ui标签(<el-*></el-*>)可被解析
 Vue.use(ElementUI)
 Vue.prototype.$message = ElementUI.Message
@@ -47,6 +50,7 @@ Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
 new Vue({
+  store,
   router,
   render: h => h(App)
 }).$mount('#app')
