@@ -1,5 +1,6 @@
 package com.gohb.manage.prod.impl;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Snowflake;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.gohb.convert.BoToDtoUtils;
@@ -14,11 +15,14 @@ import com.gohb.service.prod.OrderService;
 import com.gohb.service.prod.ProductService;
 import com.gohb.utils.SnowUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.ManagedBean;
+import javax.annotation.Resource;
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.concurrent.DelayQueue;
 
 @ManagedBean
 public class OrderManageImpl implements OrderManage {
@@ -32,6 +36,18 @@ public class OrderManageImpl implements OrderManage {
     @Autowired
     private MyUserService myUserService;
 
+    @Value("${order.cancel.delay.time}")
+    private long orderCancelDelayTime;
+
+    /**
+     * 延迟队列，用来存放订单对象
+     */
+    DelayQueue<OrderBO> orderDelayQueue = new DelayQueue<>();
+
+    @Resource
+    private ThreadPoolTaskExecutor executorService;
+
+
     @Override
     public String submitOrder(OrderBO orderBO) {
         ProductBO productBO = productService.getProductById(orderBO.getProdId());
@@ -44,14 +60,53 @@ public class OrderManageImpl implements OrderManage {
         orderBO.setIsPayed(0);
         orderBO.setDeleteStatus(0);
         orderBO.setCreateTime(new Date());
+        orderBO.setTime(new Date(new Date().getTime() + orderCancelDelayTime));
         orderBO.setRefundSts(0);
         boolean save = orderService.save(orderBO);
         if (save) {
+            this.writeToDelayQueue(orderBO);
+            this.DelayQueueCancelOrder();
             return orderBO.getOrderNumber();
         }
         return "";
     }
 
+    private DelayQueue<OrderBO> writeToDelayQueue(OrderBO orderBO) {
+        executorService.submit(()->{
+            try {
+                orderDelayQueue.add(orderBO);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        return orderDelayQueue;
+    }
+
+    /**
+     * 自动取消订单
+     */
+    private void DelayQueueCancelOrder() {
+        //新建一个线程，用来模拟定时取消订单job
+        executorService.submit(()->{
+            try {
+                System.out.println("开启自动取消订单job,当前时间：" + DateUtil.date());
+                OrderBO orderBO = orderDelayQueue.take();
+                OrderBO order = orderService.getOne(new LambdaQueryWrapper<OrderBO>()
+                        .eq(OrderBO::getOrderNumber, orderBO.getOrderNumber()));
+                if (orderBO.getCancelTime() == null && orderBO.getFinallyTime() == null &&
+                        orderBO.getStatus() != null && orderBO.getStatus() == 1 &&
+                        orderBO.getIsPayed() != null && orderBO.getIsPayed() == 1) {
+                    order.setFinallyTime(new Date());
+                } else {
+                    Date cancelTime = orderBO.getCancelTime();
+                    order.setCancelTime(cancelTime == null ? new Date() : cancelTime);
+                }
+                orderService.updateById(order);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
     @Override
     public Boolean deleteOrder(Integer id) {
         boolean delete = orderService.removeById(id);
@@ -82,7 +137,6 @@ public class OrderManageImpl implements OrderManage {
         OrderBO order = orderService.getOne(new LambdaQueryWrapper<OrderBO>()
                 .eq(OrderBO::getOrderNumber, orderNum)
         );
-        order.setCancelTime(new Date());
         order.setStatus(1);
         boolean update = orderService.updateById(order);
         return update;
