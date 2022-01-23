@@ -7,6 +7,9 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.concurrent.Delayed;
+import java.util.concurrent.TimeUnit;
+
 import lombok.Data;
 
 /**
@@ -15,13 +18,17 @@ import lombok.Data;
  */
 @TableName(value ="`order`")
 @Data
-public class OrderBO implements Serializable {
+public class OrderBO implements Serializable, Delayed {
     /**
      * 订单ID
      */
     @TableId(value = "order_id", type = IdType.AUTO)
     private Long orderId;
-
+    /**
+     * 延迟队列使用
+     */
+    @TableField(exist = false)
+    private Date time;
     /**
      * 订购用户ID
      */
@@ -99,6 +106,7 @@ public class OrderBO implements Serializable {
      */
     @TableField(value = "cancel_time")
     private Date cancelTime;
+
 
     /**
      * 是否已经支付，1：已经支付过，0：没有支付过
@@ -223,5 +231,15 @@ public class OrderBO implements Serializable {
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
+    }
+
+    @Override
+    public long getDelay(TimeUnit unit) {
+        return unit.convert(time.getTime() - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
+    }
+
+    @Override
+    public int compareTo(Delayed o) {
+        return time.compareTo(((OrderBO) o).getTime());
     }
 }
