@@ -39,6 +39,9 @@ public class OrderManageImpl implements OrderManage {
     @Value("${order.cancel.delay.time}")
     private long orderCancelDelayTime;
 
+    @Value("${order.cancel.method}")
+    private long orderCancelMethod;
+
     /**
      * 延迟队列，用来存放订单对象
      */
