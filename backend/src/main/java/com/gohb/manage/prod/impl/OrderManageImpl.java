@@ -7,18 +7,19 @@ import com.gohb.manage.prod.OrderManage;
 import com.gohb.params.bo.client.MyUserBO;
 import com.gohb.params.bo.prod.OrderBO;
 import com.gohb.params.bo.prod.ProductBO;
-import com.gohb.params.dto.notify.NotifyDTO;
 import com.gohb.params.dto.prod.OrderDTO;
 import com.gohb.service.client.MyUserService;
 import com.gohb.service.prod.OrderService;
 import com.gohb.service.prod.ProductService;
 import com.gohb.utils.SnowUtil;
+import io.netty.util.HashedWheelTimer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.ManagedBean;
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.concurrent.TimeUnit;
 
 @ManagedBean
 public class OrderManageImpl implements OrderManage {
@@ -31,6 +32,12 @@ public class OrderManageImpl implements OrderManage {
 
     @Autowired
     private MyUserService myUserService;
+
+    @Value("${order.cancel.delay.time}")
+    private long orderCancelDelayTime;
+
+
+
 
     @Override
     public String submitOrder(OrderBO orderBO) {
@@ -47,10 +54,18 @@ public class OrderManageImpl implements OrderManage {
         orderBO.setRefundSts(0);
         boolean save = orderService.save(orderBO);
         if (save) {
+            writeToDelayQueue(orderBO.getOrderNumber());
             return orderBO.getOrderNumber();
         }
         return "";
     }
+
+    private void writeToDelayQueue(String orderNumber) {
+        NettyDelayQueue nettyDelayQueue = new NettyDelayQueue(orderNumber);
+        io.netty.util.Timer timer = new HashedWheelTimer();
+        timer.newTimeout(nettyDelayQueue, orderCancelDelayTime, TimeUnit.MILLISECONDS);
+    }
+
 
     @Override
     public Boolean deleteOrder(Integer id) {
