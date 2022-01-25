@@ -1,6 +1,5 @@
 package com.gohb.manage.prod.impl;
 
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Snowflake;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.gohb.convert.BoToDtoUtils;
@@ -8,7 +7,6 @@ import com.gohb.manage.prod.OrderManage;
 import com.gohb.params.bo.client.MyUserBO;
 import com.gohb.params.bo.prod.OrderBO;
 import com.gohb.params.bo.prod.ProductBO;
-import com.gohb.params.dto.notify.NotifyDTO;
 import com.gohb.params.dto.prod.OrderDTO;
 import com.gohb.service.client.MyUserService;
 import com.gohb.service.prod.OrderService;
@@ -16,13 +14,10 @@ import com.gohb.service.prod.ProductService;
 import com.gohb.utils.SnowUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.ManagedBean;
-import javax.annotation.Resource;
 import java.util.*;
-import java.util.concurrent.DelayQueue;
 
 @ManagedBean
 public class OrderManageImpl implements OrderManage {
@@ -62,6 +57,8 @@ public class OrderManageImpl implements OrderManage {
             if (orderCancelMethod == 1) {
                 SelfDelayQueue.writeToDelayQueue(orderBO);
                 SelfDelayQueue.DelayQueueCancelOrder();
+            } else if (orderCancelMethod == 2) {
+                NettyDelayQueue.writeToDelayQueue(orderBO.getOrderNumber(), orderCancelDelayTime);
             }
             return orderBO.getOrderNumber();
         }
