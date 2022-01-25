@@ -40,15 +40,7 @@ public class OrderManageImpl implements OrderManage {
     private long orderCancelDelayTime;
 
     @Value("${order.cancel.method}")
-    private long orderCancelMethod;
-
-    /**
-     * 延迟队列，用来存放订单对象
-     */
-    DelayQueue<OrderBO> orderDelayQueue = new DelayQueue<>();
-
-    @Resource
-    private ThreadPoolTaskExecutor executorService;
+    private Integer orderCancelMethod;
 
 
     @Override
@@ -67,49 +59,15 @@ public class OrderManageImpl implements OrderManage {
         orderBO.setRefundSts(0);
         boolean save = orderService.save(orderBO);
         if (save) {
-            this.writeToDelayQueue(orderBO);
-            this.DelayQueueCancelOrder();
+            if (orderCancelMethod == 1) {
+                SelfDelayQueue.writeToDelayQueue(orderBO);
+                SelfDelayQueue.DelayQueueCancelOrder();
+            }
             return orderBO.getOrderNumber();
         }
         return "";
     }
 
-    private DelayQueue<OrderBO> writeToDelayQueue(OrderBO orderBO) {
-        executorService.submit(()->{
-            try {
-                orderDelayQueue.add(orderBO);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        return orderDelayQueue;
-    }
-
-    /**
-     * 自动取消订单
-     */
-    private void DelayQueueCancelOrder() {
-        //新建一个线程，用来模拟定时取消订单job
-        executorService.submit(()->{
-            try {
-                System.out.println("开启自动取消订单job,当前时间：" + DateUtil.date());
-                OrderBO orderBO = orderDelayQueue.take();
-                OrderBO order = orderService.getOne(new LambdaQueryWrapper<OrderBO>()
-                        .eq(OrderBO::getOrderNumber, orderBO.getOrderNumber()));
-                if (orderBO.getCancelTime() == null && orderBO.getFinallyTime() == null &&
-                        orderBO.getStatus() != null && orderBO.getStatus() == 1 &&
-                        orderBO.getIsPayed() != null && orderBO.getIsPayed() == 1) {
-                    order.setFinallyTime(new Date());
-                } else {
-                    Date cancelTime = orderBO.getCancelTime();
-                    order.setCancelTime(cancelTime == null ? new Date() : cancelTime);
-                }
-                orderService.updateById(order);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
     @Override
     public Boolean deleteOrder(Integer id) {
         boolean delete = orderService.removeById(id);
