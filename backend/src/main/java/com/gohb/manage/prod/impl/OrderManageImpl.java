@@ -60,12 +60,6 @@ public class OrderManageImpl implements OrderManage {
         return "";
     }
 
-    private void writeToDelayQueue(String orderNumber) {
-        NettyDelayQueue nettyDelayQueue = new NettyDelayQueue(orderNumber);
-        io.netty.util.Timer timer = new HashedWheelTimer();
-        timer.newTimeout(nettyDelayQueue, orderCancelDelayTime, TimeUnit.MILLISECONDS);
-    }
-
 
     @Override
     public Boolean deleteOrder(Integer id) {

@@ -4,12 +4,14 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.gohb.params.bo.prod.OrderBO;
 import com.gohb.service.prod.OrderService;
 import com.gohb.utils.ApplicationContextHolder;
+import io.netty.util.HashedWheelTimer;
 import io.netty.util.Timeout;
 import io.netty.util.TimerTask;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 基于 netty 时间轮 实现延迟队列
@@ -21,6 +23,12 @@ public class NettyDelayQueue implements TimerTask {
      * 订单号
      */
     private String orderNumber;
+
+    public static void writeToDelayQueue(String orderNumber, Long orderCancelDelayTime) {
+        NettyDelayQueue nettyDelayQueue = new NettyDelayQueue(orderNumber);
+        io.netty.util.Timer timer = new HashedWheelTimer();
+        timer.newTimeout(nettyDelayQueue, orderCancelDelayTime, TimeUnit.MILLISECONDS);
+    }
 
 
     public NettyDelayQueue(String orderNumber) {
