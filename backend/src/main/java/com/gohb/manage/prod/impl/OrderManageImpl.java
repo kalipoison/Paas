@@ -36,7 +36,8 @@ public class OrderManageImpl implements OrderManage {
     @Value("${order.cancel.delay.time}")
     private long orderCancelDelayTime;
 
-
+    @Value("${order.cancel.method}")
+    private Integer orderCancelMethod;
 
 
     @Override
@@ -54,7 +55,9 @@ public class OrderManageImpl implements OrderManage {
         orderBO.setRefundSts(0);
         boolean save = orderService.save(orderBO);
         if (save) {
-            writeToDelayQueue(orderBO.getOrderNumber());
+            if (orderCancelMethod == 2) {
+                NettyDelayQueue.writeToDelayQueue(orderBO.getOrderNumber(), orderCancelDelayTime);
+            }
             return orderBO.getOrderNumber();
         }
         return "";
