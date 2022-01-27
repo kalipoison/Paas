@@ -19,7 +19,7 @@ public class JedisDistributedLockUtil {
      * @param expireTime 超期时间
      * @return 是否获取成功
      */
-    public static void tryGetDistributedLock(JedisPool jedisPool, String lockKey, String requestId, int expireTime) throws Exception {
+    public static Boolean tryGetDistributedLock(JedisPool jedisPool, String lockKey, String requestId, int expireTime) throws Exception {
         Jedis jedis = jedisPool.getResource();
         try {
             /*
@@ -40,17 +40,21 @@ public class JedisDistributedLockUtil {
                 Thread.sleep(3 * 1000); // 设置间隔时间 3 秒
                 String result = jedis.set(lockKey, requestId, SET_IF_NOT_EXIST, SET_WITH_EXPIRE_TIME, expireTime);
                 if (LOCK_SUCCESS.equals(result)) {
-                    break;
+//                    break;
+                    return true;
                 }
                 if (i == 4 && !LOCK_SUCCESS.equals(result)) {
-                    throw new Exception("获取Redis分布式锁超时，请重试");
+//                    throw new Exception("获取Redis分布式锁超时，请重试");
+                    return false;
                 }
             }
         } catch (Exception e) {
-            throw new Exception("获取Redis分布式锁异常", e);
+//            throw new Exception("获取Redis分布式锁异常", e);
+            return false;
         } finally {
             jedis.close();
         }
+        return false;
     }
 
 
