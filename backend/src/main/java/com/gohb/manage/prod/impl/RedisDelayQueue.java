@@ -71,9 +71,9 @@ public class RedisDelayQueue{
                     Boolean isGetLock = JedisDistributedLockUtil.tryGetDistributedLock(jedisPool, orderNumber, requestId, EXPIRE_Time);
                     if (now.after(cancelTime) && isGetLock) {
                         jedis.zrem(REDIS_CANCEL_ORDER_KEY, orderNumber);
+                        cancelOrder(orderNumber);
                         JedisDistributedLockUtil.releaseDistributedLock(jedisPool, orderNumber, requestId);
                     }
-                    cancelOrder(orderNumber);
                     log.info("Redis score memeber" + score + " : " + orderNumber);
                     log.info("jedis 回收" + jedis);
                 } catch (Exception e) {

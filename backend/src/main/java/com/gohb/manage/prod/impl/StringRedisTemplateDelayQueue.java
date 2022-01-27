@@ -54,8 +54,8 @@ public class StringRedisTemplateDelayQueue {
                     if (now.after(cancelTime) && isGetLock) {
                         stringRedisTemplate.opsForZSet().remove(REDIS_CANCEL_ORDER_KEY, orderNumber);
                         stringRedisTemplate.delete(orderNumber);
+                        cancelOrder(orderNumber);
                     }
-                    cancelOrder(orderNumber);
                 } catch (Exception e) {
                     log.info(e.getMessage());
                 }
