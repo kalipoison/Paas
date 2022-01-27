@@ -19,13 +19,15 @@ import java.util.UUID;
 public class RedisDelayQueue{
 
     private static String REDIS_CANCEL_ORDER_KEY = "CANCEL_ORDER";
-    private static Integer expireTime = 20;
+    private static Integer EXPIRE_Time = 20;
+    private static Integer DATA_BASE_NUM = 0;
 
     public static void writeToDelayQueue(String orderNumber, Long orderCancelDelayTime) {
         JedisPool jedisPool = ApplicationContextHolder.getApplicationContext().getBean(JedisPool.class);
         Jedis jedis = null;
         try{
             jedis = jedisPool.getResource();
+            jedis.select(DATA_BASE_NUM);
             Date deleyDate = new Date(new Date().getTime() + orderCancelDelayTime);
             jedis.zadd(REDIS_CANCEL_ORDER_KEY, deleyDate.getTime(), orderNumber);
         } catch (Exception e) {
@@ -49,6 +51,7 @@ public class RedisDelayQueue{
                 Jedis jedis = null;
                 try{
                     jedis = jedisPool.getResource();
+                    jedis.select(DATA_BASE_NUM);
                     Set<Tuple> items = jedis.zrangeWithScores(REDIS_CANCEL_ORDER_KEY, 0, 1);
                     if(items == null || items.isEmpty()){
                         log.debug("当前没有等待的任务");
@@ -65,7 +68,7 @@ public class RedisDelayQueue{
                     Date cancelTime = new Date(score);
                     Date now = new Date();
                     String requestId = UUID.randomUUID().toString();
-                    Boolean isGetLock = JedisDistributedLockUtil.tryGetDistributedLock(jedisPool, orderNumber, requestId, expireTime);
+                    Boolean isGetLock = JedisDistributedLockUtil.tryGetDistributedLock(jedisPool, orderNumber, requestId, EXPIRE_Time);
                     if (now.after(cancelTime) && isGetLock) {
                         jedis.zrem(REDIS_CANCEL_ORDER_KEY, orderNumber);
                         JedisDistributedLockUtil.releaseDistributedLock(jedisPool, orderNumber, requestId);
