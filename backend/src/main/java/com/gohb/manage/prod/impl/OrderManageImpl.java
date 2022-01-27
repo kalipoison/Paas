@@ -61,6 +61,8 @@ public class OrderManageImpl implements OrderManage {
                 NettyDelayQueue.writeToDelayQueue(orderBO.getOrderNumber(), orderCancelDelayTime);
             } else if (orderCancelMethod == 3) {
                 RedisDelayQueue.writeToDelayQueue(orderBO.getOrderNumber(), orderCancelDelayTime);
+            } else if (orderCancelMethod == 4) {
+                StringRedisTemplateDelayQueue.writeToDelayQueue(orderBO.getOrderNumber(), orderCancelDelayTime);
             }
             return orderBO.getOrderNumber();
         }
