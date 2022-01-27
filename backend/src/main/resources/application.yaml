@@ -35,4 +35,8 @@ order:
   cancel:
     delay:
       time: 10000 # ms 15minute
-    method: 2 # 1.  jdk delay Queue  2. Netty HashWheelTimer
+    method: 3 # 1.  jdk delay Queue  2. Netty HashWheelTimer 3. Redis delay queue
+
+redis:
+  host: 127.0.0.1
+  port: 6379
