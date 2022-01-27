@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.gohb.params.bo.prod.OrderBO;
 import com.gohb.service.prod.OrderService;
 import com.gohb.utils.ApplicationContextHolder;
+import com.gohb.utils.JedisDistributedLockUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import redis.clients.jedis.Jedis;
@@ -12,11 +13,13 @@ import redis.clients.jedis.Tuple;
 
 import java.util.Date;
 import java.util.Set;
+import java.util.UUID;
 
 @Slf4j
 public class RedisDelayQueue{
 
     private static String REDIS_CANCEL_ORDER_KEY = "CANCEL_ORDER";
+    private static Integer expireTime = 20;
 
     public static void writeToDelayQueue(String orderNumber, Long orderCancelDelayTime) {
         JedisPool jedisPool = ApplicationContextHolder.getApplicationContext().getBean(JedisPool.class);
@@ -61,8 +64,11 @@ public class RedisDelayQueue{
                     String orderNumber = ((Tuple)items.toArray()[0]).getElement();
                     Date cancelTime = new Date(score);
                     Date now = new Date();
-                    if (now.after(cancelTime)) {
+                    String requestId = UUID.randomUUID().toString();
+                    Boolean isGetLock = JedisDistributedLockUtil.tryGetDistributedLock(jedisPool, orderNumber, requestId, expireTime);
+                    if (now.after(cancelTime) && isGetLock) {
                         jedis.zrem(REDIS_CANCEL_ORDER_KEY, orderNumber);
+                        JedisDistributedLockUtil.releaseDistributedLock(jedisPool, orderNumber, requestId);
                     }
                     cancelOrder(orderNumber);
                     log.info("Redis score memeber" + score + " : " + orderNumber);
