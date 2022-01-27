@@ -22,6 +22,13 @@ spring:
         deny:
         url-pattern:
           - /druid/*
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    publisher-confirm-type: simple
 
 kubernetes:
   namespace:
@@ -35,4 +42,4 @@ order:
   cancel:
     delay:
       time: 10000 # ms 15minute
-    method: 2 # 1.  jdk delay Queue  2. Netty HashWheelTimer
+    method: 2 # 1.  jdk delay Queue  2. Netty HashWheelTimer 5.rabbitmq

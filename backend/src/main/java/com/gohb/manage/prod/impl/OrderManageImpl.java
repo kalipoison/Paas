@@ -55,8 +55,8 @@ public class OrderManageImpl implements OrderManage {
         orderBO.setRefundSts(0);
         boolean save = orderService.save(orderBO);
         if (save) {
-            if (orderCancelMethod == 2) {
-                NettyDelayQueue.writeToDelayQueue(orderBO.getOrderNumber(), orderCancelDelayTime);
+            if (orderCancelMethod == 5) {
+                RabbitMQDelayQueue.writeToDelayQueue(orderBO.getOrderNumber(), orderCancelDelayTime);
             }
             return orderBO.getOrderNumber();
         }
