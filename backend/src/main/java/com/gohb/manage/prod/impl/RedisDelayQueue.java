@@ -67,12 +67,18 @@ public class RedisDelayQueue{
                     String orderNumber = ((Tuple)items.toArray()[0]).getElement();
                     Date cancelTime = new Date(score);
                     Date now = new Date();
-                    String requestId = UUID.randomUUID().toString();
-                    Boolean isGetLock = JedisDistributedLockUtil.tryGetDistributedLock(jedisPool, orderNumber, requestId, EXPIRE_Time);
-                    if (now.after(cancelTime) && isGetLock) {
-                        jedis.zrem(REDIS_CANCEL_ORDER_KEY, orderNumber);
-                        cancelOrder(orderNumber);
-                        JedisDistributedLockUtil.releaseDistributedLock(jedisPool, orderNumber, requestId);
+//                    String requestId = UUID.randomUUID().toString();
+//                    Boolean isGetLock = JedisDistributedLockUtil.tryGetDistributedLock(jedisPool, orderNumber, requestId, EXPIRE_Time);
+//                    if (now.after(cancelTime) && isGetLock) {
+//                        jedis.zrem(REDIS_CANCEL_ORDER_KEY, orderNumber);
+//                        cancelOrder(orderNumber);
+//                        JedisDistributedLockUtil.releaseDistributedLock(jedisPool, orderNumber, requestId);
+//                    }
+                    if (now.after(cancelTime)) {
+                        Long zrem = jedis.zrem(REDIS_CANCEL_ORDER_KEY, orderNumber);
+                        if (zrem != null && zrem>0) {
+                            cancelOrder(orderNumber);
+                        }
                     }
                     log.info("Redis score memeber" + score + " : " + orderNumber);
                     log.info("jedis 回收" + jedis);
