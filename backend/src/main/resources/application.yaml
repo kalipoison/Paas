@@ -22,6 +22,17 @@ spring:
         deny:
         url-pattern:
           - /druid/*
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password:
+    jedis:
+      timeout: 5000
+      pool:
+        max-idle: 8
+        max-wait: -1
+        min-idle: 0
 
 kubernetes:
   namespace:
@@ -35,7 +46,8 @@ order:
   cancel:
     delay:
       time: 10000 # ms 15minute
-    method: 3 # 1.  jdk delay Queue  2. Netty HashWheelTimer 3. Redis delay queue
+    method: 4 # 1.  jdk delay Queue  2. Netty HashWheelTimer
+              # 3. JRedis delay queue 4. StringRedisTemplate delay queue
 
 redis:
   host: 127.0.0.1
