@@ -48,13 +48,19 @@ public class StringRedisTemplateDelayQueue {
                     double score = ((ZSetOperations.TypedTuple<String>) items.toArray()[0]).getScore();
                     Date cancelTime = new Date((long) score);
                     Date now = new Date();
-                    String requestId = UUID.randomUUID().toString();
-                    Boolean isGetLock = stringRedisTemplate.opsForValue().setIfAbsent(orderNumber, requestId,
-                            EXPIRE_Time, TimeUnit.MILLISECONDS);
-                    if (now.after(cancelTime) && isGetLock) {
-                        stringRedisTemplate.opsForZSet().remove(REDIS_CANCEL_ORDER_KEY, orderNumber);
-                        stringRedisTemplate.delete(orderNumber);
-                        cancelOrder(orderNumber);
+//                    String requestId = UUID.randomUUID().toString();
+//                    Boolean isGetLock = stringRedisTemplate.opsForValue().setIfAbsent(orderNumber, requestId,
+//                            EXPIRE_Time, TimeUnit.MILLISECONDS);
+//                    if (now.after(cancelTime) && isGetLock) {
+//                        stringRedisTemplate.opsForZSet().remove(REDIS_CANCEL_ORDER_KEY, orderNumber);
+//                        stringRedisTemplate.delete(orderNumber);
+//                        cancelOrder(orderNumber);
+//                    }
+                    if (now.after(cancelTime)) {
+                        Long zrem = stringRedisTemplate.opsForZSet().remove(REDIS_CANCEL_ORDER_KEY, orderNumber);
+                        if (zrem != null && zrem>0) {
+                            cancelOrder(orderNumber);
+                        }
                     }
                 } catch (Exception e) {
                     log.info(e.getMessage());
