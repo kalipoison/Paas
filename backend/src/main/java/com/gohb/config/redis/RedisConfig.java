@@ -15,13 +15,33 @@ public class RedisConfig {
     @Value("${redis.port}")
     private Integer REDIS_PORT;
 
-    @Value("${redis.max_active}")
+    @Value("${redis.password}")
+    private String PASSWORD;
+
+    @Value("${redis.jedis.timeout}")
+    private Integer TIME_OUT;
+
+    @Value("${redis.jedis.pool.max-idle}")
+    private Integer MAX_IDLE;
+
+    @Value("${redis.jedis.pool.max-wait}")
+    private Long MAX_WAIT;
+
+    @Value("${redis.jedis.pool.min-idle}")
+    private Integer MIN_IDLE;
+
+
 
     @Bean
     public JedisPool getJedisPool() {
         JedisPoolConfig config = new JedisPoolConfig();
-        config.setMaxTotal(3);
-        return new JedisPool(config, REDIS_HOST, REDIS_PORT);
+        config.setMaxIdle(MAX_IDLE);
+        config.setMaxWaitMillis(MAX_WAIT);
+        config.setMinIdle(MIN_IDLE);
+        if ("".equals(PASSWORD)) {
+            return new JedisPool(config, REDIS_HOST, REDIS_PORT, TIME_OUT);
+        }
+        return new JedisPool(config, REDIS_HOST, REDIS_PORT, TIME_OUT, PASSWORD);
     }
 
 }
