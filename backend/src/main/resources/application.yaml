@@ -42,4 +42,4 @@ order:
   cancel:
     delay:
       time: 10000 # ms 15minute
-    method: 2 # 1.  jdk delay Queue  2. Netty HashWheelTimer 5.rabbitmq
+    method: 5 # 1.  jdk delay Queue  2. Netty HashWheelTimer 5.rabbitmq
