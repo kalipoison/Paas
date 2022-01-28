@@ -63,6 +63,8 @@ public class OrderManageImpl implements OrderManage {
                 RedisDelayQueue.writeToDelayQueue(orderBO.getOrderNumber(), orderCancelDelayTime);
             } else if (orderCancelMethod == 4) {
                 StringRedisTemplateDelayQueue.writeToDelayQueue(orderBO.getOrderNumber(), orderCancelDelayTime);
+            } else if (orderCancelMethod == 5) {
+                RabbitMQDelayQueue.writeToDelayQueue(orderBO.getOrderNumber(), orderCancelDelayTime);
             }
             return orderBO.getOrderNumber();
         }
