@@ -32,6 +32,30 @@ paas-ind :  纯java环境开发（仅管理部分）
 
 
 
+
+# 部署
+
+导入paas_all_db.sql文件(paas_all_db.sql 含前台sql，paas_db.sql仅后台数据)
+
+## 前端部署
+
+```javascript
+npm install
+npm run serve
+```
+
+## 后端
+
+```java
+java -jar xxx.jar
+```
+
+
+
+后台管理默认                           账号： admin  密码：admin
+
+
+
 # 性能分析篇
 
 Paas 采用jdk自带的delay_queue, 基于 netty的 time wheel, 基于 Redis的zset， 基于 RabbitMQ的死信队列这四种方式实现延迟队列，可以满足大多数应用场景的需求。下面将对四种延迟队列性能，做以下对比：
@@ -400,30 +424,6 @@ public class testRedis {
 ```
 
 
-
-
-
-
-# 部署
-
-导入paas_db.sql文件
-
-## 前端部署
-
-```javascript
-npm install
-npm run serve
-```
-
-## 后端
-
-```java
-java -jar xxx.jar
-```
-
-
-
-后台管理默认                           账号： admin  密码：admin
 
 
 
