@@ -4,24 +4,23 @@ server:
 
 spring:
   datasource:
-    druid:
-      url: jdbc:mysql://localhost:3306/paas_db?useSSL=false&serverTimezone=GMT%2B8
-      username: root
-      password: 12345
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      max-active: 30
-      min-idle: 3
-      initial-size: 3
-      validation-query: select 1
-      max-wait: 5000
-      stat-view-servlet:
-        enabled: true
-        login-username: admin
-        login-password: admin
-        allow:
-        deny:
-        url-pattern:
-          - /druid/*
+    dynamic:
+      datasource:
+        master:
+          url: jdbc:mysql://localhost:3306/paas_db?useSSL=false&serverTimezone=GMT%2B8
+          username: root
+          password: 12345
+          driver-class-name: com.mysql.cj.jdbc.Driver
+        slave_1:
+          url: jdbc:mysql://localhost:3307/paas_db?useSSL=false&serverTimezone=GMT%2B8
+          username: root
+          password: root
+          driver-class-name: com.mysql.cj.jdbc.Driver
+        slave_2:
+          url: jdbc:mysql://localhost:3308/paas_db?useSSL=false&serverTimezone=GMT%2B8
+          username: root
+          password: root
+          driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
     database: 0
     host: 127.0.0.1
